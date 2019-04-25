@@ -59,3 +59,13 @@ typings/
 
 # next.js build output
 .next
+
+.data
+
+electron/dist
+
+frontend/public/dist
+
+server/src/config/local.js
+
+*.code-workspace
