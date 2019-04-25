@@ -3,7 +3,6 @@ import { Router, Request, Response } from 'express';
 import { UserUpdateModel } from '../../models/user';
 import UserService from '../../services/user';
 
-import HttpError from '../../errors/HttpError';
 import { returnError } from '../../lib/apiErrorHandling';
 
 import Controller from '../../interfaces/Controller';
@@ -56,7 +55,7 @@ class UserController implements Controller {
             res.status(201).send('');
         }
         catch(error) {
-            returnError(<HttpError>error, req, res);
+            returnError(error, req, res);
         }
     }
 }

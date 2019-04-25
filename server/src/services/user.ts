@@ -63,6 +63,18 @@ export default class UserService {
         await this.user.save();
     }
 
+    public static cleanUser(user: User): UserViewModel {
+        const reqUser = user;
+        const cleanedUser: UserViewModel = {
+            id: reqUser.id,
+            firstName: reqUser.firstName,
+            lastName: reqUser.lastName,
+            username: reqUser.username,
+            emailAddress: reqUser.emailAddress
+        };
+        return cleanedUser;
+    }
+
     private async validatePassword(password: string): Promise<boolean> {
         const isValid: boolean = await bcrypt.compare(password, this.user.password);
         return isValid;
