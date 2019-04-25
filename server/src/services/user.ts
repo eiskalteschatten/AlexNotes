@@ -1,4 +1,4 @@
-import * as bcrypt from 'bcrypt-nodejs';
+import * as bcrypt from 'bcrypt';
 import * as config from 'config';
 
 import { User, UserAddModel, UserViewModel } from '../models/user';
@@ -7,10 +7,6 @@ export default class UserService {
     private readonly saltRounds = 12;
     private readonly jwtSecret = config.get('jwt.secret');
     private user: User;
-
-    static getUserAttributes() {
-        return ['id', 'firstName', 'lastName', 'username', 'emailAddress'];
-    }
 
     public getUser() {
         return this.user;
@@ -50,5 +46,4 @@ export default class UserService {
             this.user = await User.findByPk(id);
         }
     }
-
 }

@@ -70,11 +70,16 @@ export default async function(): Promise<void> {
     });
 
     if (process.env.SETUP_DEFAULT_USER) {
-        const defaultUser: UserAddModel = config.get('defaultUser');
-        await userService.register(defaultUser);
+        try {
+            const defaultUser: UserAddModel = config.get('defaultUser');
+            await userService.register(defaultUser);
 
-        if (userService.getUser()) {
-            console.log('Created new default user:', defaultUser);
+            if (userService.getUser()) {
+                console.log('Created new default user:', defaultUser);
+            }
+        }
+        catch(error) {
+            console.error(error);
         }
     }
 };

@@ -21,7 +21,7 @@
         "@types/passport": "^1.0.0",
         "@types/request": "^2.48.1",
         "apicache": "^1.4.0",
-        "bcrypt-nodejs": "0.0.3",
+        "bcrypt": "^3.0.6",
         "body-parser": "^1.18.3",
         "compression": "^1.7.4",
         "config": "^2.0.1",
