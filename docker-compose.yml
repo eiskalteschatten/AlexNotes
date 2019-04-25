@@ -1,0 +1,38 @@
+version: '3.7'
+services:
+
+    server:
+        build:
+            context: .
+        command: >
+            ./node_modules/.bin/concurrently
+                "cd ./frontend && npm start"
+                "cd ./server && npm run start:dev"
+        volumes:
+            - "./server/src:/app/server/src"
+            - "./frontend/src:/app/frontend/src"
+        ports:
+            - "3010:3010"
+            - "5858:5858"
+        cap_drop:
+            - ALL
+        cap_add:
+            - CHOWN
+        # environment:
+        #   - SETUP_DEFAULT_USER=true
+
+    postgres:
+        image: postgres:11-alpine
+        volumes:
+            - "./.data/postgres:/var/lib/postgresql/data"
+        environment:
+            POSTGRES_DB: alexnotes
+            POSTGRES_USER: alexnotes
+            POSTGRES_PASSWORD: alexnotes
+        cap_drop:
+            - ALL
+        cap_add:
+            - CHOWN
+            - FOWNER
+            - SETGID
+            - SETUID

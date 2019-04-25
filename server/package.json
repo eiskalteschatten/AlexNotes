@@ -1,0 +1,54 @@
+{
+    "name": "server",
+    "version": "0.2.0",
+    "main": "./src/server.js",
+    "private": true,
+    "scripts": {
+        "start": "node ./src/server",
+        "start:dev": "NODE_ENV=development ./node_modules/.bin/nodemon --inspect=0.0.0.0:5858 -e html,js,json",
+        "start:staging": "NODE_ENV=staging npm start",
+        "start:prod": "NODE_ENV=production npm start",
+        "test": "echo 'Tests should be run here'",
+        "test:unit": "NODE_CONFIG_DIR='./src/config' jest --forceExit --detectOpenHandles"
+    },
+    "dependencies": {
+        "apicache": "^1.4.0",
+        "bcrypt-nodejs": "0.0.3",
+        "body-parser": "^1.18.3",
+        "compression": "^1.7.4",
+        "config": "^2.0.1",
+        "cookie-parser": "^1.4.4",
+        "cron": "^1.7.0",
+        "express": "^4.16.4",
+        "express-enrouten": "^1.3.0",
+        "jsonwebtoken": "^8.5.1",
+        "mkdirp": "^0.5.1",
+        "morgan": "^1.9.1",
+        "passport": "^0.4.0",
+        "passport-jwt": "^4.0.0",
+        "passport-local": "^1.0.0",
+        "pg": "^7.10.0",
+        "pg-hstore": "^2.3.2",
+        "sequelize": "^4.43.2",
+        "sequelize-migration-wrapper": "^0.1.0",
+        "slug": "^0.9.4",
+        "umzug": "^2.1.0",
+        "uuid": "^3.3.2"
+    },
+    "devDependencies": {
+        "debug": "^4.1.1",
+        "jest": "^24.7.1",
+        "nodemon": "^1.18.11",
+        "sequelize-mock": "^0.10.2",
+        "supertest": "^3.4.2"
+    },
+    "jest": {
+        "testPathIgnorePatterns": [
+            "/node_modules/",
+            "/src/config"
+        ],
+        "collectCoverage": true,
+        "verbose": false,
+        "testEnvironment": "node"
+    }
+}
