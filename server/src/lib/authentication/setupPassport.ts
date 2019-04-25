@@ -1,14 +1,12 @@
-'use strict';
+import { Request } from 'express';
+import * as config from 'config';
+import * as passport from 'passport';
+import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
+import { Strategy as LocalStrategy} from 'passport-local';
 
-const config = require('config');
-const passport = require('passport');
+import { DefaultUserInterface } from '../../interfaces/Config';
 
-const LocalStrategy = require('passport-local').Strategy;
-const passportJwt = require('passport-jwt');
-const JwtStrategy = passportJwt.Strategy;
-const ExtractJwt = passportJwt.ExtractJwt;
-
-const User = require('../../models/User');
+import User from '../../models/User';
 
 
 const localConfig = {
@@ -22,9 +20,9 @@ const jwtConfig = {
     secretOrKey: config.get('jwt.secret')
 };
 
-module.exports = () => {
-    passport.use('local-login', new LocalStrategy(localConfig, (req, username, password, done) => {
-        process.nextTick(async () => {
+export default (): void => {
+    passport.use('local-login', new LocalStrategy(localConfig, (req: Request, username: string, password: string, done: Function): void => {
+        process.nextTick(async (): Promise<void> => {
             try {
                 const user = await User.findOne({
                     where: {
@@ -46,7 +44,7 @@ module.exports = () => {
         });
     }));
 
-    passport.use('jwt', new JwtStrategy(jwtConfig, async (jwtPayload, done) => {
+    passport.use('jwt', new JwtStrategy(jwtConfig, async (jwtPayload: any, done: Function): Promise<void> => {
         try {
             const user = await User.findById(jwtPayload.id);
 
@@ -62,39 +60,37 @@ module.exports = () => {
         }
     }));
 
-    passport.serializeUser((user, done) => {
+    passport.serializeUser((user, done: Function): void => {
         done(null, user.id);
     });
 
-    passport.deserializeUser((id, done) => {
-        User.findById(id).then(user => {
+    passport.deserializeUser((id: string | number, done: Function): void => {
+        User.findById(id).then((user): void => {
             done(null, user);
-        }).catch(error => {
+        }).catch((error): void => {
             console.error(error);
         });
     });
 
     if (process.env.SETUP_DEFAULT_USER) {
-        const config = require('config');
-        const defaultUser = config.get('defaultUser');
+        const defaultUser: DefaultUserInterface = config.get('defaultUser');
 
-        User.findOne({ where: { username: defaultUser.username } } ).then(user => {
+        User.findOne({ where: { username: defaultUser.username } } ).then((user): void => {
             if (user) {
                 console.error('You are trying to create a new default user, but one has already been setup!');
                 return;
             }
 
-            const password = User.generateHash(defaultUser.password);
+            const password: string = User.generateHash(defaultUser.password);
 
             return User.create({
                 firstName: defaultUser.firstName,
                 lastName: defaultUser.lastName,
                 username: defaultUser.username,
                 emailAddress: defaultUser.emailAddress,
-                password,
-                roles: defaultUser.roles
+                password
             });
-        }).then(user => {
+        }).then((user): void => {
             if (user) {
                 console.log('Created new default user:', defaultUser);
             }
