@@ -6,8 +6,8 @@ services:
             context: .
         command: >
             ./node_modules/.bin/concurrently
-                "cd ./frontend && npm start"
-                "cd ./server && npm run start:dev"
+                "npm -C ./frontend npm start"
+                "npm -C ./server run start:dev"
         volumes:
             - "./server/src:/app/server/src"
             - "./frontend/src:/app/frontend/src"

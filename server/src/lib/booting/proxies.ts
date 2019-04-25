@@ -1,12 +1,11 @@
-'use strict';
+import * as express from 'express';
+import * as path from'path';
 
-const path = require('path');
-
-const config = require('config');
-const routes = config.get('proxies');
+import * as config from'config';
+const routes: {} = config.get('proxies');
 
 
-module.exports = (express, app) => {
+export default (app: express.Application): void => {
     for (const routePath of Object.keys(routes)) {
         const router = routes[routePath];
 
@@ -21,6 +20,4 @@ module.exports = (express, app) => {
             app.use(routePath, express.static(pathToRouteScript));
         }
     }
-
-    return app;
 };

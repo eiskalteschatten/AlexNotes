@@ -64,8 +64,8 @@ typings/
 
 electron/dist
 
-frontend/public/dist
+dist
 
-server/src/config/local.js
+server/config/local.js
 
 *.code-workspace

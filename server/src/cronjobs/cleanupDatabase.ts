@@ -1,6 +1,4 @@
-'use strict';
-
-module.exports = async () => {
+export default async (): Promise<void> => {
     console.log('Starting cleanupDatabase cronjob');
 
     // TODO: Clean up associations
