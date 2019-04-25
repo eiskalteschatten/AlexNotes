@@ -82,4 +82,4 @@ export default async function(): Promise<void> {
             console.error(error);
         }
     }
-};
+}

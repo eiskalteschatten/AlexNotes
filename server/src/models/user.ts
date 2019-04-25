@@ -50,11 +50,11 @@ User.init({
     username: DataTypes.STRING,
     password: DataTypes.STRING,
     emailAddress: DataTypes.STRING
-    },
-    {
-        tableName: 'users',
-        modelName: 'user',
-        sequelize
+},
+{
+    tableName: 'users',
+    modelName: 'user',
+    sequelize
 });
 
 User.sync();

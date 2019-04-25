@@ -9,11 +9,11 @@ export default class UserService {
     private readonly jwtSecret = config.get('jwt.secret');
     private user: User;
 
-    public getUser() {
+    public getUser(): User {
         return this.user;
     }
 
-    public async setUser(id: number) {
+    public async setUser(id: number): Promise<User> {
         await this.getUserById(id);
         return this.user;
     }
@@ -23,11 +23,10 @@ export default class UserService {
 
         if (existingUser) {
             throw new Error('Could not create user because a user with this username already exists!');
-            return;
         }
 
         const hash: string = await bcrypt.hash(password, this.saltRounds);
-        const userModel: User = await User.create({ firstName, lastName, username, password: hash, emailAddress })
+        const userModel: User = await User.create({ firstName, lastName, username, password: hash, emailAddress });
         await this.getUserById(userModel.id);
         return this.user;
     }
@@ -56,7 +55,6 @@ export default class UserService {
             const error: HttpError = new HttpError('oldPasswordIncorrect');
             error.status = 412;
             throw error;
-            return;
         }
 
         this.user.password = await bcrypt.hash(password, this.saltRounds);
