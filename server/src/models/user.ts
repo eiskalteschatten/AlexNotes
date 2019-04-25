@@ -50,4 +50,6 @@ User.init({
         sequelize
 });
 
+User.sync();
+
 export default User;
