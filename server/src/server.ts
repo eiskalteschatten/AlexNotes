@@ -2,7 +2,7 @@ import * as http from 'http';
 import { Application } from 'express';
 import { AddressInfo } from 'net';
 
-import mainApp from './App';
+import mainApp from './app';
 
 const port = 3010;
 
