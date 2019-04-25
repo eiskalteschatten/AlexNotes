@@ -47,7 +47,6 @@
         "debug": "^4.1.1",
         "jest": "^24.7.1",
         "nodemon": "^1.18.11",
-        "sequelize-mock": "^0.10.2",
         "supertest": "^3.4.2",
         "ts-node": "^8.1.0"
     },

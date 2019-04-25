@@ -9,7 +9,7 @@ import * as passport from 'passport';
 
 import configureProxies from './lib/booting/proxies';
 import { setupSequelize } from './lib/db';
-import * as setupPassport from './lib/authentication/setupPassport';
+import setupPassport from './lib/authentication/setupPassport';
 import setupCronjobs from './cronjobs';
 
 class App {

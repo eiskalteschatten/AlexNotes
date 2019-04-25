@@ -4,10 +4,10 @@ import * as passport from 'passport';
 import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import { Strategy as LocalStrategy} from 'passport-local';
 
-import { DefaultUserInterface } from '../../interfaces/Config';
+import { User, UserAddModel } from '../../models/user';
+import UserService from '../../services/user';
 
-import User from '../../models/User';
-
+const userService: UserService = new UserService();
 
 const localConfig = {
     usernameField: 'username',
@@ -20,22 +20,17 @@ const jwtConfig = {
     secretOrKey: config.get('jwt.secret')
 };
 
-export default (): void => {
+export default async function(): Promise<void> {
     passport.use('local-login', new LocalStrategy(localConfig, (req: Request, username: string, password: string, done: Function): void => {
         process.nextTick(async (): Promise<void> => {
             try {
-                const user = await User.findOne({
-                    where: {
-                        username,
-                        roles: { $contains: ['user'] }
-                    }
-                });
+                const canLogin = await userService.localLogin(username, password);
 
-                if (!user || !user.validPassword(password) || user.roles.includes('inactive')) {
+                if (!canLogin) {
                     return done(null, false);
                 }
 
-                return done(null, user);
+                return done(null, userService.getUser());
             }
             catch(error) {
                 console.error(error);
@@ -46,13 +41,13 @@ export default (): void => {
 
     passport.use('jwt', new JwtStrategy(jwtConfig, async (jwtPayload: any, done: Function): Promise<void> => {
         try {
-            const user = await User.findById(jwtPayload.id);
+            const canLogin = await userService.jwtLogin(jwtPayload.id);
 
-            if (!user) {
+            if (!canLogin) {
                 return done(null, false);
             }
 
-            return done(null, user);
+            return done(null, userService.getUser());
         }
         catch(error) {
             console.error(error);
@@ -60,40 +55,26 @@ export default (): void => {
         }
     }));
 
-    passport.serializeUser((user, done: Function): void => {
+    passport.serializeUser((user: User, done: Function): void => {
         done(null, user.id);
     });
 
-    passport.deserializeUser((id: string | number, done: Function): void => {
-        User.findById(id).then((user): void => {
+    passport.deserializeUser(async (id: string | number, done: Function): Promise<void> => {
+        try {
+            const user: User = await User.findByPk(id);
             done(null, user);
-        }).catch((error): void => {
+        }
+        catch(error) {
             console.error(error);
-        });
+        }
     });
 
     if (process.env.SETUP_DEFAULT_USER) {
-        const defaultUser: DefaultUserInterface = config.get('defaultUser');
+        const defaultUser: UserAddModel = config.get('defaultUser');
+        await userService.register(defaultUser);
 
-        User.findOne({ where: { username: defaultUser.username } } ).then((user): void => {
-            if (user) {
-                console.error('You are trying to create a new default user, but one has already been setup!');
-                return;
-            }
-
-            const password: string = User.generateHash(defaultUser.password);
-
-            return User.create({
-                firstName: defaultUser.firstName,
-                lastName: defaultUser.lastName,
-                username: defaultUser.username,
-                emailAddress: defaultUser.emailAddress,
-                password
-            });
-        }).then((user): void => {
-            if (user) {
-                console.log('Created new default user:', defaultUser);
-            }
-        }).catch(console.error);
+        if (userService.getUser()) {
+            console.log('Created new default user:', defaultUser);
+        }
     }
 };
