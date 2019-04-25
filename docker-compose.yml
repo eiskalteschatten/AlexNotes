@@ -1,16 +1,17 @@
 version: '3.7'
 services:
 
-    server:
+    app:
         build:
             context: .
         command: >
             ./node_modules/.bin/concurrently
-                "npm -C ./frontend npm start"
+                "npm -C ./frontend start"
                 "npm -C ./server run start:dev"
         volumes:
             - "./server/src:/app/server/src"
             - "./frontend/src:/app/frontend/src"
+            - "./dist:/app/dist"
         ports:
             - "3010:3010"
             - "5858:5858"

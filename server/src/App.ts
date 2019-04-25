@@ -8,7 +8,6 @@ import * as path from 'path';
 import * as passport from 'passport';
 
 import configureProxies from './lib/booting/proxies';
-import configureFrontend from './lib/booting/configureFrontend';
 import { setupSequelize } from './lib/db';
 import * as setupPassport from './lib/authentication/setupPassport';
 import setupCronjobs from './cronjobs';
@@ -25,7 +24,6 @@ class App {
         await this.configureDatabase();
         this.configurePassport();
         this.addPreferredLanguage();
-        await this.configureFrontend();
         await this.configureRoutes();
         setupCronjobs();
 
@@ -62,7 +60,7 @@ class App {
         setupPassport();
 
         this.app.use(
-            /^((?!\/$|login|status|dist|images|favicon).)*$/,
+            /^((?!\/$|login|status|assets|favicon).)*$/,
             passport.authenticate('jwt', { session: false }),
             (req: express.Request, res: express.Response, next: express.NextFunction): void => {
                 return next();
@@ -96,16 +94,11 @@ class App {
         });
     }
 
-    private async configureFrontend(): Promise<void> {
-        const frontendPath = await configureFrontend();
-        this.app.use(express.static(frontendPath));
-    }
-
     private async configureRoutes(): Promise<void> {
-        configureProxies(this.app);
+        const frontendPath: string = path.join(__dirname, '..', '..', 'dist', 'public');
+        this.app.use(express.static(frontendPath));
 
-        const publicFolder: string = path.resolve(__dirname, '../src/public');
-        this.app.use(express.static(publicFolder));
+        configureProxies(this.app);
 
         this.app.use(enrouten({
             directory: 'controllers'

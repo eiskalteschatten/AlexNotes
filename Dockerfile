@@ -22,9 +22,7 @@ COPY ./server /app/server
 
 RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
     chown -R alexnotes:alexnotes ./frontend/src && \
-    chown -R alexnotes:alexnotes ./frontend/public && \
-    chown -R alexnotes:alexnotes ./server/src && \
-    chown alexnotes:alexnotes ./server/node_modules
+    chown -R alexnotes:alexnotes ./server/src
 
 USER alexnotes
 

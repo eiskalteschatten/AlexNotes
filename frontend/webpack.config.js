@@ -6,7 +6,7 @@ const plugins = [
     new VueLoaderPlugin(),
     new CopyPlugin([{
         from: './src/**/*.html',
-        to: '[name].[ext]'
+        to: path.resolve(__dirname, '../', 'dist', 'public', '[name].[ext]')
     },
     {
         from: './src/resources/images/loader.svg',
@@ -71,7 +71,7 @@ const commonConfig = {
             options: {
                 name: '[name].[ext]',
                 outputPath: 'resources',
-                publicPath: 'dist/resources'
+                publicPath: 'assets/resources'
             }
         }]
     },
@@ -97,7 +97,7 @@ module.exports = [
         },
         output: {
             filename: 'index.js',
-            path: path.resolve(__dirname, '../', 'dist', 'public')
+            path: path.resolve(__dirname, '../', 'dist', 'public', 'assets')
         }
     })
 ];
