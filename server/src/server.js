@@ -6,9 +6,6 @@
 
 const debug = require('debug')('NodeApp:server');
 const http = require('http');
-const path = require('path');
-
-process.env.NODE_CONFIG_DIR = path.join(__dirname, 'config');
 
 require('./app')().then(app => {
     /**

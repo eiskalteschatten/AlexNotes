@@ -5,18 +5,30 @@ module.exports = {
         "node": true
     },
     "extends": [
-        "eslint:recommended",
-        "plugin:vue/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:vue/recommended",
+        "eslint:recommended"
     ],
+    "parser": "vue-eslint-parser",
     "parserOptions": {
         "ecmaVersion": 2018,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
     "plugins": [
+        "disable",
         "promise",
         "vue",
-        "html"
+        "@typescript-eslint"
     ],
+    "settings": {
+        "eslint-plugin-disable": {
+            "paths": {
+                "vue": ["**/*.js", "**/*.ts", "**/*.json"],
+                "@typescript-eslint": ["**/*.vue", "**/*.js", "**/*.json"]
+            }
+        }
+    },
     "rules": {
         "indent": [
             "error",
@@ -37,21 +49,11 @@ module.exports = {
                 }
             }
         ],
-        "vue/attributes-order": [
-            "off"
-        ],
-        "vue/require-default-prop": [
-            "off"
-        ],
-        "vue/no-side-effects-in-computed-properties": [
-            "off"
-        ],
-        "vue/component-name-in-template-casing": [
-            "off"
-        ],
-        "vue/singleline-html-element-content-newline": [
-            "off"
-        ],
+        "vue/attributes-order": [ "off" ],
+        "vue/require-default-prop": [ "off" ],
+        "vue/no-side-effects-in-computed-properties": [ "off" ],
+        "vue/component-name-in-template-casing": [ "off" ],
+        "vue/singleline-html-element-content-newline": [ "off" ],
         "linebreak-style": [
             "error",
             "unix"
@@ -64,12 +66,8 @@ module.exports = {
             "error",
             "always"
         ],
-        "no-console": [
-            "off"
-        ],
-        "no-case-declarations": [
-            "off"
-        ],
+        "no-console": [ "off" ],
+        "no-case-declarations": [ "off" ],
         "prefer-const": [
             "error"
         ],
@@ -77,18 +75,19 @@ module.exports = {
             "error",
             "as-needed"
         ],
-        "no-undef": [
-            "off"
-        ],
+        "no-undef": [ "off" ],
         "promise/catch-or-return": "error",
         "promise/param-names": "error",
-        "promise/no-return-wrap": "error"
+        "promise/no-return-wrap": "error",
+        "@typescript-eslint/no-angle-bracket-type-assertion": [ "off" ],
+        "@typescript-eslint/no-explicit-any": [ "off" ]
     },
     "overrides": [{
         "files": ["*.vue"],
         "rules": {
             "indent": "off",
-            "no-irregular-whitespace": "off"
+            "no-irregular-whitespace": "off",
+            "@typescript-eslint/indent": "off"
         }
     }]
 };
