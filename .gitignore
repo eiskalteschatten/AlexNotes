@@ -69,3 +69,5 @@ dist
 server/config/local.js
 
 *.code-workspace
+
+storage.sqlite3

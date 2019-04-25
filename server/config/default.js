@@ -1,11 +1,15 @@
 'use strict';
 
-// const path = require('path');
+const path = require('path');
 
 
 module.exports = {
     proxies: {
         // '/js/libs/vue.js': path.join(__dirname, '../../node_modules/vue/dist/vue.runtime.min.js')
+    },
+    database: {
+        storage: path.resolve(__dirname, 'storage.sqlite3'),
+        name: 'alexnotes'
     },
     defaultUser: {
         firstName: 'New',
