@@ -38,7 +38,7 @@
         "passport-local": "^1.0.0",
         "pg": "^7.10.0",
         "pg-hstore": "^2.3.2",
-        "sequelize": "^4.43.2",
+        "sequelize": "^5.7.5",
         "sequelize-migration-wrapper": "^0.1.0",
         "slug": "^0.9.4",
         "typescript": "^3.4.5",
