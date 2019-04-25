@@ -10,6 +10,13 @@ export interface UserAddModel {
     emailAddress: string;
 }
 
+export interface UserUpdateModel {
+    id: number;
+    firstName: string;
+    lastName: string;
+    emailAddress: string;
+}
+
 export interface UserViewModel {
     id: number;
     firstName: string;

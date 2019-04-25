@@ -23,7 +23,7 @@ export async function fillStore() {
 
     try {
         // const commit = store.commit;
-        // const res = await http.get('api/all');
+        // const res = await http.get('api/initial');
 
         // if (res.body && res.status < 300) {
         //     const body = res.body;
