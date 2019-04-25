@@ -13,6 +13,13 @@ export default class UserService {
     }
 
     public async register({ firstName, lastName, username, password, emailAddress }: UserAddModel): Promise<UserViewModel> {
+        const existingUser: User = await User.findOne({ where: { username } });
+
+        if (existingUser) {
+            throw new Error('Could not create user because a user with this username already exists!');
+            return;
+        }
+
         const hash: string = await bcrypt.hash(password, this.saltRounds);
         const userModel: User = await User.create({ firstName, lastName, username, password: hash, emailAddress })
         await this.getUserById(userModel.id);
