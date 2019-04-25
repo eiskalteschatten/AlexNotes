@@ -1,8 +1,17 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const plugins = [
-    new VueLoaderPlugin()
+    new VueLoaderPlugin(),
+    new CopyPlugin([{
+        from: './src/**/*.html',
+        to: '[name].[ext]'
+    },
+    {
+        from: './src/resources/images/loader.svg',
+        to: 'resources/[name].[ext]'
+    }])
 ];
 
 const commonConfig = {
@@ -88,7 +97,7 @@ module.exports = [
         },
         output: {
             filename: 'index.js',
-            path: path.resolve(__dirname, 'public', 'dist')
+            path: path.resolve(__dirname, '../', 'dist', 'public')
         }
     })
 ];
