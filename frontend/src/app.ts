@@ -1,4 +1,4 @@
-import Vue from 'vue';
+import Vue, { VNode } from 'vue';
 import VueRouter from 'vue-router';
 import VueI18n from 'vue-i18n';
 import { mapState, mapActions } from 'vuex';
@@ -83,5 +83,5 @@ new Vue({
             }
         }
     },
-    render: (createElement): any => createElement(App)
+    render: (createElement): VNode => createElement(App)
 }).$mount('#vueAnchor');
