@@ -7,12 +7,23 @@
         "target": "es6",
         "outDir": "../dist",
         "baseUrl": "./src",
-        "resolveJsonModule": true
+        "resolveJsonModule": true,
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "types": [
+            "webpack-env",
+            "vuetify"
+        ],
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ]
     },
-    "types": [
-        "webpack-env",
-        "vuetify"
-    ],
     "include": [
         "./src/**/*.ts",
         "./src/**/*.vue"
