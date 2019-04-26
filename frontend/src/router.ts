@@ -1,5 +1,5 @@
 import VueRouter from 'vue-router';
-import cookies from 'browser-cookies';
+import * as cookies from 'browser-cookies';
 
 import MainLayout from './components/MainLayout.vue';
 import LoggedOutLayout from './components/LoggedOutLayout.vue';
@@ -76,7 +76,7 @@ const router = new VueRouter({
     }]
 });
 
-export function setDocumentTitle(title) {
+export function setDocumentTitle(title: string): void {
     document.title = `${title} - ${routeTitles.primaryTitle}`;
 }
 

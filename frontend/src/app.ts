@@ -7,7 +7,7 @@ import Vuetify from 'vuetify';
 import en from 'vuetify/es5/locale/en';
 import de from 'vuetify/es5/locale/de';
 
-import cookies from 'browser-cookies';
+import * as cookies from 'browser-cookies';
 
 import theme from './theme';
 import store from './store';

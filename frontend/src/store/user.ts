@@ -1,5 +1,7 @@
 import http from '../http';
-import { fillStore } from '../store';
+import { fillStore } from '.';
+
+import { ApiReturnObjectInterface } from '../interfaces/apiReturnObject';
 
 export default {
     namespaced: true,
@@ -17,16 +19,16 @@ export default {
     },
 
     mutations: {
-        setInfo(state, info) {
+        setInfo(state, info): void {
             state.info = info;
         },
-        setJwt(state, jwt) {
+        setJwt(state, jwt): void {
             state.currentJwt = jwt;
         }
     },
 
     actions: {
-        async fetchJwt({ commit, dispatch }, body) {
+        async fetchJwt({ commit, dispatch }, body): Promise<{}> {
             try {
                 let jwt = localStorage.getItem('jwt');
                 let jwtIsValid = false;
@@ -70,7 +72,7 @@ export default {
                 return false;
             }
         },
-        async removeJwt({ commit }) {
+        async removeJwt({ commit }): Promise<boolean> {
             try {
                 await http.post('api/auth/logout');
                 commit('setJwt', '');
@@ -81,20 +83,20 @@ export default {
                 return false;
             }
         },
-        async saveUserInfo({ commit }, body) {
+        async saveUserInfo({ commit }, body): Promise<ApiReturnObjectInterface> {
             try {
                 const res = await http.put('api/user/edit', body);
 
                 commit('setInfo', body);
 
-                return {
+                return <ApiReturnObjectInterface>{
                     code: res.status,
                     message: res.bodyText
                 };
             }
             catch(error) {
                 console.error(error);
-                return {
+                return <ApiReturnObjectInterface>{
                     code: 500,
                     message: error
                 };

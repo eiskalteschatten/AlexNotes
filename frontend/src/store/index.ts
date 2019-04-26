@@ -16,7 +16,7 @@ const store = new Vuex.Store({
     }
 });
 
-export async function fillStore() {
+export async function fillStore(): Promise<void> {
     await store.dispatch('settings/setSettings', {}, { root: true });
 
     eventBus.$emit('show-loader');

@@ -1,6 +1,8 @@
 import http from '../http';
 import eventBus from '../eventBus';
 
+import { ApiReturnObjectInterface } from '../interfaces/apiReturnObject';
+
 export default {
     namespaced: true,
     state: {
@@ -23,24 +25,24 @@ export default {
     },
 
     mutations: {
-        setTheme(state, theme) {
+        setTheme(state, theme): void {
             state.theme = theme;
         },
-        setLanguages(state, languages) {
+        setLanguages(state, languages): void {
             state.languages = languages;
         },
-        setSettingsFromAccount(state, settingsFromAccount) {
+        setSettingsFromAccount(state, settingsFromAccount): void {
             state.settingsFromAccount = settingsFromAccount;
         }
     },
 
     actions: {
-        async setTheme({ commit }, theme) {
+        async setTheme({ commit }, theme): Promise<ApiReturnObjectInterface> {
             commit('setTheme', theme);
 
             try {
                 const res = await http.put('api/settings', { theme });
-                return {
+                return <ApiReturnObjectInterface>{
                     code: res.status,
                     message: res.bodyText
                 };
@@ -53,7 +55,7 @@ export default {
                 };
             }
         },
-        async setSettings({ commit }) {
+        async setSettings({ commit }): Promise<ApiReturnObjectInterface> {
             eventBus.$emit('show-loader');
             try {
                 const res = await http.get('api/settings');
@@ -63,7 +65,7 @@ export default {
                     commit('setSettingsFromAccount', true);
                     eventBus.$emit('close-loader');
 
-                    return {
+                    return <ApiReturnObjectInterface>{
                         code: res.status,
                         message: res.bodyText
                     };

@@ -43,6 +43,10 @@ const commonConfig = {
             loader: '@kazupon/vue-i18n-loader'
         },
         {
+            test: /\.ts$/,
+            use: 'ts-loader'
+        },
+        {
             test: /\.css$/,
             use: [
                 'vue-style-loader',
@@ -93,7 +97,7 @@ module.exports = [
     Object.assign({}, commonConfig, {
         target: 'web',
         entry: {
-            app: path.resolve(__dirname, 'src', 'app.js')
+            app: path.resolve(__dirname, 'src', 'app.ts')
         },
         output: {
             filename: 'index.js',
