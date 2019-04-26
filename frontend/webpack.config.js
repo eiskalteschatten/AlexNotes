@@ -43,8 +43,12 @@ const commonConfig = {
             loader: '@kazupon/vue-i18n-loader'
         },
         {
-            test: /\.ts$/,
-            use: 'ts-loader'
+            test: /\.tsx?$/,
+            loader: 'ts-loader',
+            exclude: /node_modules/,
+            options: {
+                appendTsSuffixTo: [/\.vue$/]
+            }
         },
         {
             test: /\.css$/,
@@ -80,7 +84,7 @@ const commonConfig = {
         }]
     },
     resolve: {
-        extensions: ['.js', '.vue', '.json'],
+        extensions: ['.ts', '.js', '.vue', '.json'],
         alias: {
             'vue$': 'vue/dist/vue.esm.js'
         }
