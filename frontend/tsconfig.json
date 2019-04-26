@@ -9,8 +9,13 @@
         "baseUrl": "./src",
         "resolveJsonModule": true
     },
+    "types": [
+        "webpack-env",
+        "vuetify"
+    ],
     "include": [
-        "./src/**/*.ts"
+        "./src/**/*.ts",
+        "./src/**/*.vue"
     ],
     "exclude": [
         "node_modules"
