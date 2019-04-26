@@ -11,11 +11,10 @@ export default {
     },
 
     getters: {
-        user: state => state.user,
-        jwt: state => state.currentJwt,
-        jwtData: (state, getters) => state.currentJwt ? JSON.parse(atob(getters.jwt.split('.')[1])) : null,
-        jwtSubject: (state, getters) => getters.jwtData ? getters.jwtData.sub : null,
-        jwtIssuer: (state, getters) => getters.jwtData ? getters.jwtData.iss : null
+        jwt: (state): string => state.currentJwt,
+        jwtData: (state, getters): string | {} | null => state.currentJwt ? JSON.parse(atob(getters.jwt.split('.')[1])) : null,
+        jwtSubject: (state, getters): string | {} | null => getters.jwtData ? getters.jwtData.sub : null,
+        jwtIssuer: (state, getters): string | {} | null => getters.jwtData ? getters.jwtData.iss : null
     },
 
     mutations: {
@@ -89,17 +88,17 @@ export default {
 
                 commit('setInfo', body);
 
-                return <ApiReturnObjectInterface>{
+                return {
                     code: res.status,
                     message: res.bodyText
-                };
+                } as any as ApiReturnObjectInterface;
             }
             catch(error) {
                 console.error(error);
-                return <ApiReturnObjectInterface>{
+                return {
                     code: 500,
                     message: error
-                };
+                } as any as ApiReturnObjectInterface;
             }
         }
     }

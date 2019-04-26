@@ -19,9 +19,9 @@ export default {
     },
 
     getters: {
-        theme: state => state.theme,
-        settingsFromAccount: state => state.settingsFromAccount,
-        languages: state => state.languages
+        theme: (state): string => state.theme,
+        settingsFromAccount: (state): boolean => state.settingsFromAccount,
+        languages: (state): {}[] => state.languages
     },
 
     mutations: {
@@ -42,10 +42,10 @@ export default {
 
             try {
                 const res = await http.put('api/settings', { theme });
-                return <ApiReturnObjectInterface>{
+                return {
                     code: res.status,
                     message: res.bodyText
-                };
+                } as any as ApiReturnObjectInterface;
             }
             catch(error) {
                 console.error(error);
@@ -65,10 +65,10 @@ export default {
                     commit('setSettingsFromAccount', true);
                     eventBus.$emit('close-loader');
 
-                    return <ApiReturnObjectInterface>{
+                    return {
                         code: res.status,
                         message: res.bodyText
-                    };
+                    } as any as ApiReturnObjectInterface;
                 }
                 else {
                     throw new Error(res.bodyText);

@@ -51,17 +51,17 @@ new Vue({
         ])
     },
     watch: {
-        '$route'(to) {
+        '$route'(to): void {
             const lang = to.params.lang;
             this.$i18n.locale = lang;
             cookies.set('preferedLanguage', lang);
             setDocumentTitle(routeTitles[lang][to.name]);
         }
     },
-    async created() {
+    async created(): Promise<void> {
         await this.determineAuthentication();
     },
-    mounted() {
+    mounted(): void {
         const title = routeTitles[this.$i18n.locale][this.$route.name];
         setDocumentTitle(title);
     },
@@ -69,7 +69,7 @@ new Vue({
         ...mapActions('user', [
             'fetchJwt'
         ]),
-        async determineAuthentication() {
+        async determineAuthentication(): Promise<void> {
             const jwt = localStorage.getItem('jwt');
 
             if (!jwt && !this.currentJwt && this.$route.name !== 'login') {
@@ -83,5 +83,5 @@ new Vue({
             }
         }
     },
-    render: createElement => createElement(App)
+    render: (createElement): any => createElement(App)
 }).$mount('#vueAnchor');
