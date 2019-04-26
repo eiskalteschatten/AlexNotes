@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "commonjs",
+        "module": "esnext",
         "moduleResolution": "node",
         "pretty": true,
         "sourceMap": false,
@@ -16,12 +16,6 @@
         "types": [
             "webpack-env",
             "vuetify"
-        ],
-        "lib": [
-            "esnext",
-            "dom",
-            "dom.iterable",
-            "scripthost"
         ]
     },
     "include": [
