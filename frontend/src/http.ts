@@ -4,11 +4,11 @@ import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
 Vue.http.interceptors.push({
-    request: function(request) {
+    request(request) {
         request.headers.set('Authorization', localStorage.getItem('jwt') ? `Bearer ${localStorage.getItem('jwt')}` : '');
         return request;
     },
-    response: function(response) {
+    response(response) {
         return response;
     }
 });
