@@ -19,7 +19,7 @@ import App from './components/App.vue';
 import 'vuetify/dist/vuetify.min.css';
 import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
-const locale = cookies.get('preferedLanguage') || 'en';
+const locale: string = cookies.get('preferedLanguage') || 'en';
 
 Vue.use(VueRouter);
 Vue.use(VueI18n);
