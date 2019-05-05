@@ -51,7 +51,7 @@ export interface HttpInterceptor {
 export interface Http {
     options: HttpOptions & { root: string };
     headers: HttpHeaders;
-    interceptors: (HttpInterceptor | (() => HttpInterceptor))[];
+    interceptors: (HttpInterceptor | Function)[];
     get: $http;
     post: $http;
     put: $http;
