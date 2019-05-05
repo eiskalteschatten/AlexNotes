@@ -8,9 +8,10 @@ module.exports = {
         // '/js/libs/vue.js': path.join(__dirname, '../../node_modules/vue/dist/vue.runtime.min.js')
     },
     database: {
-        storage: path.resolve(__dirname, '..', '..', 'storage.sqlite3'),
+        storage: path.resolve(__dirname, '..', '..', '..', 'storage.sqlite3'),
         name: 'alexnotes'
     },
+    frontendPath: path.join(__dirname, '..', '..', '..', 'dist', 'public'),
     defaultUser: {
         firstName: 'New',
         lastName: 'User',
