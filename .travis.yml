@@ -12,23 +12,23 @@ install:
 
 script: npm run lint
 
-jobs:
-    include:
-        - stage: build
-          name: "Building Production Node 10"
-          script: npm run bootstrap && npm run build
-          env:
-            - NODE_ENV=development
-          node_js: "10"
-        - stage: build
-          name: "Building Production Node 11"
-          script: npm run bootstrap && npm run build
-          env:
-            - NODE_ENV=development
-          node_js: "11"
+# jobs:
+#     include:
+#         - stage: build
+#           name: "Building Production Node 10"
+#           script: npm run bootstrap && npm run build
+#           env:
+#             - NODE_ENV=development
+#           node_js: "10"
+#         - stage: build
+#           name: "Building Production Node 11"
+#           script: npm run bootstrap && npm run build
+#           env:
+#             - NODE_ENV=development
+#           node_js: "11"
 
 stages:
     - test
-    - build
+    # - build
 
 cache: npm
