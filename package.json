@@ -11,7 +11,7 @@
         "install-all": "npm install && npm -C ./frontend install && npm -C ./server install",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
-        "start-all": "./node_modules/.bin/concurrently \"npm -C ./frontend start\" \"npm -C ./server run start:dev\""
+        "start": "./node_modules/.bin/concurrently \"npm -C ./frontend start\" \"npm -C ./server run start:dev\""
     },
     "repository": {
         "type": "git",
