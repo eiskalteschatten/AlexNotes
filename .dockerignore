@@ -1,6 +1,7 @@
 ./node_modules
-./server/node_modules
-./frontend/node_modules
-dist
+./packages/server/node_modules
+./packages/frontend/node_modules
+./packages/server/dist
+./packages/frontend/dist
 .git
 .DS_Store

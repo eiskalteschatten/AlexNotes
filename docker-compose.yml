@@ -2,18 +2,11 @@ version: '3.7'
 services:
 
     app:
-        build:
-            context: .
-        command: >
-            ./node_modules/.bin/concurrently
-                "npm -C ./frontend start"
-                "npm -C ./server run start:dev"
+        build: .
         volumes:
-            - "./server/src:/app/server/src"
-            - "./frontend/src:/app/frontend/src"
-            - "./dist:/app/dist"
+            - "./storage.sqlite3:/app/storage.sqlite3"
         ports:
-            - "3010:3010"
+            - "80:3010"
             - "5858:5858"
         cap_drop:
             - ALL

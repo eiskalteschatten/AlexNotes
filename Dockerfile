@@ -1,28 +1,32 @@
 FROM node:11-alpine
 
+RUN apk update && \
+    apk add --no-cache --virtual .build-deps make gcc g++ python
+
 WORKDIR /app
 
 COPY ./package.json /app/package.json
 COPY ./package-lock.json /app/package-lock.json
+COPY ./lerna.json /app/lerna.json
 
 RUN npm ci
 
-COPY ./frontend/package.json /app/frontend/package.json
-COPY ./frontend/package-lock.json /app/frontend/package-lock.json
+COPY ./packages/frontend/package.json /app/packages/frontend/package.json
+COPY ./packages/server/package.json /app/packages/server/package.json
 
-RUN cd ./frontend && npm ci
+RUN npm run bootstrap
 
-COPY ./server/package.json /app/server/package.json
-COPY ./server/package-lock.json /app/server/package-lock.json
+COPY ./packages /app/packages
+COPY ./storage.sqlite3 /app/storage.sqlite3
 
-RUN cd ./server && npm ci
-
-COPY ./frontend /app/frontend
-COPY ./server /app/server
+RUN npm run build && \
+    npm prune --production && \
+    apk del .build-deps
 
 RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
-    chown -R alexnotes:alexnotes ./frontend/src && \
-    chown -R alexnotes:alexnotes ./server/src
+    chown -R alexnotes:alexnotes ./packages/frontend/src && \
+    chown -R alexnotes:alexnotes ./packages/server/src && \
+    chown alexnotes:alexnotes ./storage.sqlite3
 
 USER alexnotes
 

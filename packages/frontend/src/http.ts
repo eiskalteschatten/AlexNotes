@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueResource from 'vue-resource';
-import { HttpOptions } from './types/VueResource';
+import { HttpOptions } from './types/vueResource';
 
 Vue.use(VueResource);
 

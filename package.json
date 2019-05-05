@@ -11,7 +11,6 @@
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
         "start": "./node_modules/.bin/concurrently \"npm -C ./packages/frontend start\" \"npm -C ./packages/server run start:dev\"",
-        "prestart:prod": "npm run build",
         "start:prod": "npm -C ./packages/server run start:prod",
         "bootstrap": "./node_modules/.bin/lerna bootstrap",
         "add": "./node_modules/.bin/lerna add",
