@@ -3,14 +3,22 @@ node_js:
     - "10"
     - "11"
 
-env:
-    - NODE_ENV=TEST
-
 install:
     - npm ci
 
-script:
-    - npm run lint
-    - npm run build
+jobs:
+    include:
+        - stage: test
+          env:
+            - NODE_ENV=test
+          name: "Linting"
+          script: npm run lint
+        - stage: build
+          name: "Building Production"
+          script: npm run build
+
+stages:
+    - test
+    - build
 
 cache: npm
