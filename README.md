@@ -5,7 +5,7 @@
 
 This project is yet another note-taking application. Why create another one? The answer is because I needed a way to take notes that is cross-platform, available online, is private and is not proprietary. The basic concept behind it is to save all notes in a text file using Markdown for formatting. These files are then committed into a git repository and pushed to a remote server of choice. This allows safe versioning of notes, backups and even the ability to update notes without even opening the application.
 
-The project is still in its infancy, however, and doesn't really do much yet. You can always check up on it via the issues tab above.
+**The project is still in its infancy, however, and doesn't really do much yet.** You can always check up on it via the issues tab above.
 
 
 ## Table of Contents
@@ -36,6 +36,14 @@ The project is still in its infancy, however, and doesn't really do much yet. Yo
 
 ## Starting the Application
 
+**Important!** If you are running the application for the first time, you will have to set the `SETUP_DEFAULT_USER` environment variable to true to set up the default user. For example:
+
+```
+SETUP_DEFAULT_USER=true npm start
+```
+
+The default user credentials can be set up in the config file at `./packages/server/config/default.js`. You can view the file on GitHub [here](https://github.com/eiskalteschatten/AlexNotes/blob/master/packages/server/config/default.js).
+
 To start the application after setting up the project, run one of the following in the project's root directory:
 
 ### Development
@@ -56,7 +64,7 @@ npm run build && npm run start:prod
 
 ## Lerna
 
-AlexNotes uses Lerna to manage its multiple packages.
+AlexNotes uses [Lerna](https://github.com/lerna/lerna) to manage its multiple packages.
 
 ### Bootstrapping the Project
 
