@@ -62,6 +62,17 @@ npm run add some-npm-module -- --scope=server (--dev)
 
 `npm run add` is just a shortcut for Lerna's `add` command. See https://github.com/lerna/lerna/tree/master/commands/add#readme for more details about the `lerna add` command.
 
+
+## Cleaning
+
+To remove the `node_modules` folders from all sub-packages, run the following in the project's root directory:
+
+```
+npm run clean
+```
+
+See https://github.com/lerna/lerna/tree/master/commands/clean#readme for more details.
+
 ---
 
 Alex Seifert - https://www.alexseifert.com
