@@ -4,22 +4,29 @@ node_js:
     - "11"
     - "12"
 
+env:
+    - NODE_ENV=test
+
 install:
     - npm install
+
+script: npm run lint
 
 jobs:
     include:
         - stage: test
-          env:
-            - NODE_ENV=test
-          name: "Linting"
-          script: npm run lint
         - stage: build
-          name: "Building Production"
-          script: npm run build
-          node_js:
-            - "10"
-            - "11"
+          name: "Building Production Node 10"
+          script: npm run bootstrap && npm run build
+          env:
+            - NODE_ENV=production
+          node_js: "10"
+        - stage: build
+          name: "Building Production Node 11"
+          script: npm run bootstrap && npm run build
+          env:
+            - NODE_ENV=production
+          node_js: "11"
 
 stages:
     - test
