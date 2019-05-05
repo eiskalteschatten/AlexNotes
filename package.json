@@ -5,7 +5,7 @@
     "main": "./src/server.js",
     "private": true,
     "scripts": {
-        "build": "npm -C ./packages/server run build && npm -C ./packages/frontend run build",
+        "build": "npm -C ./packages/frontend run build && npm -C ./packages/server run build",
         "test": "npm run lint",
         "lint": "./node_modules/.bin/eslint 'frontend/src/**/*.{js,vue,ts,json}' 'server/src/**/*.{ts,js,json}'",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",

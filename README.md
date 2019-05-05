@@ -37,6 +37,8 @@ To build the entire project, run the following in the project's root directory:
 npm run build
 ```
 
+The project **must** be bootstrapped (see above) in order to build it.
+
 
 ## Adding Dependencies
 

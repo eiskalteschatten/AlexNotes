@@ -62,12 +62,11 @@ typings/
 
 .data
 
-electron/dist
-
 dist
 
-server/config/local.js
+packages/server/config/local.js
 
 *.code-workspace
 
 storage.sqlite3
+

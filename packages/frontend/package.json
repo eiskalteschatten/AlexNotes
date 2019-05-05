@@ -1,10 +1,13 @@
 {
-    "name": "frontend",
+    "name": "alexnotes-frontend",
     "version": "0.1.0",
-    "main": "../../dist/public/assets/index.js",
+    "main": "./dist/index.js",
     "scripts": {
+        "prestart": "npm run build:index",
         "start": "NODE_ENV=development webpack --watch",
+        "prebuild": "npm run build:index",
         "build": "NODE_ENV=development webpack",
+        "build:index": "../../node_modules/.bin/tsc ./src/index.ts --outDir ./dist",
         "build:prod": "NODE_ENV=production webpack",
         "test": "echo 'Tests should be run here'"
     },

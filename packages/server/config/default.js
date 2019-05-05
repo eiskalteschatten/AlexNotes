@@ -11,7 +11,6 @@ module.exports = {
         storage: path.resolve(__dirname, '..', '..', '..', 'storage.sqlite3'),
         name: 'alexnotes'
     },
-    frontendPath: path.join(__dirname, '..', '..', '..', 'dist', 'public'),
     defaultUser: {
         firstName: 'New',
         lastName: 'User',
