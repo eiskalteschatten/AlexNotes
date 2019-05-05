@@ -8,6 +8,16 @@ This project is yet another note-taking application. Why create another one? The
 The project is still in its infancy, however, and doesn't really do much yet. You can always check up on it via the issues tab above.
 
 
+## Table of Contents
+
+- <a href="#requirements">Requirements</a>
+- <a href="#setting-up-the-project-for-development">Setting up the Project for Development</a>
+- <a href="#lerna">Lerna</a>
+- <a href="#building">Building</a>
+- <a href="#linting-and-testing">Linting and Testing</a>
+- <a href="#contributing">Contributing</a>
+
+
 ## Requirements
 
 - Node 10 or 11 (support for Node 12 will be included as soon as a few dependencies support it)
@@ -88,6 +98,13 @@ npm run lint
 ```
 
 There are no other tests yet.
+
+
+## Contributing
+
+If you would like to contribute to the project, feel free to fork the repository and make a pull request. It is recommended to lint any changes before committing by running `npm run lint`.
+
+If you find a bug or any other issues or have any feature requests, don't hesitate to create a GitHub issue.
 
 ---
 
