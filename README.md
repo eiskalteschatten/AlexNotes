@@ -11,10 +11,15 @@ The project is still in its infancy, however, and doesn't really do much yet. Yo
 ## Table of Contents
 
 - <a href="#requirements">Requirements</a>
-- <a href="#setting-up-the-project-for-development">Setting up the Project for Development</a>
+- <a href="#setting-up-the-project">Setting up the Project</a>
+- <a href="#starting-the-application">Starting the Application</a>
 - <a href="#lerna">Lerna</a>
+    - <a href="#bootstrapping-the-project">Bootstrapping the Project</a>
+    - <a href="#adding-dependencies">Adding Dependencies</a>
+    - <a href="#cleaning">Cleaning</a>
 - <a href="#building">Building</a>
 - <a href="#linting-and-testing">Linting and Testing</a>
+- <a href="#docker">Docker</a>
 - <a href="#contributing">Contributing</a>
 
 
@@ -23,10 +28,30 @@ The project is still in its infancy, however, and doesn't really do much yet. Yo
 - Node 10 or 11 (support for Node 12 will be included as soon as a few dependencies support it)
 
 
-## Setting up the Project for Development
+## Setting up the Project
 
 1. Run `npm install` in the root directory. This will install Lerna and the linting tools.
 2. Run `npm run bootstrap` in the root directory. This will run `npm install` in all of the sub-packages and set up the symlinks for the shared dependencies.
+
+
+## Starting the Application
+
+To start the application after setting up the project, run one of the following in the project's root directory:
+
+### Development
+
+```
+npm start
+```
+
+
+### Production
+
+Before starting the application for production, you will need to build it.
+
+```
+npm run build && npm run start:prod
+```
 
 
 ## Lerna
@@ -98,6 +123,17 @@ npm run lint
 ```
 
 There are no other tests yet.
+
+
+## Docker
+
+AlexNotes comes with support for Docker and Docker Compose. To run it in docker, use the following in the project's root directory:
+
+```
+docker-compose up --build
+```
+
+This will build the application and start it in production mode.
 
 
 ## Contributing
