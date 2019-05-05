@@ -95,7 +95,7 @@ class App {
     }
 
     private async configureRoutes(): Promise<void> {
-        const frontendPath: string = path.join(__dirname, '..', '..', 'dist', 'public');
+        const frontendPath: string = path.join(__dirname, '..', '..', '..', 'dist', 'public');
         this.app.use(express.static(frontendPath));
 
         configureProxies(this.app);
