@@ -16,15 +16,15 @@ jobs:
     include:
         - stage: build
           name: "Building Production Node 10"
-          script: npm install && npm run bootstrap && npm run build
+          script: npm run bootstrap && npm run build
           env:
-            - NODE_ENV=production
+            - NODE_ENV=development
           node_js: "10"
         - stage: build
           name: "Building Production Node 11"
-          script: npm install && npm run bootstrap && npm run build
+          script: npm run bootstrap && npm run build
           env:
-            - NODE_ENV=production
+            - NODE_ENV=development
           node_js: "11"
 
 stages:
