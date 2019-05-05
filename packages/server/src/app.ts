@@ -4,8 +4,9 @@ import * as config from 'config';
 import * as compression from 'compression';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
-import * as path from 'path';
 import * as passport from 'passport';
+
+import frontendPath from 'alexnotes-frontend';
 
 import configureProxies from './lib/booting/proxies';
 import { setupSequelize } from './lib/db';
@@ -95,7 +96,6 @@ class App {
     }
 
     private async configureRoutes(): Promise<void> {
-        const frontendPath: string = path.join(__dirname, '..', '..', 'dist', 'public');
         this.app.use(express.static(frontendPath));
 
         configureProxies(this.app);

@@ -5,15 +5,17 @@
     "main": "./src/server.js",
     "private": true,
     "scripts": {
-        "build": "npm -C ./server run build && npm -C ./frontend run build",
+        "build": "npm -C ./packages/frontend run build && npm -C ./packages/server run build",
         "test": "npm run lint",
         "lint": "./node_modules/.bin/eslint 'frontend/src/**/*.{js,vue,ts,json}' 'server/src/**/*.{ts,js,json}'",
-        "install-all": "npm install && npm -C ./frontend install && npm -C ./server install",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
-        "start": "./node_modules/.bin/concurrently \"npm -C ./frontend start\" \"npm -C ./server run start:dev\"",
+        "start": "./node_modules/.bin/concurrently \"npm -C ./packages/frontend start\" \"npm -C ./packages/server run start:dev\"",
         "prestart:prod": "npm run build",
-        "start:prod": "npm -C ./server run start:prod"
+        "start:prod": "npm -C ./packages/server run start:prod",
+        "bootstrap": "./node_modules/.bin/lerna bootstrap",
+        "add": "./node_modules/.bin/lerna add",
+        "clean": "./node_modules/.bin/lerna clean"
     },
     "repository": {
         "type": "git",
@@ -21,15 +23,17 @@
     },
     "author": "Alex Seifert",
     "devDependencies": {
+        "@types/node": "^12.0.0",
         "@typescript-eslint/eslint-plugin": "^1.7.0",
         "@vue/eslint-config-typescript": "^4.0.0",
         "concurrently": "^4.1.0",
+        "debug": "^4.1.1",
         "eslint": "^5.16.0",
         "eslint-plugin-disable": "^1.0.4",
         "eslint-plugin-promise": "^4.1.1",
-        "eslint-plugin-vue": "^5.2.2"
-    },
-    "dependencies": {
+        "eslint-plugin-vue": "^5.2.2",
+        "lerna": "^3.13.4",
         "typescript": "^3.4.5"
-    }
+    },
+    "dependencies": {}
 }
