@@ -25,7 +25,7 @@ module.exports = {
         "eslint-plugin-disable": {
             "paths": {
                 "vue": ["**/*.js", "**/*.ts", "**/*.json"],
-                "@typescript-eslint": ["**/*.vue", "**/*.js", "**/*.json"]
+                "@typescript-eslint": ["**/*.js", "**/*.json"]
             }
         }
     },
@@ -33,12 +33,9 @@ module.exports = {
         "indent": [
             "error",
             4,
-            {"SwitchCase": 1}
+            { "SwitchCase": 1 }
         ],
-        "vue/html-indent": [
-            "error",
-            4
-        ],
+        "vue/html-indent": [ "error", 4 ],
         "vue/max-attributes-per-line": [
             "error",
             {
@@ -54,27 +51,13 @@ module.exports = {
         "vue/no-side-effects-in-computed-properties": [ "off" ],
         "vue/component-name-in-template-casing": [ "off" ],
         "vue/singleline-html-element-content-newline": [ "off" ],
-        "linebreak-style": [
-            "error",
-            "unix"
-        ],
-        "quotes": [
-            "error",
-            "single"
-        ],
-        "semi": [
-            "error",
-            "always"
-        ],
+        "linebreak-style": [ "error", "unix" ],
+        "quotes": [ "error", "single" ],
+        "semi": [ "error", "always" ],
         "no-console": [ "off" ],
         "no-case-declarations": [ "off" ],
-        "prefer-const": [
-            "error"
-        ],
-        "arrow-parens": [
-            "error",
-            "as-needed"
-        ],
+        "prefer-const": [ "error" ],
+        "arrow-parens": [ "error", "as-needed" ],
         "no-undef": [ "off" ],
         "promise/catch-or-return": "error",
         "promise/param-names": "error",
@@ -83,7 +66,7 @@ module.exports = {
         "@typescript-eslint/no-explicit-any": [ "off" ]
     },
     "overrides": [{
-        "files": ["*.vue"],
+        "files": [ "*.vue" ],
         "rules": {
             "indent": "off",
             "no-irregular-whitespace": "off",
