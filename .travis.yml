@@ -2,9 +2,10 @@ language: node_js
 node_js:
     - "10"
     - "11"
+    - "12"
 
 install:
-    - npm ci
+    - npm install
 
 jobs:
     include:
@@ -16,6 +17,9 @@ jobs:
         - stage: build
           name: "Building Production"
           script: npm run build
+          node_js:
+            - "10"
+            - "11"
 
 stages:
     - test
