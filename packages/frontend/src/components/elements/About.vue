@@ -17,7 +17,7 @@
             <v-card-text>
                 <v-layout wrap>
                     <v-flex xs12 md5 text-xs-center text-md-left>
-                        <!-- <img src="../../../public/images/icon.svg" class="icon"> -->
+                        <img :src="iconSrc" class="icon">
                     </v-flex>
                     <v-flex xs12 md7 text-xs-center text-md-left>
                         <v-layout wrap fill-height>
@@ -48,9 +48,12 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import { mapState } from 'vuex';
     import eventBus from '../../eventBus';
 
     import ExternalLink from './ExternalLink.vue';
+    import darkIcon from '../../resources/images/icon-white.svg';
+    import lightIcon from '../../resources/images/icon-black.svg';
 
     export default Vue.extend({
         components: {
@@ -62,9 +65,15 @@
             };
         },
         computed: {
+            ...mapState('settings', [
+                'theme'
+            ]),
             copyrightYear(): string | number {
                 const year = new Date().getFullYear();
                 return year === 2019 ? year : `2019 - ${year}`;
+            },
+            iconSrc(): string {
+                return this.theme === 'dark' ? darkIcon : lightIcon;
             }
         },
         created(): void {

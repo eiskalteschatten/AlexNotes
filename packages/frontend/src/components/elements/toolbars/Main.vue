@@ -16,6 +16,7 @@
 <template>
     <v-toolbar color="primary" class="toolbar" app clipped-left>
         <v-toolbar-side-icon v-if="$vuetify.breakpoint.smAndDown" @click="toggleSidebar" dark />
+        <img src="../../../resources/images/icon-white.svg" class="main-icon">
         <v-toolbar-title class="white--text">
             AlexNotes
         </v-toolbar-title>

@@ -1,5 +1,6 @@
 <template>
     <v-toolbar color="primary" class="toolbar" app>
+        <img src="../../../resources/images/icon-white.svg" class="main-icon">
         <v-toolbar-title class="white--text">
             AlexNotes
         </v-toolbar-title>
