@@ -1,8 +1,8 @@
 <template>
-    <v-toolbar dark color="secondary" class="toolbar" app>
-        <v-flex xs12 class="text-xs-center">
-            <!-- <img src="images/white-icon.svg" class="main-icon"> -->
-        </v-flex>
+    <v-toolbar color="primary" class="toolbar" app>
+        <v-toolbar-title class="white--text">
+            AlexNotes
+        </v-toolbar-title>
     </v-toolbar>
 </template>
 

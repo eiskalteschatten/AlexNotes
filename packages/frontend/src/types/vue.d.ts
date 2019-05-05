@@ -1,5 +1,6 @@
 
 import Vue from 'vue';
+import { VuetifyObject } from 'vuetify';
 import { HttpHeaders, HttpOptions, Http, $http, $resource } from './vueResource';
 
 declare module 'vue/types/options' {
@@ -11,8 +12,9 @@ declare module 'vue/types/options' {
 declare module 'vue/types/vue' {
     interface Vue {
         /* eslint-disable @typescript-eslint/class-name-casing */
-        $http: Http;
+        $http: $http;
         $resource: $resource;
+        $vuetify: VuetifyObject;
         /* eslint-enable  @typescript-eslint/class-name-casing */
     }
 

@@ -14,14 +14,12 @@
 </i18n>
 
 <template>
-    <v-toolbar dark color="secondary" class="toolbar" app clipped-left>
-        <v-flex xs5>
-            <v-toolbar-side-icon v-if="$vuetify.breakpoint.smAndDown" @click="toggleSidebar" />
-        </v-flex>
-        <v-flex xs2 class="text-xs-center">
-            <!-- <img src="images/white-icon.svg" class="main-icon"> -->
-        </v-flex>
-        <v-flex xs5 class="text-xs-right">
+    <v-toolbar color="primary" class="toolbar" app clipped-left>
+        <v-toolbar-side-icon v-if="$vuetify.breakpoint.smAndDown" @click="toggleSidebar" dark />
+        <v-toolbar-title class="white--text">
+            AlexNotes
+        </v-toolbar-title>
+        <v-flex class="text-xs-right">
             <v-menu left :nudge-bottom="40">
                 <v-btn slot="activator" dark icon>
                     <v-icon>account_circle</v-icon>

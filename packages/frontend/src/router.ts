@@ -4,7 +4,7 @@ import * as cookies from 'browser-cookies';
 import MainLayout from './components/MainLayout.vue';
 import LoggedOutLayout from './components/LoggedOutLayout.vue';
 
-import Home from './components/pages/Home.vue';
+import Default from './components/pages/Default.vue';
 import AccountSettings from './components/pages/AccountSettings.vue';
 import Settings from './components/pages/Settings.vue';
 
@@ -17,14 +17,12 @@ const preferedLanguage = cookies.get('preferedLanguage') || 'en';
 export const routeTitles = {
     primaryTitle: 'AlexNotes',
     en: {
-        home: 'Notes',
         login: 'Login',
         accountSettings: 'Account Settings',
         settings: 'Settings',
         '404': 'Page not found'
     },
     de: {
-        home: 'Notes',
         login: 'Login',
         accountSettings: 'Kontoeinstellungen',
         settings: 'Einstellungen',
@@ -43,7 +41,7 @@ const router = new VueRouter({
         children: [{
             path: '',
             name: 'home',
-            component: Home
+            component: Default
         },
         {
             path: 'account-settings',
@@ -77,7 +75,7 @@ const router = new VueRouter({
 });
 
 export function setDocumentTitle(title: string): void {
-    document.title = `${title} - ${routeTitles.primaryTitle}`;
+    document.title = title ? `${title} - ${routeTitles.primaryTitle}` : routeTitles.primaryTitle;
 }
 
 export default router;

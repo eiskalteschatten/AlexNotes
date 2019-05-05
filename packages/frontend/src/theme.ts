@@ -1,7 +1,7 @@
 import colors from 'vuetify/es5/util/colors';
 
 export default {
-    primary: colors.blue,
+    primary: colors.blue.darken3,
     secondary: '#000000',
     tertiary: '#dfdfdf',
     error: colors.red,

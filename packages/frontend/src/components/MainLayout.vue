@@ -7,7 +7,6 @@
                 <router-view />
             </v-container>
         </v-content>
-        <bottom-nav />
     </div>
 </template>
 
@@ -16,13 +15,11 @@
 
     import Toolbar from './elements/toolbars/Main.vue';
     import SideNav from './elements/SideNav.vue';
-    import BottomNav from './elements/BottomNav.vue';
 
     export default Vue.extend({
         components: {
             Toolbar,
-            SideNav,
-            BottomNav
+            SideNav
         }
     });
 </script>
