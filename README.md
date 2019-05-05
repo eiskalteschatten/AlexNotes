@@ -1,5 +1,8 @@
 # AlexNotes
 
+[![Build Status](https://travis-ci.org/eiskalteschatten/AlexNotes.svg?branch=master)](https://travis-ci.org/eiskalteschatten/AlexNotes)
+
+
 More information coming soon.
 
 
