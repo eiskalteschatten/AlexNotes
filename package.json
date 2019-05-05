@@ -5,13 +5,15 @@
     "main": "./src/server.js",
     "private": true,
     "scripts": {
-        "build-all": "npm -C ./server run build && npm -C ./frontend run build",
+        "build": "npm -C ./server run build && npm -C ./frontend run build",
         "test": "npm run lint",
         "lint": "./node_modules/.bin/eslint 'frontend/src/**/*.{js,vue,ts,json}' 'server/src/**/*.{ts,js,json}'",
         "install-all": "npm install && npm -C ./frontend install && npm -C ./server install",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
-        "start": "./node_modules/.bin/concurrently \"npm -C ./frontend start\" \"npm -C ./server run start:dev\""
+        "start": "./node_modules/.bin/concurrently \"npm -C ./frontend start\" \"npm -C ./server run start:dev\"",
+        "prestart:prod": "npm run build",
+        "start:prod": "npm -C ./server run start:prod"
     },
     "repository": {
         "type": "git",
