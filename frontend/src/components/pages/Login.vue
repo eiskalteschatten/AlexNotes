@@ -71,7 +71,7 @@
     </v-layout>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState, mapActions } from 'vuex';
 
@@ -103,7 +103,7 @@
             ...mapActions('user', [
                 'fetchJwt'
             ]),
-            async submit(event) {
+            async submit(event): Promise<void> {
                 event.preventDefault();
 
                 if (!this.username) {

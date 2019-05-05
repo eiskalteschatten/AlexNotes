@@ -159,7 +159,7 @@
     </centered-column>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState, mapActions } from 'vuex';
     import eventBus from '../../eventBus';
@@ -207,7 +207,7 @@
             ...mapActions('user', [
                 'saveUserInfo'
             ]),
-            async submit(event) {
+            async submit(event): Promise<void> {
                 event.preventDefault();
                 this.alert = false;
 
@@ -231,7 +231,7 @@
                     eventBus.$emit('show-alert', this.$t('changesSaved'));
                 }
             },
-            async submitPassword(event) {
+            async submitPassword(event): Promise<void> {
                 event.preventDefault();
                 this.passwordAlert = false;
 
@@ -262,7 +262,7 @@
 
                 this.loading = false;
             },
-            allFieldsValid(fields) {
+            allFieldsValid(fields): boolean {
                 if (!fields || Object.keys(fields).length < 1) {
                     return false;
                 }

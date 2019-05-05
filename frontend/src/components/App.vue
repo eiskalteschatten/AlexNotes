@@ -7,7 +7,7 @@
     </v-app>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState } from 'vuex';
 

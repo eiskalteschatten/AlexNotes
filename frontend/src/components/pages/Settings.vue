@@ -103,7 +103,7 @@
     </centered-column>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState, mapActions } from 'vuex';
     import { setRoot } from '../../http';
@@ -139,7 +139,7 @@
             ...mapActions('settings', [
                 'setTheme'
             ]),
-            async submitServer(event) {
+            async submitServer(event): Promise<void> {
                 event.preventDefault();
                 this.serverAlert = false;
 
