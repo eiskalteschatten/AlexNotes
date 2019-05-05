@@ -96,8 +96,6 @@ class App {
     }
 
     private async configureRoutes(): Promise<void> {
-        console.log("!!!!!!", frontendPath)
-
         this.app.use(express.static(frontendPath));
 
         configureProxies(this.app);
