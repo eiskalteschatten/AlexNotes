@@ -17,13 +17,13 @@ jobs:
         - stage: test
         - stage: build
           name: "Building Production Node 10"
-          script: npm run bootstrap && npm run build
+          script: npm install && npm run bootstrap && npm run build
           env:
             - NODE_ENV=production
           node_js: "10"
         - stage: build
           name: "Building Production Node 11"
-          script: npm run bootstrap && npm run build
+          script: npm install && npm run bootstrap && npm run build
           env:
             - NODE_ENV=production
           node_js: "11"
