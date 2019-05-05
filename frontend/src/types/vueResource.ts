@@ -38,7 +38,7 @@ export interface HttpOptions {
     emulateJSON?: boolean;
 }
 
-export interface $http {
+export interface $http { // eslint-disable-line @typescript-eslint/class-name-casing
     (url: string, data?: any, options?: HttpOptions): PromiseLike<HttpResponse>;
     (url: string, options?: HttpOptions): PromiseLike<HttpResponse>;
 }
@@ -84,7 +84,7 @@ export interface ResourceMethods {
     delete: ResourceMethod;
 }
 
-export interface $resource {
+export interface $resource { // eslint-disable-line @typescript-eslint/class-name-casing
     (url: string, params?: any, actions?: any, options?: HttpOptions): ResourceMethods;
 }
 
