@@ -12,7 +12,7 @@
     </v-snackbar>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import eventBus from '../../eventBus';
 
@@ -29,12 +29,12 @@
             eventBus.$on('close-alert', this.closeAlert);
         },
         methods: {
-            showAlert(message, isError = false) {
+            showAlert(message: string, isError: boolean = false): void {
                 this.message = message;
                 this.snackbar = true;
                 this.isError = isError;
             },
-            closeAlert() {
+            closeAlert(): void {
                 this.snackbar = false;
             }
         }

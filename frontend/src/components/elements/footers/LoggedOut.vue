@@ -8,7 +8,7 @@
     </footer>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
 
     import LanguageSwitcher from '../LanguageSwitcher.vue';

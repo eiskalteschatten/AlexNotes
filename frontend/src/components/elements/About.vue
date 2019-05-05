@@ -46,7 +46,7 @@
     </v-dialog>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import eventBus from '../../eventBus';
 
@@ -62,17 +62,17 @@
             };
         },
         computed: {
-            copyrightYear() {
+            copyrightYear(): string | number {
                 const year = new Date().getFullYear();
                 return year === 2019 ? year : `2019 - ${year}`;
             }
         },
-        created() {
+        created(): void {
             eventBus.$on('open-modal', () => {
                 this.dialog = true;
             });
         },
-        destroyed() {
+        destroyed(): void {
             eventBus.$off('open-modal');
         }
     });

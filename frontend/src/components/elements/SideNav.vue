@@ -81,7 +81,7 @@
     </v-navigation-drawer>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import eventBus from '../../eventBus';
 
@@ -99,17 +99,17 @@
             };
         },
         computed: {
-            toggleIcon() {
+            toggleIcon(): string {
                 return this.mini ? 'chevron_right' : 'chevron_left';
             },
-            toggleLabel() {
+            toggleLabel(): string {
                 return this.mini ? this.$t('showSidebar') : this.$t('hideSidebar');
             },
             mini: {
-                get() {
+                get(): boolean {
                     return this.$vuetify.breakpoint.smAndDown ? false : this.miniData;
                 },
-                set(mini) {
+                set(mini: boolean): void {
                     this.miniData = mini;
                 }
             }
@@ -118,10 +118,10 @@
             eventBus.$on('toggleSidebar', this.toggleSidebar);
         },
         methods: {
-            toggleMini() {
+            toggleMini(): void {
                 this.mini = !this.mini;
             },
-            toggleSidebar() {
+            toggleSidebar(): void {
                 this.drawer = !this.drawer;
             }
         }

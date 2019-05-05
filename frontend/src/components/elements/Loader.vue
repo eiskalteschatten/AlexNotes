@@ -22,7 +22,7 @@
     </v-snackbar>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import eventBus from '../../eventBus';
 
@@ -38,13 +38,13 @@
             eventBus.$on('close-loader', this.closeLoader);
         },
         methods: {
-            showLoader() {
+            showLoader(): void {
                 clearTimeout(this.timeout);
                 this.timeout = setTimeout(() => {
                     this.snackbar = true;
                 }, 250);
             },
-            closeLoader() {
+            closeLoader(): void {
                 clearTimeout(this.timeout);
                 this.snackbar = false;
             }

@@ -27,7 +27,7 @@
     </v-menu>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState } from 'vuex';
 
@@ -38,7 +38,7 @@
             ])
         },
         methods: {
-            switchLanguages(lang) {
+            switchLanguages(lang: string): void {
                 this.$router.push({ params: { lang } });
             }
         }

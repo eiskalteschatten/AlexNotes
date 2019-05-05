@@ -15,13 +15,13 @@
     </span>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import eventBus from '../../../../eventBus';
 
     export default Vue.extend({
         methods: {
-            openAboutDialog(event) {
+            openAboutDialog(event): void {
                 event.preventDefault();
                 eventBus.$emit('open-modal', 'about');
             }

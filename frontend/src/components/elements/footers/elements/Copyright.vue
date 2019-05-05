@@ -15,7 +15,7 @@
     </span>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
 
     import ExternalLink from '../../ExternalLink.vue';
@@ -25,7 +25,7 @@
             ExternalLink
         },
         computed: {
-            copyrightYear() {
+            copyrightYear(): string | number {
                 const year = new Date().getFullYear();
                 return year === 2019 ? year : `2019 - ${year}`;
             }

@@ -107,7 +107,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState } from 'vuex';
 
@@ -127,8 +127,8 @@
             ...mapState('categories', [
                 'categories'
             ]),
-            sortedCategories() {
-                return this.categories.sort((a, b) => {
+            sortedCategories(): {}[] {
+                return this.categories.sort((a, b): number => {
                     const nameA = a.name.toUpperCase();
                     const nameB = b.name.toUpperCase();
                     return (nameA < nameB) ? -1 : (nameA > nameB) ? 1 : 0;
@@ -136,11 +136,11 @@
             }
         },
         methods: {
-            emitClick(func) {
+            emitClick(func): void {
                 this.$emit('clicked', func);
                 this.dialog = false;
             },
-            emitCategoryClick(id) {
+            emitCategoryClick(id): void {
                 this.$emit('categoryClicked', id);
                 this.dialog = false;
             }

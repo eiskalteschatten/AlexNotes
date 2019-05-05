@@ -32,7 +32,7 @@
     </v-bottom-nav>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
 
     export default Vue.extend({
@@ -46,10 +46,10 @@
         },
         computed: {
             bottomNav: {
-                get() {
+                get(): string {
                     return this.$route.name || '';
                 },
-                set() {}
+                set(): void {}
             }
         }
     });

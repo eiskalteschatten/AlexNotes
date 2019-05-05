@@ -68,7 +68,7 @@
     </v-toolbar>
 </template>
 
-<script>
+<script lang="ts">
     import Vue from 'vue';
     import { mapState, mapActions } from 'vuex';
     import eventBus from '../../../eventBus';
@@ -86,14 +86,14 @@
             ...mapActions('user', [
                 'removeJwt'
             ]),
-            async logout() {
+            async logout(): Promise<void> {
                 await this.removeJwt();
                 this.$router.replace({ name: 'login' });
             },
-            toggleSidebar() {
+            toggleSidebar(): void {
                 eventBus.$emit('toggleSidebar');
             },
-            openAboutDialog() {
+            openAboutDialog(): void {
                 eventBus.$emit('open-modal', 'about');
             }
         }
