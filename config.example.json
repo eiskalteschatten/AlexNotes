@@ -5,5 +5,15 @@
         "username": "admin",
         "password": "admin",
         "emailAddress": ""
+    },
+    "git": {
+        "url": "",
+        "branch": "",
+        "auth": {
+            "type": "",
+            "username": "",
+            "password": "",
+            "privateKeyPath": ""
+        }
     }
 }
