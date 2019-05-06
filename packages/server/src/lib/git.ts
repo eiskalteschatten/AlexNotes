@@ -1,22 +1,21 @@
-import { Repository, Clone, CloneOptions } from 'nodegit';
+import { Repository, Clone, CloneOptions, FetchOptions, Cred } from 'nodegit';
 import * as config from 'config';
 
-import { GitConfigInterface } from '../interfaces/Config';
+import { GitConfigInterface, GitConfigAuthInterface } from '../interfaces/Config';
 
 const gitConfig: GitConfigInterface = config.get('git');
 
 
 class Git {
+    private repository: Repository;
     private url: string = gitConfig.url;
+    private gitAuth: GitConfigAuthInterface = gitConfig.auth;
 
     public constructor() {
-        if (gitConfig.auth.type === 'ssh' && this.url.substring(0,6) !== 'ssh://') {
-            this.url = 'ssh://' + this.url;
-        }
-        else if (gitConfig.auth.type === 'https' && this.url.substring(0,7) !== 'https://') {
+        if (this.gitAuth.type === 'https' && this.url.substring(0,7) !== 'https://') {
             this.url = 'https://' + this.url;
         }
-        else if (gitConfig.auth.type !== 'ssh' && gitConfig.auth.type !== 'https') {
+        else if (this.gitAuth.type !== 'ssh' && this.gitAuth.type !== 'https') {
             throw new Error('The git auth type must be "ssh" or "https".');
         }
     }
@@ -32,12 +31,24 @@ class Git {
 
     public async clone(): Promise<void> {
         try {
-            const cloneOptions: CloneOptions = {
-                checkoutBranch: gitConfig.branch
+            const fetchOpts: FetchOptions = {
+                remoteCallbacks: {
+                    credentials: async (url: string, username: string): Promise<Cred> => {
+                        const cred: Cred = await Cred.sshKeyMemoryNew(username, this.gitAuth.publicKeyPath, this.gitAuth.privateKeyPath, this.gitAuth.keyPassphrase);
+                        return cred;
+                    }
+                }
             };
 
-            const repository: Repository = await Clone.clone(this.url, gitConfig.localPath, cloneOptions);
-            console.log(repository);
+            const cloneOptions: CloneOptions = {
+                checkoutBranch: gitConfig.branch,
+                fetchOpts
+            };
+
+            console.log('Cloning git repository from:', this.url);
+
+            this.repository = await Clone.clone(this.url, gitConfig.localPath, cloneOptions);
+            console.log(this.repository);
         }
         catch(error) {
             throw new Error(error);
