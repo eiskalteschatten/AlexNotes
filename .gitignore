@@ -69,3 +69,4 @@ dist
 storage.sqlite3
 config.json
 packages/server/config/local.js
+./repo

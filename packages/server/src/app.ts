@@ -12,6 +12,7 @@ import configureProxies from './lib/booting/proxies';
 import { setupSequelize } from './lib/db';
 import setupPassport from './lib/authentication/setupPassport';
 import setupCronjobs from './cronjobs';
+import Git from './lib/git';
 
 class App {
     public app: express.Application;
@@ -27,6 +28,9 @@ class App {
         this.addPreferredLanguage();
         await this.configureRoutes();
         setupCronjobs();
+
+        const git = new Git();
+        await git.initialize();
 
         console.log('App started with:');
         console.log('- Node.js', process.version);
