@@ -5,7 +5,7 @@ const CopyPlugin = require('copy-webpack-plugin');
 const plugins = [
     new VueLoaderPlugin(),
     new CopyPlugin([{
-        from: './src/**/*.html',
+        from: './src/resources/public/*.*',
         to: path.resolve(__dirname, 'dist', '[name].[ext]')
     },
     {

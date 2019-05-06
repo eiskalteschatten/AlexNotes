@@ -60,16 +60,12 @@ typings/
 # next.js build output
 .next
 
-.data
-
-dist
-
-packages/server/config/local.js
-
 *.code-workspace
-
-storage.sqlite3
+.DS_Store
 
 *.lerna_backup
 
+dist
+storage.sqlite3
 config.json
+packages/server/config/local.js
