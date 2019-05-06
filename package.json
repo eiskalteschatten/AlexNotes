@@ -10,6 +10,7 @@
         "lint": "./node_modules/.bin/eslint './packages/frontend/src/**/*.{js,vue,ts,json}' './packages/server/src/**/*.{ts,js,json}'",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
+        "prestart": "npm -C ./packages/frontend run build",
         "start": "./node_modules/.bin/concurrently \"npm -C ./packages/frontend start\" \"npm -C ./packages/server run start:dev\"",
         "start:prod": "npm -C ./packages/server run start:prod",
         "bootstrap": "./node_modules/.bin/lerna bootstrap",
