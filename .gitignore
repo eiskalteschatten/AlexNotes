@@ -71,3 +71,5 @@ packages/server/config/local.js
 storage.sqlite3
 
 *.lerna_backup
+
+config.json
