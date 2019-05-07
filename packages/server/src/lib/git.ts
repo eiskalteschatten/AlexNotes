@@ -33,10 +33,12 @@ class Git {
         try {
             const fetchOpts: FetchOptions = {
                 remoteCallbacks: {
-                    credentials: async (url: string, username: string): Promise<Cred> => {
-                        const cred: Cred = await Cred.sshKeyMemoryNew(username, this.gitAuth.publicKeyPath, this.gitAuth.privateKeyPath, this.gitAuth.keyPassphrase);
-                        return cred;
-                    }
+                    credentials: (url: string, username: string): Promise<Cred> => {
+                        return Cred.sshKeyMemoryNew(username, this.gitAuth.publicKeyPath, this.gitAuth.privateKeyPath, this.gitAuth.keyPassphrase);
+                    },
+                    // Disable certificate check on macOS because there is an issue with it.
+                    // See https://www.nodegit.org/guides/cloning/ssh-with-agent/
+                    certificateCheck: (): number => process.platform === 'darwin' ? 0 : 1
                 }
             };
 
