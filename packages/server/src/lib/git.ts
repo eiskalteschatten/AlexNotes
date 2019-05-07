@@ -34,7 +34,9 @@ class Git {
 
     public async clone(): Promise<void> {
         try {
-            console.log('Cloning git repository from:', this.url);
+            console.log('Cloning git repository from');
+            console.log('--- from:', this.url);
+            console.log('--- to:', gitConfig.localPath);
 
             const cloneOptions: string[] = [
                 `--branch=${gitConfig.branch}`
