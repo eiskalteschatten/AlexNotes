@@ -1,5 +1,4 @@
 import http from '../http';
-import eventBus from '../eventBus';
 
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
 import { NotebookMenuItemInterface } from '../../../shared/types/notebooks';

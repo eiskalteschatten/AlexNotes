@@ -68,8 +68,6 @@
     import { mapState, mapActions } from 'vuex';
     import eventBus from '../../eventBus';
 
-    import { NotebookMenuItemInterface } from '../../../../shared/types/notebooks';
-
     export default Vue.extend({
         data () {
             return {
