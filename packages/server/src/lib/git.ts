@@ -15,8 +15,15 @@ class Git {
     public constructor() {
         this.git = simplegit();
 
-        if (this.gitAuth.type === 'https' && this.url.substring(0,7) !== 'https://') {
-            this.url = 'https://' + this.url;
+        if (this.gitAuth.type === 'https') {
+            if (this.url.substring(0,7) !== 'https://') {
+                this.url = 'https://' + this.url;
+            }
+
+            if (!this.url.match(/https:\/\/(.*):(.*)@/g)) {
+                const urlsParts: string[] = this.url.split('//');
+                this.url = `https://${this.gitAuth.username}:${this.gitAuth.password}@${urlsParts[2]}`;
+            }
         }
         else if (this.gitAuth.type !== 'ssh' && this.gitAuth.type !== 'https') {
             throw new Error('The git auth type must be "ssh" or "https".');
