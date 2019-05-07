@@ -38,7 +38,8 @@ class Git {
                     },
                     // Disable certificate check on macOS because there is an issue with it.
                     // See https://www.nodegit.org/guides/cloning/ssh-with-agent/
-                    certificateCheck: (): number => process.platform === 'darwin' ? 0 : 1
+                    certificateCheck: (): number => process.platform === 'darwin' ? 0 : 1,
+                    transferProgress: (info: string): void => console.log('--- Clone progress:', info)
                 }
             };
 
@@ -47,7 +48,7 @@ class Git {
                 fetchOpts
             };
 
-            console.log('Cloning git repository from:', this.url);
+            console.log('-- Cloning git repository from:', this.url);
 
             this.repository = await Clone.clone(this.url, gitConfig.localPath, cloneOptions);
             console.log(this.repository);
