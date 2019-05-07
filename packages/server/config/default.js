@@ -17,5 +17,8 @@ module.exports = {
     translations: ['en', 'de'],
     jwt: {
         secret: 'vklljgi0439u4nkfVNKCXJOu490ri$)(=%§jijglkfkljirefjo4209r4jkflmkflejf923404'
+    },
+    notes: {
+        folder: 'notes'
     }
 };
