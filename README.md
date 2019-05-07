@@ -12,6 +12,7 @@ This project is yet another note-taking application. Why create another one? The
 
 - <a href="#requirements">Requirements</a>
 - <a href="#setting-up-the-project">Setting up the Project</a>
+    - <a href="#config">Config</a>
 - <a href="#starting-the-application">Starting the Application</a>
 - <a href="#lerna">Lerna</a>
     - <a href="#bootstrapping-the-project">Bootstrapping the Project</a>
@@ -34,6 +35,84 @@ This project is yet another note-taking application. Why create another one? The
 1. Run `npm install` in the root directory. This will install Lerna and the linting tools.
 2. Run `npm run bootstrap` in the root directory. This will run `npm install` in all of the sub-packages and set up the symlinks for the shared dependencies.
 3. Copy `config.example.js` and rename it to `config.js`. You will need to configure a default user here as well as the git repository.
+
+### Config
+
+The config file has two main components:
+
+- the default user that is created when using the `SETUP_DEFAULT_USER` environmental variable (see <a href="#starting-the-application">Starting the Application</a> for more about that)
+- the config for the git repo
+
+The following options are available in the `config.js` file:
+
+´´´
+{
+    defaultUser: {
+        firstName: 'New',  // required
+        lastName: 'User',  // required
+        username: 'admin', // required
+        password: 'admin', // required
+        emailAddress: ''   // required, but can be blank
+    },
+    git: {
+        url: '',           // required
+        branch: 'master',  // required
+        auth: {
+            type: '',      // required: ssh or https
+            username: '',  // only required when type is https
+            password: ''   // only required when type is https
+        },
+        localPath: ''      // required; using Node's 'path' module is recommended (see config.example.js)
+    }
+}
+´´´
+
+An example for a git repository with ssh:
+
+```
+{
+    defaultUser: {
+        firstName: 'New',
+        lastName: 'User',
+        username: 'admin',
+        password: 'admin',
+        emailAddress: ''
+    },
+    git: {
+        url: 'git@github.com:eiskalteschatten/AlexNotes.git',
+        branch: 'master',
+        auth: {
+            type: 'ssh'
+        },
+        localPath: path.resolve(__dirname, 'repo')
+    }
+};
+```
+
+
+An example for a git repository with https:
+
+```
+{
+    defaultUser: {
+        firstName: 'New',
+        lastName: 'User',
+        username: 'admin',
+        password: 'admin',
+        emailAddress: ''
+    },
+    git: {
+        url: 'https://github.com/eiskalteschatten/AlexNotes.git',
+        branch: 'master',
+        auth: {
+            type: 'https',
+            username: 'myusername',
+            password: 'somepassword'
+        },
+        localPath: path.resolve(__dirname, 'repo')
+    }
+};
+```
 
 
 ## Starting the Application
