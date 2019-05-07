@@ -1,7 +1,8 @@
 FROM node:11-alpine
 
 RUN apk update && \
-    apk add --no-cache --virtual .build-deps make gcc g++ python
+    apk add --no-cache --virtual .build-deps make gcc g++ python && \
+    apk add git
 
 WORKDIR /app
 
