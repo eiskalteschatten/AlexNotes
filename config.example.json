@@ -12,10 +12,7 @@
         "auth": {
             "type": "",
             "username": "",
-            "password": "",
-            "publicKeyPath": "",
-            "privateKeyPath": "",
-            "keyPassphrase": ""
+            "password": ""
         },
         "localPath": "./repo"
     }

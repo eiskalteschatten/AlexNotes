@@ -7,9 +7,6 @@ export interface GitConfigAuthInterface {
     type: string;
     username?: string;
     password?: string;
-    publicKeyPath?: string;
-    privateKeyPath?: string;
-    keyPassphrase?: string;
 }
 export interface GitConfigInterface {
     url: string;
