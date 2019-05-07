@@ -33,7 +33,7 @@ This project is yet another note-taking application. Why create another one? The
 
 1. Run `npm install` in the root directory. This will install Lerna and the linting tools.
 2. Run `npm run bootstrap` in the root directory. This will run `npm install` in all of the sub-packages and set up the symlinks for the shared dependencies.
-3. Copy `config.example.json` and rename it to `config.json`. You will need to configure a default user here as well as the git repository.
+3. Copy `config.example.js` and rename it to `config.js`. You will need to configure a default user here as well as the git repository.
 
 
 ## Starting the Application
@@ -44,7 +44,7 @@ This project is yet another note-taking application. Why create another one? The
 SETUP_DEFAULT_USER=true npm start
 ```
 
-The default user credentials can be set up in the config file at `config.json`. See the section <a href="#setting-up-the-project">Setting up the Project</a> for more information.
+The default user credentials can be set up in the config file at `config.js`. See the section <a href="#setting-up-the-project">Setting up the Project</a> for more information.
 
 To start the application after setting up the project, run one of the following in the project's root directory:
 

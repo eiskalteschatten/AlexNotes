@@ -24,7 +24,7 @@ RUN npm run build && \
     npm prune --production && \
     apk del .build-deps
 
-COPY ./config.json /app/config.json
+COPY ./config.js /app/config.js
 
 RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
     chown -R alexnotes:alexnotes ./packages/frontend/src && \

@@ -67,6 +67,6 @@ typings/
 
 dist
 storage.sqlite3
-config.json
+config.js
 packages/server/config/local.js
 ./repo
