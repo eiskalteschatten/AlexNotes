@@ -20,9 +20,9 @@
         mobile-break-point="960"
     >
         <v-layout column fill-height>
-             <v-btn class="ma-4">
-                 <v-icon left>add</v-icon>
-                 {{ $t('createNotebook') }}
+            <v-btn class="ma-4">
+                <v-icon left>add</v-icon>
+                {{ $t('createNotebook') }}
             </v-btn>
 
             <v-list>
