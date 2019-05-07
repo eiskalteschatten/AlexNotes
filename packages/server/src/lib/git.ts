@@ -1,4 +1,4 @@
-import { Repository, Clone, CloneOptions, FetchOptions, Cred } from 'nodegit';
+import * as simplegit from 'simple-git/promise';
 import * as config from 'config';
 
 import { GitConfigInterface, GitConfigAuthInterface } from '../interfaces/Config';
@@ -7,11 +7,13 @@ const gitConfig: GitConfigInterface = config.get('git');
 
 
 class Git {
-    private repository: Repository;
+    private git: simplegit.SimpleGit;
     private url: string = gitConfig.url;
-    private gitAuth: GitConfigAuthInterface = gitConfig.auth;
+    private readonly gitAuth: GitConfigAuthInterface = gitConfig.auth;
 
     public constructor() {
+        this.git = simplegit();
+
         if (this.gitAuth.type === 'https' && this.url.substring(0,7) !== 'https://') {
             this.url = 'https://' + this.url;
         }
@@ -22,6 +24,7 @@ class Git {
 
     public async initialize(): Promise<void> {
         try {
+            // TODO: check if the repo already exists locally and skip cloning if it does
             await this.clone();
         }
         catch(error) {
@@ -31,27 +34,15 @@ class Git {
 
     public async clone(): Promise<void> {
         try {
-            const fetchOpts: FetchOptions = {
-                remoteCallbacks: {
-                    credentials: (url: string, username: string): Promise<Cred> => {
-                        return Cred.sshKeyMemoryNew(username, this.gitAuth.publicKeyPath, this.gitAuth.privateKeyPath, this.gitAuth.keyPassphrase);
-                    },
-                    // Disable certificate check on macOS because there is an issue with it.
-                    // See https://www.nodegit.org/guides/cloning/ssh-with-agent/
-                    certificateCheck: (): number => process.platform === 'darwin' ? 0 : 1,
-                    transferProgress: (info: string): void => console.log('--- Clone progress:', info)
-                }
-            };
+            console.log('Cloning git repository from:', this.url);
 
-            const cloneOptions: CloneOptions = {
-                checkoutBranch: gitConfig.branch,
-                fetchOpts
-            };
+            const cloneOptions: string[] = [
+                `--branch=${gitConfig.branch}`
+            ];
 
-            console.log('-- Cloning git repository from:', this.url);
+            await this.git.clone(this.url, gitConfig.localPath);
 
-            this.repository = await Clone.clone(this.url, gitConfig.localPath, cloneOptions);
-            console.log(this.repository);
+            console.log('Git repository successfully cloned.');
         }
         catch(error) {
             console.error(error);
