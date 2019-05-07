@@ -65,7 +65,7 @@ class App {
         setupPassport();
 
         this.app.use(
-            /^((?!\/$|login|status|assets|favicon|apple-touch|site\.webmanifest|safari-pinned).)*$/,
+            config.get('authentication.noAuth'),
             passport.authenticate('jwt', { session: false }),
             (req: express.Request, res: express.Response, next: express.NextFunction): void => {
                 return next();

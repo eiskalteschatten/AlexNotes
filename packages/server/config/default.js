@@ -18,6 +18,9 @@ module.exports = {
     jwt: {
         secret: 'vklljgi0439u4nkfVNKCXJOu490ri$)(=%§jijglkfkljirefjo4209r4jkflmkflejf923404'
     },
+    authentication: {
+        noAuth: /^((?!\/$|login|status|assets|favicon|apple-touch|site\.webmanifest|safari-pinned).)*$/
+    },
     notes: {
         folder: 'notes'
     }
