@@ -1,11 +1,11 @@
 <i18n>
 {
     "en": {
-        "dashboard": "Dashboard",
+        "createNotebook": "Create Notebook",
         "settings": "Settings"
     },
     "de": {
-        "dashboard": "Dashboard",
+        "createNotebook": "Notizbuch erstellen",
         "settings": "Einstellungen"
     }
 }
@@ -20,6 +20,11 @@
         mobile-break-point="960"
     >
         <v-layout column fill-height>
+             <v-btn outline class="ma-4">
+                 <v-icon left>add</v-icon>
+                 {{ $t('createNotebook') }}
+            </v-btn>
+
             <v-list>
                 <v-list-tile
                     v-for="item in items"
@@ -68,7 +73,7 @@
             return {
                 drawer: !this.$vuetify.breakpoint.smAndDown,
                 items: [
-                    // { title: 'dashboard', icon: 'dashboard', routeName: 'home' }
+                    // { title: 'createNotebook', icon: 'add_box', routeName: 'home' }
                 ]
             };
         },
