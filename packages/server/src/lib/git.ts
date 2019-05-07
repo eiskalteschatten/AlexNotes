@@ -40,7 +40,7 @@ class Git {
                 `--branch=${gitConfig.branch}`
             ];
 
-            await this.git.clone(this.url, gitConfig.localPath);
+            await this.git.clone(this.url, gitConfig.localPath, cloneOptions);
 
             console.log('Git repository successfully cloned.');
         }
