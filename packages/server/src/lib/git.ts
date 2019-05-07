@@ -1,5 +1,6 @@
 import * as simplegit from 'simple-git/promise';
 import * as config from 'config';
+import * as fs from 'fs';
 
 import { GitConfigInterface, GitConfigAuthInterface } from '../interfaces/Config';
 
@@ -24,8 +25,9 @@ class Git {
 
     public async initialize(): Promise<void> {
         try {
-            // TODO: check if the repo already exists locally and skip cloning if it does
-            await this.clone();
+            if (!fs.existsSync(gitConfig.localPath)) {
+                await this.clone();
+            }
         }
         catch(error) {
             console.error(error);
