@@ -6,13 +6,15 @@ import eventBus from '../eventBus';
 
 import user from './user';
 import settings from './settings';
+import notebooks from './notebooks';
 
 Vue.use(Vuex);
 
 const store = new Vuex.Store({
     modules: {
         user,
-        settings
+        settings,
+        notebooks
     }
 });
 

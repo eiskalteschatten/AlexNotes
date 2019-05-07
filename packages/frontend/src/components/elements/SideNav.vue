@@ -65,10 +65,10 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState } from 'vuex';
+    import { mapState, mapActions } from 'vuex';
     import eventBus from '../../eventBus';
 
-    import { NotebookMenuItemInterface } from '../../../../shared/types/notebook';
+    import { NotebookMenuItemInterface } from '../../../../shared/types/notebooks';
 
     export default Vue.extend({
         data () {
@@ -80,29 +80,21 @@
             ...mapState('settings', [
                 'theme'
             ]),
+            ...mapState('notebooks', [
+                'notebooks'
+            ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
-            },
-            notebooks(): {}[] {
-                const notebooks: NotebookMenuItemInterface[] = [
-                    { title: 'Notebook 2', icon: 'book', id: 'notebook2' },
-                    { title: 'Notebook 1', icon: 'book', id: 'notebook1' },
-                    { title: 'Notebook 3', icon: 'book', id: 'notebook3' }
-                ];
-
-                notebooks.sort((a, b): number => {
-                    if (a.title < b.title) return -1;
-                    if (a.title > b.title) return 1;
-                    return 0;
-                });
-
-                return notebooks;
             }
         },
-        created() {
+        async created(): Promise<void> {
+            await this.getNotebooks();
             eventBus.$on('toggleSidebar', this.toggleSidebar);
         },
         methods: {
+            ...mapActions('notebooks', [
+                'getNotebooks'
+            ]),
             toggleSidebar(): void {
                 this.drawer = !this.drawer;
             },

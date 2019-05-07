@@ -2,10 +2,10 @@ import { Router, Request, Response } from 'express';
 
 import Controller from '../../interfaces/Controller';
 
-import { NotebookMenuItemInterface } from '../../../../shared/types/notebook';
+import { NotebookMenuItemInterface } from '../../../../shared/types/notebooks';
 
 
-class NotebookController implements Controller {
+class NotebooksController implements Controller {
     public router: Router;
 
     public constructor(router: Router) {
@@ -35,5 +35,5 @@ class NotebookController implements Controller {
 }
 
 export default (router: Router): void => {
-    new NotebookController(router);
+    new NotebooksController(router);
 };
