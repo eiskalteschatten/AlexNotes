@@ -45,7 +45,7 @@ The config file has two main components:
 
 The following options are available in the `config.js` file:
 
-´´´
+```
 {
     defaultUser: {
         firstName: 'New',  // required
@@ -65,7 +65,7 @@ The following options are available in the `config.js` file:
         localPath: ''      // required; using Node's 'path' module is recommended (see config.example.js)
     }
 }
-´´´
+```
 
 An example for a git repository with ssh:
 
