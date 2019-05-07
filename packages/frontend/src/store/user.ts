@@ -1,7 +1,7 @@
 import http from '../http';
 import { fillStore } from '.';
 
-import { ApiReturnObjectInterface } from '../interfaces/apiReturnObject';
+import { ApiReturnObjectInterface } from '../types/apiReturnObject';
 
 export default {
     namespaced: true,
