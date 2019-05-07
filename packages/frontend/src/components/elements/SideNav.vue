@@ -29,9 +29,9 @@
                 <v-list-tile
                     v-for="notebook in notebooks"
                     :key="notebook.title"
-                    @click="$router.push({ name: notebook.routeName })"
+                    @click="selectNotebook(notebook.id)"
                     class="nav-item"
-                    :class="getActiveClass($route.name === notebook.routeName)"
+                    :class="getActiveClass(selectedNotebookId === notebook.id)"
                 >
                     <v-list-tile-action>
                         <v-icon>{{ notebook.icon }}</v-icon>
@@ -65,7 +65,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapMutations } from 'vuex';
     import eventBus from '../../eventBus';
 
     export default Vue.extend({
@@ -79,7 +79,8 @@
                 'theme'
             ]),
             ...mapState('notebooks', [
-                'notebooks'
+                'notebooks',
+                'selectedNotebookId'
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
@@ -93,11 +94,18 @@
             ...mapActions('notebooks', [
                 'getNotebooks'
             ]),
+            ...mapMutations('notebooks', [
+                'setSelectedNotebookId'
+            ]),
             toggleSidebar(): void {
                 this.drawer = !this.drawer;
             },
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
+            },
+            selectNotebook(id: string): void {
+                this.setSelectedNotebookId(id);
+                this.$router.push({ name: 'home' });
             }
         }
     });

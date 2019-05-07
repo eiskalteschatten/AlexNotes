@@ -6,16 +6,21 @@ import { NotebookMenuItemInterface } from '../../../shared/types/notebooks';
 export default {
     namespaced: true,
     state: {
-        notebooks: []
+        notebooks: [],
+        selectedNotebookId: ''
     },
 
     getters: {
-        getNotebooks: (state): NotebookMenuItemInterface[] => state.notebooks
+        getNotebooks: (state): NotebookMenuItemInterface[] => state.notebooks,
+        getSelectedNotebookId: (state): string => state.selectedNotebookId
     },
 
     mutations: {
         setNotebooks(state, notebooks: NotebookMenuItemInterface[]): void {
             state.notebooks = notebooks;
+        },
+        setSelectedNotebookId(state, selectedNotebookId: string): void {
+            state.selectedNotebookId = selectedNotebookId;
         }
     },
 
