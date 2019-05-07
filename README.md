@@ -26,6 +26,7 @@ This project is yet another note-taking application. Why create another one? The
 ## Requirements
 
 - Node 10 or 11 (support for Node 12 will be included as soon as a few dependencies support it)
+- git installed locally. AlexNotes uses [simple-git](https://github.com/steveukx/git-js), so see its requirements for more details.
 
 
 ## Setting up the Project
