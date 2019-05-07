@@ -1,11 +1,9 @@
 <i18n>
 {
     "en": {
-        "createNotebook": "Create Notebook",
         "settings": "Settings"
     },
     "de": {
-        "createNotebook": "Notizbuch erstellen",
         "settings": "Einstellungen"
     }
 }
@@ -20,28 +18,7 @@
         mobile-break-point="960"
     >
         <v-layout column fill-height>
-            <v-btn class="ma-4">
-                <v-icon left>add</v-icon>
-                {{ $t('createNotebook') }}
-            </v-btn>
-
-            <v-list>
-                <v-list-tile
-                    v-for="notebook in notebooks"
-                    :key="notebook.title"
-                    @click="selectNotebook(notebook.id)"
-                    class="nav-item"
-                    :class="getActiveClass(selectedNotebookId === notebook.id)"
-                >
-                    <v-list-tile-action>
-                        <v-icon>{{ notebook.icon }}</v-icon>
-                    </v-list-tile-action>
-
-                    <v-list-tile-content>
-                        <v-list-tile-title>{{ notebook.title }}</v-list-tile-title>
-                    </v-list-tile-content>
-                </v-list-tile>
-            </v-list>
+            <notebooks />
 
             <v-spacer />
 
@@ -68,7 +45,12 @@
     import { mapState, mapActions, mapMutations } from 'vuex';
     import eventBus from '../../eventBus';
 
+    import Notebooks from './SideNav/Notebooks.vue';
+
     export default Vue.extend({
+        components: {
+            Notebooks
+        },
         data () {
             return {
                 drawer: !this.$vuetify.breakpoint.smAndDown
@@ -78,34 +60,19 @@
             ...mapState('settings', [
                 'theme'
             ]),
-            ...mapState('notebooks', [
-                'notebooks',
-                'selectedNotebookId'
-            ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
-        async created(): Promise<void> {
-            await this.getNotebooks();
+        created(): void {
             eventBus.$on('toggleSidebar', this.toggleSidebar);
         },
         methods: {
-            ...mapActions('notebooks', [
-                'getNotebooks'
-            ]),
-            ...mapMutations('notebooks', [
-                'setSelectedNotebookId'
-            ]),
             toggleSidebar(): void {
                 this.drawer = !this.drawer;
             },
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
-            },
-            selectNotebook(id: string): void {
-                this.setSelectedNotebookId(id);
-                this.$router.push({ name: 'home' });
             }
         }
     });
@@ -119,14 +86,6 @@
 
         &.active-light {
             background-color: rgba(0, 0, 0, 0.05);
-        }
-    }
-
-    .electron {
-        &.darwin {
-            .v-navigation-drawer--is-mobile {
-                padding-top: 25px;
-            }
         }
     }
 </style>
