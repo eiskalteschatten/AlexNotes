@@ -27,18 +27,18 @@
 
             <v-list>
                 <v-list-tile
-                    v-for="item in items"
-                    :key="item.title"
-                    @click="$router.push({ name: item.routeName })"
+                    v-for="notebook in notebooks"
+                    :key="notebook.title"
+                    @click="$router.push({ name: notebook.routeName })"
                     class="nav-item"
-                    :class="getActiveClass($route.name === item.routeName)"
+                    :class="getActiveClass($route.name === notebook.routeName)"
                 >
                     <v-list-tile-action>
-                        <v-icon>{{ item.icon }}</v-icon>
+                        <v-icon>{{ notebook.icon }}</v-icon>
                     </v-list-tile-action>
 
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                        <v-list-tile-title>{{ notebook.title }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -71,12 +71,7 @@
     export default Vue.extend({
         data () {
             return {
-                drawer: !this.$vuetify.breakpoint.smAndDown,
-                items: [
-                    { title: 'Notebook 1', icon: 'book', id: 'notebook1' },
-                    { title: 'Notebook 2', icon: 'book', id: 'notebook2' },
-                    { title: 'Notebook 3', icon: 'book', id: 'notebook3' }
-                ]
+                drawer: !this.$vuetify.breakpoint.smAndDown
             };
         },
         computed: {
@@ -85,6 +80,21 @@
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
+            },
+            notebooks(): {}[] {
+                const notebooks = [
+                    { title: 'Notebook 2', icon: 'book', id: 'notebook2' },
+                    { title: 'Notebook 1', icon: 'book', id: 'notebook1' },
+                    { title: 'Notebook 3', icon: 'book', id: 'notebook3' }
+                ];
+
+                notebooks.sort((a, b): number => {
+                    if (a.title < b.title) return -1;
+                    if (a.title > b.title) return 1;
+                    return 0;
+                });
+
+                return notebooks;
             }
         },
         created() {
