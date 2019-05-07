@@ -68,6 +68,8 @@
     import { mapState } from 'vuex';
     import eventBus from '../../eventBus';
 
+    import { NotebookMenuItemInterface } from '../../../../shared/types/notebook';
+
     export default Vue.extend({
         data () {
             return {
@@ -82,7 +84,7 @@
                 return this.theme === 'dark' ? 'active' : 'active-light';
             },
             notebooks(): {}[] {
-                const notebooks = [
+                const notebooks: NotebookMenuItemInterface[] = [
                     { title: 'Notebook 2', icon: 'book', id: 'notebook2' },
                     { title: 'Notebook 1', icon: 'book', id: 'notebook1' },
                     { title: 'Notebook 3', icon: 'book', id: 'notebook3' }
