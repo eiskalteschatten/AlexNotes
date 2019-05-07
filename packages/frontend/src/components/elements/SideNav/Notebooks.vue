@@ -11,10 +11,12 @@
 
 <template>
     <div>
-        <v-btn class="ma-4">
-            <v-icon left>add</v-icon>
-            {{ $t('createNotebook') }}
-        </v-btn>
+        <div class="text-xs-center">
+            <v-btn class="ma-4">
+                <v-icon left>add</v-icon>
+                {{ $t('createNotebook') }}
+            </v-btn>
+        </div>
 
         <v-list>
             <v-list-tile
