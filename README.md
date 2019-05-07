@@ -67,7 +67,7 @@ The following options are available in the `config.js` file:
 }
 ```
 
-An example for a git repository with ssh:
+An example for a git repository with SSH:
 
 ```
 {
@@ -90,7 +90,7 @@ An example for a git repository with ssh:
 ```
 
 
-An example for a git repository with https:
+An example for a git repository with HTTPS:
 
 ```
 {
@@ -113,6 +113,8 @@ An example for a git repository with https:
     }
 };
 ```
+
+AlexNotes uses [simple-git](https://github.com/steveukx/git-js) for git which is just a Node-based wrapper for your local git installation. That means any SSH keys you use to access your git repositories in the terminal will automatically work.
 
 
 ## Starting the Application
