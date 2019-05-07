@@ -25,7 +25,7 @@ class Git {
             await this.clone();
         }
         catch(error) {
-            throw new Error(error);
+            console.error(error);
         }
     }
 
@@ -51,7 +51,7 @@ class Git {
             console.log(this.repository);
         }
         catch(error) {
-            throw new Error(error);
+            console.error(error);
         }
     }
 }
