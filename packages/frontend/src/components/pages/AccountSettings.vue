@@ -87,8 +87,7 @@
                 <v-card-actions class="pl-3 pr-3 pb-3">
                     <v-flex xs12 class="text-xs-right">
                         <v-btn
-                            primary
-                            color="primary"
+                            color="success"
                             type="submit"
                             :loading="loading"
                             :disabled="loading"
@@ -143,8 +142,7 @@
                 <v-card-actions class="pl-3 pr-3 pb-3">
                     <v-flex xs12 class="text-xs-right">
                         <v-btn
-                            primary
-                            color="primary"
+                            color="success"
                             type="submit"
                             :loading="loadingPassword"
                             :disabled="loadingPassword"
