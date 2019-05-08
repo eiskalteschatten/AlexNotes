@@ -22,7 +22,7 @@
                 <v-card-title class="headline">{{ $t('createNotebook') }}</v-card-title>
 
                 <v-card-text>
-                    <v-text-field :label="`${$t('name')}*`" required model="newNotebookName"></v-text-field>
+                    <v-text-field :label="`${$t('name')}*`" required v-model="newNotebookName"></v-text-field>
                 </v-card-text>
 
                 <v-card-actions>
@@ -95,7 +95,8 @@
         },
         methods: {
             ...mapActions('notebooks', [
-                'getNotebooks'
+                'getNotebooks',
+                'saveNotebook'
             ]),
             ...mapMutations('notebooks', [
                 'setSelectedNotebookId'
@@ -103,8 +104,9 @@
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            saveNewNotebook(): void {
+            async saveNewNotebook(): Promise<void> {
                 this.newNotebookIsSaving = true;
+                await this.saveNotebook(this.newNotebookName);
                 this.closeNewNotebookDialog();
             },
             closeNewNotebookDialog(): void {

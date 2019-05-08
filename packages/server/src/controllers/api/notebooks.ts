@@ -1,8 +1,13 @@
 import { Router, Request, Response } from 'express';
+import * as slug from 'slug';
+import * as config from 'config';
+import * as path from 'path';
 
+import { returnError } from '../../lib/apiErrorHandling';
+import { createFolderInRepo, writeMetaDataJsonFile } from '../../lib/fileSystem';
+
+import { NotebookMenuItemInterface, NotebookMetaDataInterface } from '../../../../shared/types/notebooks';
 import Controller from '../../interfaces/Controller';
-
-import { NotebookMenuItemInterface } from '../../../../shared/types/notebooks';
 
 
 class NotebooksController implements Controller {
@@ -15,6 +20,7 @@ class NotebooksController implements Controller {
 
     private initilizeRoutes(): void {
         this.router.get('/', this.getIndex);
+        this.router.put('/', this.putNotebook);
     }
 
     private getIndex(req: Request, res: Response): void {
@@ -31,6 +37,24 @@ class NotebooksController implements Controller {
         });
 
         res.json(notebooks);
+    }
+
+    private async putNotebook(req: Request, res: Response): Promise<void> {
+        try {
+            const metadata: NotebookMetaDataInterface = {
+                title: req.body.name,
+                id: slug(req.body.name)
+            };
+
+            const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
+            await createFolderInRepo(fullPath);
+            await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
+
+            res.status(201).send('');
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
     }
 }
 

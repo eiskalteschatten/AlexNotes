@@ -47,6 +47,25 @@ export default {
                     message: error
                 };
             }
+        },
+        async saveNotebook({ dispatch }, name): Promise<ApiReturnObjectInterface> {
+            try {
+                const res = await http.put('api/notebooks', { name });
+
+                dispatch('getNotebooks');
+
+                return {
+                    code: res.status,
+                    message: res.bodyText
+                } as any as ApiReturnObjectInterface;
+            }
+            catch(error) {
+                console.error(error);
+                return {
+                    code: 500,
+                    message: error
+                };
+            }
         }
     }
 };
