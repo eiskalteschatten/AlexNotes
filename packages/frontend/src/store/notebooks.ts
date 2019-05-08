@@ -43,8 +43,8 @@ export default {
             catch(error) {
                 console.error(error);
                 return {
-                    code: 500,
-                    message: error
+                    code: error.status | 500,
+                    message: error.bodyText
                 };
             }
         },
@@ -62,8 +62,8 @@ export default {
             catch(error) {
                 console.error(error);
                 return {
-                    code: 500,
-                    message: error
+                    code: error.status | 500,
+                    message: error.bodyText
                 };
             }
         }

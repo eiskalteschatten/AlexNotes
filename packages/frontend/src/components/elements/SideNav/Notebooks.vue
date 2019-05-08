@@ -4,13 +4,15 @@
         "createNotebook": "Create Notebook",
         "name": "Name",
         "cancel": "Cancel",
-        "save": "Save"
+        "save": "Save",
+        "theFolderAlreadyExists": "A notebook with that name already exists."
     },
     "de": {
         "createNotebook": "Notizbuch erstellen",
         "name": "Name",
         "cancel": "Abbrechen",
-        "save": "Speichern"
+        "save": "Speichern",
+        "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits."
     }
 }
 </i18n>
@@ -22,6 +24,9 @@
                 <v-card-title class="headline">{{ $t('createNotebook') }}</v-card-title>
 
                 <v-card-text>
+                    <v-alert :value="newNotebookError" type="error" class="mb-4">
+                        {{ newNotebookError }}
+                    </v-alert>
                     <v-text-field :label="`${$t('name')}*`" required v-model="newNotebookName" />
                 </v-card-text>
 
@@ -70,12 +75,15 @@
     import Vue from 'vue';
     import { mapState, mapActions, mapMutations } from 'vuex';
 
+    import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
+
     export default Vue.extend({
         data() {
             return {
                 newNotebookDialog: false,
                 newNotebookName: '',
-                newNotebookIsSaving: false
+                newNotebookIsSaving: false,
+                newNotebookError: ''
             };
         },
         computed: {
@@ -106,11 +114,20 @@
             },
             async saveNewNotebook(): Promise<void> {
                 this.newNotebookIsSaving = true;
-                await this.saveNotebook(this.newNotebookName);
+
+                const res: ApiReturnObjectInterface = await this.saveNotebook(this.newNotebookName);
+
+                if (res.code >= 400) {
+                    this.newNotebookError = this.$t(res.message);
+                    this.newNotebookIsSaving = false;
+                    return;
+                }
+
                 this.closeNewNotebookDialog();
             },
             closeNewNotebookDialog(): void {
                 this.newNotebookName = '';
+                this.newNotebookError = '';
                 this.newNotebookDialog = false;
                 this.newNotebookIsSaving = false;
             },

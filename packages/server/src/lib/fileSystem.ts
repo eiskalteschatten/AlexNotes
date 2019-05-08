@@ -3,9 +3,16 @@ import * as path from 'path';
 import * as mkdirp from 'mkdirp';
 import * as fs from 'fs';
 
-export function createFolderInRepo(pathToFolder: string): Promise<string> {
+import HttpError from '../errors/HttpError';
+
+export function createFolderInRepo(pathToFolder: string): Promise<string|HttpError> {
     return new Promise((resolve, reject): void => {
         const fullPath: string = path.resolve(config.get('git.localPath'), pathToFolder);
+
+        if (fs.existsSync(fullPath)) {
+            const httpError = new HttpError('theFolderAlreadyExists', 409);
+            reject(httpError);
+        }
 
         mkdirp(fullPath, (error: Error): void => {
             if (error) {
