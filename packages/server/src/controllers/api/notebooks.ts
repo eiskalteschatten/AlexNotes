@@ -41,9 +41,11 @@ class NotebooksController implements Controller {
 
     private async putNotebook(req: Request, res: Response): Promise<void> {
         try {
+            const title: string = req.body.name;
+
             const metadata: NotebookMetaDataInterface = {
-                title: req.body.name,
-                id: slug(req.body.name)
+                title,
+                id: slug(title.toLowerCase())
             };
 
             const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
