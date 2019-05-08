@@ -22,11 +22,11 @@
                 <v-card-title class="headline">{{ $t('createNotebook') }}</v-card-title>
 
                 <v-card-text>
-                    <v-text-field :label="`${$t('name')}*`" required v-model="newNotebookName"></v-text-field>
+                    <v-text-field :label="`${$t('name')}*`" required v-model="newNotebookName" />
                 </v-card-text>
 
                 <v-card-actions>
-                    <v-spacer></v-spacer>
+                    <v-spacer />
 
                     <v-btn flat="flat" @click="closeNewNotebookDialog">
                         {{ $t('cancel') }}
