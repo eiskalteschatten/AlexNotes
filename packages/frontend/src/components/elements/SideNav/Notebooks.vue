@@ -12,7 +12,7 @@
 <template>
     <div>
         <div class="text-xs-center">
-            <v-btn class="ma-4">
+            <v-btn class="ma-4" color="success">
                 <v-icon left>add</v-icon>
                 {{ $t('createNotebook') }}
             </v-btn>
