@@ -5,21 +5,23 @@
         "name": "Name",
         "cancel": "Cancel",
         "save": "Save",
-        "theFolderAlreadyExists": "A notebook with that name already exists."
+        "theFolderAlreadyExists": "A notebook with that name already exists.",
+        "anErrorOccurred": "An error occurred."
     },
     "de": {
         "createNotebook": "Notizbuch erstellen",
         "name": "Name",
         "cancel": "Abbrechen",
         "save": "Speichern",
-        "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits."
+        "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits.",
+        "anErrorOccurred": "Ein Fehler ist aufgetreten."
     }
 }
 </i18n>
 
 <template>
     <div>
-        <v-dialog v-model="newNotebookDialog" max-width="350">
+        <v-dialog v-model="newNotebookDialog" max-width="500">
             <v-card>
                 <v-card-title class="headline">{{ $t('createNotebook') }}</v-card-title>
 

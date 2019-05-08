@@ -3,6 +3,7 @@ import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
 
+import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
 import { createFolderInRepo, writeMetaDataJsonFile } from '../../lib/fileSystem';
 
@@ -51,6 +52,9 @@ class NotebooksController implements Controller {
             const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
             await createFolderInRepo(fullPath);
             await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
+
+            const git = new Git();
+            await git.pullAddPush();
 
             res.status(201).send('');
         }

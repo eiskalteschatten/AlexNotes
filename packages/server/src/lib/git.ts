@@ -13,7 +13,7 @@ class Git {
     private readonly gitAuth: GitConfigAuthInterface = gitConfig.auth;
 
     public constructor() {
-        this.git = simplegit();
+        this.git = fs.existsSync(gitConfig.localPath) ? simplegit(gitConfig.localPath) : simplegit();
 
         if (this.gitAuth.type === 'https') {
             if (this.url.substring(0,7) !== 'https://') {
@@ -35,15 +35,18 @@ class Git {
             if (!fs.existsSync(gitConfig.localPath)) {
                 await this.clone();
             }
+            else {
+                await this.pull();
+            }
         }
         catch(error) {
-            console.error(error);
+            throw new Error(error);
         }
     }
 
     public async clone(): Promise<void> {
         try {
-            console.log('Cloning git repository from');
+            console.log('Cloning git repository');
             console.log('--- from:', this.url);
             console.log('--- to:', gitConfig.localPath);
 
@@ -56,7 +59,39 @@ class Git {
             console.log('Git repository successfully cloned.');
         }
         catch(error) {
-            console.error(error);
+            throw new Error(error);
+        }
+    }
+
+    public async pull(): Promise<void> {
+        try {
+            console.log('Pulling from the git repository.');
+            await this.git.pull(gitConfig.localPath);
+            console.log('Finished pulling.');
+        }
+        catch(error) {
+            throw new Error(error);
+        }
+    }
+
+    public async add(): Promise<void> {
+        try {
+            console.log('Staging all files for committing.');
+            await this.git.add('.');
+            console.log('All files staged for committing.');
+        }
+        catch(error) {
+            throw new Error(error);
+        }
+    }
+
+    public async pullAddPush(): Promise<void> {
+        try {
+            await this.pull();
+            await this.add();
+        }
+        catch(error) {
+            throw new Error(error);
         }
     }
 }
