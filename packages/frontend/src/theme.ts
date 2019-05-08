@@ -3,9 +3,8 @@ import colors from 'vuetify/es5/util/colors';
 export default {
     primary: colors.blue.darken3,
     secondary: '#000000',
-    tertiary: '#dfdfdf',
-    error: colors.red,
-    info: '#dfdfdf',
-    success: colors.green,
+    error: colors.red.darken2,
+    success: colors.green.darken2,
+    warning: colors.orange.darken3,
     selected: colors.grey
 };
