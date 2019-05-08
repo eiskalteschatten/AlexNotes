@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const homedir = require('os').homedir();
 
 module.exports = {
     defaultUser: {
@@ -18,6 +19,6 @@ module.exports = {
             username: '',
             password: ''
         },
-        localPath: path.resolve(__dirname, 'repo')
+        localPath: path.resolve(homedir, '.alexnotes', 'repo')
     }
 };
