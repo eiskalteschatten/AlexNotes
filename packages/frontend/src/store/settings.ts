@@ -7,7 +7,6 @@ export default {
     namespaced: true,
     state: {
         theme: 'light',
-        settingsFromAccount: false,
         languages: [{
             title: 'English',
             code: 'en'
@@ -20,7 +19,6 @@ export default {
 
     getters: {
         theme: (state): string => state.theme,
-        settingsFromAccount: (state): boolean => state.settingsFromAccount,
         languages: (state): {}[] => state.languages
     },
 
@@ -30,9 +28,6 @@ export default {
         },
         setLanguages(state, languages): void {
             state.languages = languages;
-        },
-        setSettingsFromAccount(state, settingsFromAccount): void {
-            state.settingsFromAccount = settingsFromAccount;
         }
     },
 
@@ -62,7 +57,6 @@ export default {
 
                 if (res.body && res.status < 300) {
                     commit('setTheme', res.body.theme);
-                    commit('setSettingsFromAccount', true);
                     eventBus.$emit('close-loader');
 
                     return {
