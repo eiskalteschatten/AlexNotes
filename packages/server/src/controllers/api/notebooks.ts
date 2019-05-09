@@ -1,11 +1,12 @@
 import { Router, Request, Response } from 'express';
+import { readdir, readFile } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
 
 import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
-import { createFolderInRepo, writeMetaDataJsonFile } from '../../lib/fileSystem';
+import { createFolderInRepo, writeMetaDataJsonFile, readFolderMetadata } from '../../lib/fileSystem';
 
 import { NotebookMenuItemInterface, NotebookMetaDataInterface } from '../../../../shared/types/notebooks';
 import Controller from '../../interfaces/Controller';
@@ -25,19 +26,43 @@ class NotebooksController implements Controller {
     }
 
     private getIndex(req: Request, res: Response): void {
-        const notebooks: NotebookMenuItemInterface[] = [
-            { title: 'Notebook 2', icon: 'book', id: 'notebook2' },
-            { title: 'Notebook 1', icon: 'book', id: 'notebook1' },
-            { title: 'Notebook 3', icon: 'book', id: 'notebook3' }
-        ];
+        try {
+            const pathToNotebooks: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
 
-        notebooks.sort((a, b): number => {
-            if (a.title < b.title) return -1;
-            if (a.title > b.title) return 1;
-            return 0;
-        });
+            readdir(pathToNotebooks, async (error: Error, notebooks: string[]) => {
+                if (error) {
+                    throw error;
+                }
 
-        res.json(notebooks);
+                const notebookMenuItems: NotebookMenuItemInterface[] = [];
+
+                for (const notebook of notebooks) {
+                    const pathToMetadataJson: string = path.resolve(pathToNotebooks, notebook);
+                    const metadataString: string = await readFolderMetadata(pathToMetadataJson);
+                    const metadata: NotebookMetaDataInterface = JSON.parse(metadataString);
+
+                    const menuItem: NotebookMenuItemInterface = {
+                        title: metadata.title,
+                        icon: 'book',
+                        id: notebook
+                    };
+
+                    notebookMenuItems.push(menuItem);
+                }
+
+                notebookMenuItems.sort((a, b): number => {
+                    if (a.title < b.title) return -1;
+                    if (a.title > b.title) return 1;
+                    return 0;
+                });
+
+                res.json(notebookMenuItems);
+            });
+
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
     }
 
     private async putNotebook(req: Request, res: Response): Promise<void> {

@@ -37,3 +37,17 @@ export function writeMetaDataJsonFile(pathToFolder: string, metadata: string): P
         });
     });
 }
+
+export function readFolderMetadata(pathToFolder: string): Promise<string> {
+    return new Promise((resolve, reject): void => {
+        const pathToMetadataJson: string = path.resolve(pathToFolder, 'metadata.json');
+
+        fs.readFile(pathToMetadataJson, 'utf8', (error: Error, data: string) => {
+            if (error) {
+                reject(error);
+            }
+
+            resolve(data);
+        });
+    });
+}
