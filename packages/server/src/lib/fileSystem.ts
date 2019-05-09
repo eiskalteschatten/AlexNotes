@@ -42,7 +42,7 @@ export function readFolderMetadata(pathToFolder: string): Promise<string> {
     return new Promise((resolve, reject): void => {
         const pathToMetadataJson: string = path.resolve(pathToFolder, 'metadata.json');
 
-        fs.readFile(pathToMetadataJson, 'utf8', (error: Error, data: string) => {
+        fs.readFile(pathToMetadataJson, 'utf8', (error: Error, data: string): void => {
             if (error) {
                 reject(error);
             }

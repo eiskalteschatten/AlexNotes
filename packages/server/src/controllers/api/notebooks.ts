@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { readdir, readFile } from 'fs';
+import { readdir } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -29,7 +29,7 @@ class NotebooksController implements Controller {
         try {
             const pathToNotebooks: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
 
-            readdir(pathToNotebooks, async (error: Error, notebooks: string[]) => {
+            readdir(pathToNotebooks, async (error: Error, notebooks: string[]): void => {
                 if (error) {
                     throw error;
                 }
