@@ -85,10 +85,34 @@ class Git {
         }
     }
 
-    public async pullAddPush(): Promise<void> {
+    public async commit(commitMessage: string): Promise<void> {
+        try {
+            console.log('Committing staged files.');
+            await this.git.commit(commitMessage);
+            console.log('All staged files committed.');
+        }
+        catch(error) {
+            throw new Error(error);
+        }
+    }
+
+    public async push(): Promise<void> {
+        try {
+            console.log('Pushing all local commits.');
+            await this.git.push('origin', gitConfig.branch);
+            console.log('All local commits pushed.');
+        }
+        catch(error) {
+            throw new Error(error);
+        }
+    }
+
+    public async pullAddCommitPush(commitMessage: string): Promise<void> {
         try {
             await this.pull();
             await this.add();
+            await this.commit(commitMessage);
+            await this.push();
         }
         catch(error) {
             throw new Error(error);
