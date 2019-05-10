@@ -125,6 +125,7 @@
                     return;
                 }
 
+                this.setSelectedNotebookId(res.body.id);
                 this.closeNewNotebookDialog();
             },
             closeNewNotebookDialog(): void {

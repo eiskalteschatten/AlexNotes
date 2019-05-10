@@ -81,7 +81,7 @@ class NotebooksController implements Controller {
             const git = new Git();
             git.pullAddCommitPush(`Added or updated the notebook "${title}"`);
 
-            res.status(201).send('');
+            res.status(200).json(metadata);
         }
         catch(error) {
             returnError(error, req, res);

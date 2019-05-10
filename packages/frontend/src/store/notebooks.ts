@@ -56,7 +56,8 @@ export default {
 
                 return {
                     code: res.status,
-                    message: res.bodyText
+                    message: res.bodyText,
+                    body: res.body
                 } as any as ApiReturnObjectInterface;
             }
             catch(error) {
