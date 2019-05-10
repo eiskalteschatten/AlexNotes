@@ -72,7 +72,6 @@ class Git {
         }
         catch(error) {
             throw new Error(error);
-            return false;
         }
     }
 
