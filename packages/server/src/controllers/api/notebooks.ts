@@ -79,7 +79,7 @@ class NotebooksController implements Controller {
             await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
 
             const git = new Git();
-            git.pullAddCommitPush(`Added or updated the notebook "${title}"`);
+            git.addCommitPullPush(`Added or updated the notebook "${title}"`);
 
             res.status(200).json(metadata);
         }

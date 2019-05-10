@@ -107,7 +107,7 @@ class Git {
         }
     }
 
-    public async pullAddCommitPush(commitMessage: string): Promise<void> {
+    public async addCommitPullPush(commitMessage: string): Promise<void> {
         try {
             await this.add();
             await this.commit(commitMessage);
