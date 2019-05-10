@@ -63,14 +63,16 @@ class Git {
         }
     }
 
-    public async pull(): Promise<void> {
+    public async pull(): Promise<boolean> {
         try {
             console.log('Pulling from the git repository.');
             await this.git.pull(gitConfig.localPath);
             console.log('Finished pulling.');
+            return true;
         }
         catch(error) {
             throw new Error(error);
+            return false;
         }
     }
 
