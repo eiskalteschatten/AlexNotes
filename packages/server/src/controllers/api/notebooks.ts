@@ -29,7 +29,7 @@ class NotebooksController implements Controller {
         try {
             const pathToNotebooks: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
 
-            readdir(pathToNotebooks, async (error: Error, notebooks: string[]): void => {
+            readdir(pathToNotebooks, async (error: Error, notebooks: string[]): Promise<void> => {
                 if (error) {
                     throw error;
                 }
