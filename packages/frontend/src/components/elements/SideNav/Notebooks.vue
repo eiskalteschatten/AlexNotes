@@ -5,6 +5,8 @@
         "name": "Name",
         "cancel": "Cancel",
         "save": "Save",
+        "deleteNotebook": "Delete Notebook",
+        "renameNotebook": "Rename Notebook",
         "theFolderAlreadyExists": "A notebook with that name already exists.",
         "anErrorOccurred": "An error occurred."
     },
@@ -13,6 +15,8 @@
         "name": "Name",
         "cancel": "Abbrechen",
         "save": "Speichern",
+        "deleteNotebook": "Notizbuch löschen",
+        "renameNotebook": "Notizbuch umbenennen",
         "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits.",
         "anErrorOccurred": "Ein Fehler ist aufgetreten."
     }
@@ -46,6 +50,36 @@
             </v-card>
         </v-dialog>
 
+        <v-menu
+            v-model="contextMenuShown"
+            :position-x="cmX"
+            :position-y="cmY"
+            absolute
+            offset-y
+        >
+            <v-list>
+                <v-list-tile @click="renameNotebook">
+                    <v-list-tile-action>
+                        <v-icon>edit</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ $t('renameNotebook') }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+
+                <v-divider />
+
+                <v-list-tile @click="deleteNotebook">
+                    <v-list-tile-action>
+                        <v-icon>delete</v-icon>
+                    </v-list-tile-action>
+                    <v-list-tile-content>
+                        <v-list-tile-title>{{ $t('deleteNotebook') }}</v-list-tile-title>
+                    </v-list-tile-content>
+                </v-list-tile>
+            </v-list>
+        </v-menu>
+
         <div class="text-xs-center">
             <v-btn class="ma-4" @click="newNotebookDialog = true">
                 <v-icon left>add</v-icon>
@@ -60,11 +94,11 @@
                 @click="selectNotebook(notebook.id)"
                 class="nav-item"
                 :class="getActiveClass(selectedNotebookId === notebook.id)"
+                @contextmenu="showContextMenu"
             >
                 <v-list-tile-action>
                     <v-icon>{{ notebook.icon }}</v-icon>
                 </v-list-tile-action>
-
                 <v-list-tile-content>
                     <v-list-tile-title>{{ notebook.title }}</v-list-tile-title>
                 </v-list-tile-content>
@@ -85,7 +119,10 @@
                 newNotebookDialog: false,
                 newNotebookName: '',
                 newNotebookIsSaving: false,
-                newNotebookError: ''
+                newNotebookError: '',
+                contextMenuShown: false,
+                cmX: 0,
+                cmY: 0
             };
         },
         computed: {
@@ -136,6 +173,21 @@
             },
             selectNotebook(id: string): void {
                 this.setSelectedNotebookId(id);
+            },
+            showContextMenu(event): void {
+                event.preventDefault();
+                this.contextMenuShown = false;
+                this.cmX = event.clientX;
+                this.cmY = event.clientY;
+                this.$nextTick(() => {
+                    this.contextMenuShown = true;
+                });
+            },
+            renameNotebook(): void {
+
+            },
+            deleteNotebook(): void {
+
             }
         }
     });
