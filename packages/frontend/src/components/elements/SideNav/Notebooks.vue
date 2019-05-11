@@ -229,7 +229,6 @@
 
                 if (res.code >= 400) {
                     eventBus.$emit('show-alert', this.$t(res.message), true);
-                    return;
                 }
 
                 this.cancelRename();
