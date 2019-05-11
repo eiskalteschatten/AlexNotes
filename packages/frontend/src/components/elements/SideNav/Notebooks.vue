@@ -212,6 +212,7 @@
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
                 this.contextMenuShown = false;
+                this.cancelRename();
                 this.cmX = event.clientX;
                 this.cmY = event.clientY;
                 this.contextMenuNotebookId = id;
