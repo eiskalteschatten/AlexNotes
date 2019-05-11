@@ -111,6 +111,8 @@
     import Vue from 'vue';
     import { mapState, mapActions, mapMutations } from 'vuex';
 
+    import eventBus from '../../../eventBus';
+
     import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
 
     export default Vue.extend({
@@ -192,6 +194,11 @@
             async deleteSelectedNotebook(): Promise<void> {
                 // TODO: confirm delete!
                 const res: ApiReturnObjectInterface = await this.deleteNotebook(this.contextMenuNotebookId);
+
+                if (res.code >= 400) {
+                    eventBus.$emit('show-alert', this.$t(res.message), true);
+                    return;
+                }
             }
         }
     });

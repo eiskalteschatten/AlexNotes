@@ -92,7 +92,7 @@ class NotebooksController implements Controller {
     private async deleteNotebook(req: Request, res: Response): Promise<void> {
         try {
             const id: string = req.params.id;
-            const fullPath: string = path.join(config.get('notes.folder'), id);
+            // const fullPath: string = path.join(config.get('notes.folder'), id);
 
             // TODO: actually delete the notebook
 
