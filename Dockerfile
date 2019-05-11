@@ -2,7 +2,7 @@ FROM node:12-alpine
 
 RUN apk update && \
     apk add --no-cache --virtual .build-deps make gcc g++ python && \
-    apk add git
+    apk add git openssh
 
 WORKDIR /app
 
