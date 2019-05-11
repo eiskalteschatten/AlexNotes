@@ -6,7 +6,14 @@ import * as path from 'path';
 
 import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
-import { createFolderInRepo, writeMetaDataJsonFile, readFolderMetadata, deleteFolderFromRepo } from '../../lib/fileSystem';
+
+import {
+    createFolderInRepo,
+    writeMetaDataJsonFile,
+    readFolderMetadata,
+    deleteFolderFromRepo,
+    renameFolderInRepo
+} from '../../lib/fileSystem';
 
 import { NotebookMenuItemInterface, NotebookMetaDataInterface } from '../../../../shared/types/notebooks';
 import Controller from '../../interfaces/Controller';
@@ -80,12 +87,11 @@ class NotebooksController implements Controller {
             const oldFullPath: string = path.join(config.get('notes.folder'), oldId);
             const newFullPath: string = path.join(config.get('notes.folder'), metadata.id);
 
-            console.log(oldFullPath, newFullPath);
-            // await createFolderInRepo(fullPath);
-            // await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
+            await renameFolderInRepo(oldFullPath, newFullPath);
+            await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));
 
-            // const git = new Git();
-            // git.addCommitPullPush(`Added or updated the notebook "${title}"`);
+            const git = new Git();
+            git.addCommitPullPush(`Renamed a notebook to "${title}"`);
 
             res.status(200).json(metadata);
         }

@@ -66,3 +66,18 @@ export function deleteFolderFromRepo(pathToFolder: string): Promise<string> {
         });
     });
 }
+
+export function renameFolderInRepo(oldPathToFolder: string, newPathToFolder: string): Promise<string> {
+    return new Promise((resolve, reject): void => {
+        const oldFullPath: string = path.resolve(config.get('git.localPath'), oldPathToFolder);
+        const newFullPath: string = path.resolve(config.get('git.localPath'), newPathToFolder);
+
+        fs.rename(oldFullPath, newFullPath, (error: Error): void => {
+            if (error) {
+                reject(error);
+            }
+
+            resolve();
+        });
+    });
+}
