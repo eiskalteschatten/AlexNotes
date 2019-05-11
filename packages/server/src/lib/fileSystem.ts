@@ -2,6 +2,7 @@ import * as config from 'config';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
 import * as fs from 'fs';
+import * as rimraf from 'rimraf';
 
 import HttpError from '../errors/HttpError';
 
@@ -48,6 +49,20 @@ export function readFolderMetadata(pathToFolder: string): Promise<string> {
             }
 
             resolve(data);
+        });
+    });
+}
+
+export function deleteFolderFromRepo(pathToFolder: string): Promise<string> {
+    return new Promise((resolve, reject): void => {
+        const fullPath: string = path.resolve(config.get('git.localPath'), pathToFolder);
+
+        rimraf(fullPath, (error: Error): void => {
+            if (error) {
+                reject(error);
+            }
+
+            resolve();
         });
     });
 }

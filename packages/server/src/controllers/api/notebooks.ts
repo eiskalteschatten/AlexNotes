@@ -6,7 +6,7 @@ import * as path from 'path';
 
 import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
-import { createFolderInRepo, writeMetaDataJsonFile, readFolderMetadata } from '../../lib/fileSystem';
+import { createFolderInRepo, writeMetaDataJsonFile, readFolderMetadata, deleteFolderFromRepo } from '../../lib/fileSystem';
 
 import { NotebookMenuItemInterface, NotebookMetaDataInterface } from '../../../../shared/types/notebooks';
 import Controller from '../../interfaces/Controller';
@@ -92,9 +92,9 @@ class NotebooksController implements Controller {
     private async deleteNotebook(req: Request, res: Response): Promise<void> {
         try {
             const id: string = req.params.id;
-            // const fullPath: string = path.join(config.get('notes.folder'), id);
+            const fullPath: string = path.join(config.get('notes.folder'), id);
 
-            // TODO: actually delete the notebook
+            await deleteFolderFromRepo(fullPath);
 
             const git = new Git();
             git.addCommitPullPush(`Deleted the notebook with id "${id}"`);
