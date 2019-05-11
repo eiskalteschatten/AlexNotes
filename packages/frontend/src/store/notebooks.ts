@@ -48,7 +48,7 @@ export default {
                 };
             }
         },
-        async saveNotebook({ dispatch }, name): Promise<ApiReturnObjectInterface> {
+        async saveNotebook({ dispatch }, name: string): Promise<ApiReturnObjectInterface> {
             try {
                 const res = await http.put('api/notebooks', { name });
 
@@ -58,6 +58,25 @@ export default {
                     code: res.status,
                     message: res.bodyText,
                     body: res.body
+                } as any as ApiReturnObjectInterface;
+            }
+            catch(error) {
+                console.error(error);
+                return {
+                    code: error.status | 500,
+                    message: error.bodyText
+                };
+            }
+        },
+        async deleteNotebook({ dispatch }, id: string): Promise<ApiReturnObjectInterface> {
+            try {
+                const res = await http.delete(`api/notebooks/${id}`);
+
+                dispatch('getNotebooks');
+
+                return {
+                    code: res.status,
+                    message: res.bodyText
                 } as any as ApiReturnObjectInterface;
             }
             catch(error) {

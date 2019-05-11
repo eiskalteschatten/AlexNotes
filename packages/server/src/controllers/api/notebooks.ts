@@ -23,6 +23,7 @@ class NotebooksController implements Controller {
     private initilizeRoutes(): void {
         this.router.get('/', this.getIndex);
         this.router.put('/', this.putNotebook);
+        this.router.delete('/:id', this.deleteNotebook);
     }
 
     private getIndex(req: Request, res: Response): void {
@@ -82,6 +83,23 @@ class NotebooksController implements Controller {
             git.addCommitPullPush(`Added or updated the notebook "${title}"`);
 
             res.status(200).json(metadata);
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
+    }
+
+    private async deleteNotebook(req: Request, res: Response): Promise<void> {
+        try {
+            const id: string = req.params.id;
+            const fullPath: string = path.join(config.get('notes.folder'), id);
+
+            // TODO: actually delete the notebook
+
+            const git = new Git();
+            git.addCommitPullPush(`Deleted the notebook with id "${id}"`);
+
+            res.status(204).send('');
         }
         catch(error) {
             returnError(error, req, res);

@@ -58,7 +58,7 @@
             offset-y
         >
             <v-list>
-                <v-list-tile @click="renameNotebook">
+                <v-list-tile @click="renameSelectedNotebook">
                     <v-list-tile-action>
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
@@ -69,7 +69,7 @@
 
                 <v-divider />
 
-                <v-list-tile @click="deleteNotebook">
+                <v-list-tile @click="deleteSelectedNotebook">
                     <v-list-tile-action>
                         <v-icon>delete</v-icon>
                     </v-list-tile-action>
@@ -94,7 +94,7 @@
                 @click="selectNotebook(notebook.id)"
                 class="nav-item"
                 :class="getActiveClass(selectedNotebookId === notebook.id)"
-                @contextmenu="showContextMenu"
+                @contextmenu="showContextMenu($event, notebook.id)"
             >
                 <v-list-tile-action>
                     <v-icon>{{ notebook.icon }}</v-icon>
@@ -122,7 +122,8 @@
                 newNotebookError: '',
                 contextMenuShown: false,
                 cmX: 0,
-                cmY: 0
+                cmY: 0,
+                contextMenuNotebookId: ''
             };
         },
         computed: {
@@ -143,7 +144,8 @@
         methods: {
             ...mapActions('notebooks', [
                 'getNotebooks',
-                'saveNotebook'
+                'saveNotebook',
+                'deleteNotebook'
             ]),
             ...mapMutations('notebooks', [
                 'setSelectedNotebookId'
@@ -174,7 +176,7 @@
             selectNotebook(id: string): void {
                 this.setSelectedNotebookId(id);
             },
-            showContextMenu(event): void {
+            showContextMenu(event: any, id: string): void {
                 event.preventDefault();
                 this.contextMenuShown = false;
                 this.cmX = event.clientX;
@@ -182,12 +184,14 @@
                 this.$nextTick(() => {
                     this.contextMenuShown = true;
                 });
+                this.contextMenuNotebookId = id;
             },
-            renameNotebook(): void {
+            async renameSelectedNotebook(): Promise<void> {
 
             },
-            deleteNotebook(): void {
-
+            async deleteSelectedNotebook(): Promise<void> {
+                // TODO: confirm delete!
+                const res: ApiReturnObjectInterface = await this.deleteNotebook(this.contextMenuNotebookId);
             }
         }
     });
