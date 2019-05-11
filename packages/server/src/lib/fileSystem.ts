@@ -72,6 +72,11 @@ export function renameFolderInRepo(oldPathToFolder: string, newPathToFolder: str
         const oldFullPath: string = path.resolve(config.get('git.localPath'), oldPathToFolder);
         const newFullPath: string = path.resolve(config.get('git.localPath'), newPathToFolder);
 
+        if (fs.existsSync(newFullPath)) {
+            const httpError = new HttpError('theFolderAlreadyExists', 409);
+            reject(httpError);
+        }
+
         fs.rename(oldFullPath, newFullPath, (error: Error): void => {
             if (error) {
                 reject(error);

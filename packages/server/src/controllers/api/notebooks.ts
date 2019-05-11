@@ -74,6 +74,29 @@ class NotebooksController implements Controller {
         }
     }
 
+    private async putNotebook(req: Request, res: Response): Promise<void> {
+        try {
+            const title: string = req.body.name;
+
+            const metadata: NotebookMetaDataInterface = {
+                title,
+                id: slug(title.toLowerCase())
+            };
+
+            const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
+            await createFolderInRepo(fullPath);
+            await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
+
+            const git = new Git();
+            git.addCommitPullPush(`Added or updated the notebook "${title}"`);
+
+            res.status(200).json(metadata);
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
+    }
+
     private async patchRenameNotebook(req: Request, res: Response): Promise<void> {
         try {
             const oldId: string = req.body.id;
@@ -92,29 +115,6 @@ class NotebooksController implements Controller {
 
             const git = new Git();
             git.addCommitPullPush(`Renamed a notebook to "${title}"`);
-
-            res.status(200).json(metadata);
-        }
-        catch(error) {
-            returnError(error, req, res);
-        }
-    }
-
-    private async putNotebook(req: Request, res: Response): Promise<void> {
-        try {
-            const title: string = req.body.name;
-
-            const metadata: NotebookMetaDataInterface = {
-                title,
-                id: slug(title.toLowerCase())
-            };
-
-            const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
-            await createFolderInRepo(fullPath);
-            await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
-
-            const git = new Git();
-            git.addCommitPullPush(`Added or updated the notebook "${title}"`);
 
             res.status(200).json(metadata);
         }
