@@ -6,6 +6,8 @@
         "cancel": "Cancel",
         "save": "Save",
         "deleteNotebook": "Delete Notebook",
+        "areYouSureDeleteNotebook": "Are you sure you want to delete this notebook? All folders and notes within it will be permanently deleted as well.",
+        "notebookSuccessfullyDeleted": "The notebook was successfully deleted.",
         "renameNotebook": "Rename Notebook",
         "theFolderAlreadyExists": "A notebook with that name already exists.",
         "anErrorOccurred": "An error occurred."
@@ -16,6 +18,8 @@
         "cancel": "Abbrechen",
         "save": "Speichern",
         "deleteNotebook": "Notizbuch löschen",
+        "areYouSureDeleteNotebook": "Sind Sie sicher, dass Sie dieses Notizbuch löschen möchten? Alle Ordner und Notizen darin werden auch endgültig gelöscht werden.",
+        "notebookSuccessfullyDeleted": "Das Notizbuch wurde erfolgreich gelöscht.",
         "renameNotebook": "Notizbuch umbenennen",
         "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits.",
         "anErrorOccurred": "Ein Fehler ist aufgetreten."
@@ -69,7 +73,7 @@
 
                 <v-divider />
 
-                <v-list-tile @click="deleteSelectedNotebook">
+                <v-list-tile @click="showDeleteNotebookConfirmDialog = true">
                     <v-list-tile-action>
                         <v-icon>delete</v-icon>
                     </v-list-tile-action>
@@ -104,6 +108,13 @@
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
+
+        <confirm-dialog
+            :show="showDeleteNotebookConfirmDialog"
+            :cancel-function="() => showDeleteNotebookConfirmDialog = false"
+            :confirm-function="deleteSelectedNotebook"
+            :confirm-question="$t('areYouSureDeleteNotebook')"
+        />
     </div>
 </template>
 
@@ -115,7 +126,12 @@
 
     import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
 
+    import ConfirmDialog from '../ConfirmDialog.vue';
+
     export default Vue.extend({
+        components: {
+            ConfirmDialog
+        },
         data() {
             return {
                 newNotebookDialog: false,
@@ -125,7 +141,8 @@
                 contextMenuShown: false,
                 cmX: 0,
                 cmY: 0,
-                contextMenuNotebookId: ''
+                contextMenuNotebookId: '',
+                showDeleteNotebookConfirmDialog: false
             };
         },
         computed: {
@@ -192,13 +209,16 @@
 
             },
             async deleteSelectedNotebook(): Promise<void> {
-                // TODO: confirm delete!
+                this.showDeleteNotebookConfirmDialog = false;
+
                 const res: ApiReturnObjectInterface = await this.deleteNotebook(this.contextMenuNotebookId);
 
                 if (res.code >= 400) {
                     eventBus.$emit('show-alert', this.$t(res.message), true);
                     return;
                 }
+
+                eventBus.$emit('show-alert', this.$t('notebookSuccessfullyDeleted'));
             }
         }
     });
