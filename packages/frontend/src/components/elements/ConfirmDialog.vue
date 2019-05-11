@@ -25,7 +25,7 @@
                     {{ $t('no') }}
                 </v-btn>
 
-                <v-btn color="error" @click="confirmFunction">
+                <v-btn :color="buttonColor" @click="confirmFunction">
                     {{ $t('yes') }}
                 </v-btn>
             </v-card-actions>
@@ -41,7 +41,11 @@
             show: Boolean,
             cancelFunction: Function,
             confirmFunction: Function,
-            confirmQuestion: String
+            confirmQuestion: String,
+            buttonColor: {
+                type: String,
+                default: 'success'
+            }
         }
     });
 </script>

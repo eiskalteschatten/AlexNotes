@@ -114,6 +114,7 @@
             :cancel-function="() => showDeleteNotebookConfirmDialog = false"
             :confirm-function="deleteSelectedNotebook"
             :confirm-question="$t('areYouSureDeleteNotebook')"
+            button-color="error"
         />
     </div>
 </template>
