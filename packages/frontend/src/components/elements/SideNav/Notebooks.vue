@@ -62,7 +62,7 @@
             offset-y
         >
             <v-list>
-                <v-list-tile @click="renameSelectedNotebook">
+                <v-list-tile @click="renamingId = contextMenuNotebookId">
                     <v-list-tile-action>
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
@@ -98,13 +98,22 @@
                 @click="selectNotebook(notebook.id)"
                 class="nav-item"
                 :class="getActiveClass(selectedNotebookId === notebook.id)"
-                @contextmenu="showContextMenu($event, notebook.id)"
+                @contextmenu="showContextMenu($event, notebook.id, notebook.title)"
             >
                 <v-list-tile-action>
                     <v-icon>{{ notebook.icon }}</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
-                    <v-list-tile-title>{{ notebook.title }}</v-list-tile-title>
+                    <v-text-field
+                        v-if="renamingId === notebook.id"
+                        v-model="renamingValue"
+                        :ref="`renamingTextField-${notebook.id}`"
+                        @blur="renameSelectedNotebook"
+                        @keyup.enter.native="renameSelectedNotebook"
+                        @keyup.esc.native="cancelRename"
+                        autofocus
+                    />
+                    <v-list-tile-title v-else>{{ notebook.title }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
@@ -143,7 +152,9 @@
                 cmX: 0,
                 cmY: 0,
                 contextMenuNotebookId: '',
-                showDeleteNotebookConfirmDialog: false
+                showDeleteNotebookConfirmDialog: false,
+                renamingId: '',
+                renamingValue: ''
             };
         },
         computed: {
@@ -196,18 +207,22 @@
             selectNotebook(id: string): void {
                 this.setSelectedNotebookId(id);
             },
-            showContextMenu(event: any, id: string): void {
+            showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
                 this.contextMenuShown = false;
                 this.cmX = event.clientX;
                 this.cmY = event.clientY;
-                this.$nextTick(() => {
-                    this.contextMenuShown = true;
-                });
                 this.contextMenuNotebookId = id;
+                this.renamingValue = name;
+                this.$nextTick(() => this.contextMenuShown = true);
             },
             async renameSelectedNotebook(): Promise<void> {
-
+                console.log("rename")
+                this.renamingId = '';
+            },
+            cancelRename(): void {
+                this.renamingId = '';
+                this.renamingValue = '';
             },
             async deleteSelectedNotebook(): Promise<void> {
                 this.showDeleteNotebookConfirmDialog = false;
