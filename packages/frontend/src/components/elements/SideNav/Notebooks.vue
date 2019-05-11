@@ -135,6 +135,7 @@
     import eventBus from '../../../eventBus';
 
     import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
+    import { RenameNotebookValuesInterface } from '../../../store/notebooks';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
 
@@ -176,7 +177,8 @@
             ...mapActions('notebooks', [
                 'getNotebooks',
                 'saveNotebook',
-                'deleteNotebook'
+                'deleteNotebook',
+                'renameNotebook'
             ]),
             ...mapMutations('notebooks', [
                 'setSelectedNotebookId'
@@ -217,8 +219,19 @@
                 this.$nextTick(() => this.contextMenuShown = true);
             },
             async renameSelectedNotebook(): Promise<void> {
-                console.log("rename")
-                this.renamingId = '';
+                const values: RenameNotebookValuesInterface = {
+                    id: this.renamingId,
+                    newName: this.renamingValue
+                };
+
+                const res: ApiReturnObjectInterface = await this.renameNotebook(values);
+
+                if (res.code >= 400) {
+                    eventBus.$emit('show-alert', this.$t(res.message), true);
+                    return;
+                }
+
+                this.cancelRename();
             },
             cancelRename(): void {
                 this.renamingId = '';

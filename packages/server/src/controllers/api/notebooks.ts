@@ -23,6 +23,7 @@ class NotebooksController implements Controller {
     private initilizeRoutes(): void {
         this.router.get('/', this.getIndex);
         this.router.put('/', this.putNotebook);
+        this.router.patch('/rename', this.patchRenameNotebook);
         this.router.delete('/:id', this.deleteNotebook);
     }
 
@@ -60,6 +61,33 @@ class NotebooksController implements Controller {
                 res.json(notebookMenuItems);
             });
 
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
+    }
+
+    private async patchRenameNotebook(req: Request, res: Response): Promise<void> {
+        try {
+            const oldId: string = req.body.id;
+            const title: string = req.body.newName;
+
+            const metadata: NotebookMetaDataInterface = {
+                title,
+                id: slug(title.toLowerCase())
+            };
+
+            const oldFullPath: string = path.join(config.get('notes.folder'), oldId);
+            const newFullPath: string = path.join(config.get('notes.folder'), metadata.id);
+
+            console.log(oldFullPath, newFullPath);
+            // await createFolderInRepo(fullPath);
+            // await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
+
+            // const git = new Git();
+            // git.addCommitPullPush(`Added or updated the notebook "${title}"`);
+
+            res.status(200).json(metadata);
         }
         catch(error) {
             returnError(error, req, res);

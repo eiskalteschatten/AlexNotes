@@ -3,6 +3,12 @@ import http from '../http';
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
 import { NotebookMenuItemInterface } from '../../../shared/types/notebooks';
 
+export interface RenameNotebookValuesInterface {
+    id: string;
+    newName: string;
+}
+
+
 export default {
     namespaced: true,
     state: {
@@ -71,6 +77,25 @@ export default {
         async deleteNotebook({ dispatch }, id: string): Promise<ApiReturnObjectInterface> {
             try {
                 const res = await http.delete(`api/notebooks/${id}`);
+
+                dispatch('getNotebooks');
+
+                return {
+                    code: res.status,
+                    message: res.bodyText
+                } as any as ApiReturnObjectInterface;
+            }
+            catch(error) {
+                console.error(error);
+                return {
+                    code: error.status | 500,
+                    message: error.bodyText
+                };
+            }
+        },
+        async renameNotebook({ dispatch }, values: RenameNotebookValuesInterface): Promise<ApiReturnObjectInterface> {
+            try {
+                const res = await http.patch('api/notebooks/rename/', values);
 
                 dispatch('getNotebooks');
 
