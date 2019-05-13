@@ -1,7 +1,7 @@
 <i18n>
 {
     "en": {
-        "createNotebook": "Create Notebook",
+        "createFolder": "Create Folder",
         "name": "Name",
         "cancel": "Cancel",
         "save": "Save",
@@ -9,11 +9,12 @@
         "areYouSureDeleteNotebook": "Are you sure you want to delete this notebook? All folders and notes within it will be permanently deleted as well.",
         "notebookSuccessfullyDeleted": "The notebook was successfully deleted.",
         "renameNotebook": "Rename Notebook",
+        "backToNotebooks": "Back to Notebooks",
         "theFolderAlreadyExists": "A notebook with that name already exists.",
         "anErrorOccurred": "An error occurred."
     },
     "de": {
-        "createNotebook": "Notizbuch erstellen",
+        "createFolder": "Ordner erstellen",
         "name": "Name",
         "cancel": "Abbrechen",
         "save": "Speichern",
@@ -21,6 +22,7 @@
         "areYouSureDeleteNotebook": "Sind Sie sicher, dass Sie dieses Notizbuch löschen möchten? Alle Ordner und Notizen darin werden auch endgültig gelöscht werden.",
         "notebookSuccessfullyDeleted": "Das Notizbuch wurde erfolgreich gelöscht.",
         "renameNotebook": "Notizbuch umbenennen",
+        "backToNotebooks": "Zurück zu den Notizbüchern",
         "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits.",
         "anErrorOccurred": "Ein Fehler ist aufgetreten."
     }
@@ -31,7 +33,7 @@
     <div>
         <v-dialog v-model="newNotebookDialog" max-width="500">
             <v-card>
-                <v-card-title class="headline">{{ $t('createNotebook') }}</v-card-title>
+                <v-card-title class="headline">{{ $t('createFolder') }}</v-card-title>
 
                 <v-card-text>
                     <v-alert :value="newNotebookError" type="error" class="mb-4">
@@ -85,11 +87,13 @@
         </v-menu>
 
         <div class="text-xs-center">
-            <v-btn class="ma-4" @click="newNotebookDialog = true">
-                <v-icon left>add</v-icon>
-                {{ $t('createNotebook') }}
+            <v-btn class="ma-4" flat @click="goBackToNotebooks">
+                <v-icon left>arrow_back</v-icon>
+                {{ $t('backToNotebooks') }}
             </v-btn>
         </div>
+
+        <v-divider />
 
         <v-list>
             <v-list-tile
@@ -208,7 +212,6 @@
             },
             selectNotebook(id: string): void {
                 this.setSelectedNotebookId(id);
-                eventBus.$emit('openFolders');
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
@@ -249,6 +252,9 @@
                 }
 
                 eventBus.$emit('show-alert', this.$t('notebookSuccessfullyDeleted'));
+            },
+            goBackToNotebooks(): void {
+                eventBus.$emit('openNotebooks');
             }
         }
     });

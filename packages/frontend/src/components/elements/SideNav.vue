@@ -18,7 +18,10 @@
         mobile-break-point="960"
     >
         <v-layout column fill-height>
-            <notebooks />
+            <div class="notebooks-folders-container">
+                <notebooks class="notebooks" ref="notebooks" />
+                <folders class="folders" ref="folders" />
+            </div>
 
             <v-spacer />
 
@@ -46,10 +49,12 @@
     import eventBus from '../../eventBus';
 
     import Notebooks from './SideNav/Notebooks.vue';
+    import Folders from './SideNav/Folders.vue';
 
     export default Vue.extend({
         components: {
-            Notebooks
+            Notebooks,
+            Folders
         },
         data () {
             return {
@@ -66,6 +71,8 @@
         },
         created(): void {
             eventBus.$on('toggleSidebar', this.toggleSidebar);
+            eventBus.$on('openFolders', this.openFolders);
+            eventBus.$on('openNotebooks', this.openNotebooks);
         },
         methods: {
             toggleSidebar(): void {
@@ -73,6 +80,14 @@
             },
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
+            },
+            openFolders(): void {
+                this.$refs.notebooks.$el.style.left = '-100%';
+                this.$refs.folders.$el.style.left = '0';
+            },
+            openNotebooks(): void {
+                this.$refs.notebooks.$el.style.left = '0';
+                this.$refs.folders.$el.style.left = '100%';
             }
         }
     });
@@ -88,4 +103,24 @@
             background-color: rgba(0, 0, 0, 0.05);
         }
     }
+
+    .notebooks-folders-container {
+        width: 100%;
+
+        .notebooks, .folders {
+            position: absolute;
+            top: 0;
+            transition: 250ms left;
+            width: 100%;
+        }
+
+        .notebooks {
+            left: 0;
+        }
+
+        .folders {
+            left: 100%;
+        }
+    }
+
 </style>
