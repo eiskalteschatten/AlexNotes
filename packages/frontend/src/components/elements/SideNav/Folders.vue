@@ -5,12 +5,12 @@
         "name": "Name",
         "cancel": "Cancel",
         "save": "Save",
-        "deleteNotebook": "Delete Notebook",
-        "areYouSureDeleteNotebook": "Are you sure you want to delete this notebook? All folders and notes within it will be permanently deleted as well.",
-        "notebookSuccessfullyDeleted": "The notebook was successfully deleted.",
-        "renameNotebook": "Rename Notebook",
+        "deleteFolder": "Delete Folder",
+        "areYouSureDeleteFolder": "Are you sure you want to delete this folder? All folders and notes within it will be permanently deleted as well.",
+        "folderSuccessfullyDeleted": "The folder was successfully deleted.",
+        "renameFolder": "Rename Folder",
         "backToNotebooks": "Back to Notebooks",
-        "theFolderAlreadyExists": "A notebook with that name already exists.",
+        "theFolderAlreadyExists": "A folder with that name already exists.",
         "anErrorOccurred": "An error occurred."
     },
     "de": {
@@ -18,12 +18,12 @@
         "name": "Name",
         "cancel": "Abbrechen",
         "save": "Speichern",
-        "deleteNotebook": "Notizbuch löschen",
-        "areYouSureDeleteNotebook": "Sind Sie sicher, dass Sie dieses Notizbuch löschen möchten? Alle Ordner und Notizen darin werden auch endgültig gelöscht werden.",
-        "notebookSuccessfullyDeleted": "Das Notizbuch wurde erfolgreich gelöscht.",
-        "renameNotebook": "Notizbuch umbenennen",
+        "deleteFolder": "Ordner löschen",
+        "areYouSureDeleteFolder": "Sind Sie sicher, dass Sie diesen Ordner löschen möchten? Alle Unterordner und Notizen darin werden auch endgültig gelöscht werden.",
+        "folderSuccessfullyDeleted": "Der Ordner wurde erfolgreich gelöscht.",
+        "renameFolder": "Ordner umbenennen",
         "backToNotebooks": "Zurück zu den Notizbüchern",
-        "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits.",
+        "theFolderAlreadyExists": "Ein Ordner mit diesem Namen existiert bereits.",
         "anErrorOccurred": "Ein Fehler ist aufgetreten."
     }
 }
@@ -31,25 +31,25 @@
 
 <template>
     <div>
-        <v-dialog v-model="newNotebookDialog" max-width="500">
+        <v-dialog v-model="newFolderDialog" max-width="500">
             <v-card>
                 <v-card-title class="headline">{{ $t('createFolder') }}</v-card-title>
 
                 <v-card-text>
-                    <v-alert :value="newNotebookError" type="error" class="mb-4">
-                        {{ newNotebookError }}
+                    <v-alert :value="newFolderError" type="error" class="mb-4">
+                        {{ newFolderError }}
                     </v-alert>
-                    <v-text-field :label="`${$t('name')}*`" required v-model="newNotebookName" />
+                    <v-text-field :label="`${$t('name')}*`" required v-model="newFolderName" />
                 </v-card-text>
 
                 <v-card-actions>
                     <v-spacer />
 
-                    <v-btn flat="flat" @click="closeNewNotebookDialog">
+                    <v-btn flat="flat" @click="closeNewFolderDialog">
                         {{ $t('cancel') }}
                     </v-btn>
 
-                    <v-btn color="success" @click="saveNewNotebook" :loading="newNotebookIsSaving">
+                    <v-btn color="success" @click="saveNewFolder" :loading="newFolderIsSaving">
                         {{ $t('save') }}
                     </v-btn>
                 </v-card-actions>
@@ -64,23 +64,23 @@
             offset-y
         >
             <v-list>
-                <v-list-tile @click="renamingId = contextMenuNotebookId">
+                <v-list-tile @click="renamingId = contextMenuFolderId">
                     <v-list-tile-action>
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ $t('renameNotebook') }}</v-list-tile-title>
+                        <v-list-tile-title>{{ $t('renameFolder') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
 
                 <v-divider />
 
-                <v-list-tile @click="showDeleteNotebookConfirmDialog = true">
+                <v-list-tile @click="showDeleteFolderConfirmDialog = true">
                     <v-list-tile-action>
                         <v-icon>delete</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ $t('deleteNotebook') }}</v-list-tile-title>
+                        <v-list-tile-title>{{ $t('deleteFolder') }}</v-list-tile-title>
                     </v-list-tile-content>
                 </v-list-tile>
             </v-list>
@@ -97,36 +97,36 @@
 
         <v-list>
             <v-list-tile
-                v-for="notebook in notebooks"
-                :key="notebook.title"
-                @click="selectNotebook(notebook.id)"
+                v-for="folder in folders"
+                :key="folder.title"
+                @click="selectFolder(folder.id)"
                 class="nav-item"
-                :class="getActiveClass(selectedNotebookId === notebook.id)"
-                @contextmenu="showContextMenu($event, notebook.id, notebook.title)"
+                :class="getActiveClass(selectedFolderId === folder.id)"
+                @contextmenu="showContextMenu($event, folder.id, folder.title)"
             >
                 <v-list-tile-action>
-                    <v-icon>{{ notebook.icon }}</v-icon>
+                    <v-icon>{{ folder.icon }}</v-icon>
                 </v-list-tile-action>
                 <v-list-tile-content>
                     <v-text-field
-                        v-if="renamingId === notebook.id"
+                        v-if="renamingId === folder.id"
                         v-model="renamingValue"
-                        :ref="`renamingTextField-${notebook.id}`"
-                        @blur="renameSelectedNotebook"
-                        @keyup.enter.native="renameSelectedNotebook"
+                        :ref="`renamingTextField-${folder.id}`"
+                        @blur="renameSelectedFolder"
+                        @keyup.enter.native="renameSelectedFolder"
                         @keyup.esc.native="cancelRename"
                         autofocus
                     />
-                    <v-list-tile-title v-else>{{ notebook.title }}</v-list-tile-title>
+                    <v-list-tile-title v-else>{{ folder.title }}</v-list-tile-title>
                 </v-list-tile-content>
             </v-list-tile>
         </v-list>
 
         <confirm-dialog
-            :show="showDeleteNotebookConfirmDialog"
-            :cancel-function="() => showDeleteNotebookConfirmDialog = false"
-            :confirm-function="deleteSelectedNotebook"
-            :confirm-question="$t('areYouSureDeleteNotebook')"
+            :show="showDeleteFolderConfirmDialog"
+            :cancel-function="() => showDeleteFolderConfirmDialog = false"
+            :confirm-function="deleteSelectedFolder"
+            :confirm-question="$t('areYouSureDeleteFolder')"
             button-color="error"
         />
     </div>
@@ -139,7 +139,7 @@
     import eventBus from '../../../eventBus';
 
     import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
-    import { RenameNotebookValuesInterface } from '../../../store/notebooks';
+    import { RenameFolderValuesInterface } from '../../../store/folders';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
 
@@ -149,15 +149,15 @@
         },
         data() {
             return {
-                newNotebookDialog: false,
-                newNotebookName: '',
-                newNotebookIsSaving: false,
-                newNotebookError: '',
+                newFolderDialog: false,
+                newFolderName: '',
+                newFolderIsSaving: false,
+                newFolderError: '',
                 contextMenuShown: false,
                 cmX: 0,
                 cmY: 0,
-                contextMenuNotebookId: '',
-                showDeleteNotebookConfirmDialog: false,
+                contextMenuFolderId: '',
+                showDeleteFolderConfirmDialog: false,
                 renamingId: '',
                 renamingValue: ''
             };
@@ -166,52 +166,52 @@
             ...mapState('settings', [
                 'theme'
             ]),
-            ...mapState('notebooks', [
-                'notebooks',
-                'selectedNotebookId'
+            ...mapState('folders', [
+                'folders',
+                'selectedFolderId'
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
         async created(): Promise<void> {
-            await this.getNotebooks();
+            await this.getFolders();
         },
         methods: {
-            ...mapActions('notebooks', [
-                'getNotebooks',
-                'saveNotebook',
-                'deleteNotebook',
-                'renameNotebook'
+            ...mapActions('folders', [
+                'getFolders',
+                'saveFolder',
+                'deleteFolder',
+                'renameFolder'
             ]),
-            ...mapMutations('notebooks', [
-                'setSelectedNotebookId'
+            ...mapMutations('folders', [
+                'setSelectedFolderId'
             ]),
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            async saveNewNotebook(): Promise<void> {
-                this.newNotebookIsSaving = true;
+            async saveNewFolder(): Promise<void> {
+                this.newFolderIsSaving = true;
 
-                const res: ApiReturnObjectInterface = await this.saveNotebook(this.newNotebookName);
+                const res: ApiReturnObjectInterface = await this.saveFolder(this.newFolderName);
 
                 if (res.code >= 400) {
-                    this.newNotebookError = this.$t(res.message);
-                    this.newNotebookIsSaving = false;
+                    this.newFolderError = this.$t(res.message);
+                    this.newFolderIsSaving = false;
                     return;
                 }
 
-                this.setSelectedNotebookId(res.body.id);
-                this.closeNewNotebookDialog();
+                this.setSelectedFolderId(res.body.id);
+                this.closeNewFolderDialog();
             },
-            closeNewNotebookDialog(): void {
-                this.newNotebookName = '';
-                this.newNotebookError = '';
-                this.newNotebookDialog = false;
-                this.newNotebookIsSaving = false;
+            closeNewFolderDialog(): void {
+                this.newFolderName = '';
+                this.newFolderError = '';
+                this.newFolderDialog = false;
+                this.newFolderIsSaving = false;
             },
-            selectNotebook(id: string): void {
-                this.setSelectedNotebookId(id);
+            selectFolder(id: string): void {
+                this.setSelectedFolderId(id);
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
@@ -219,17 +219,17 @@
                 this.cancelRename();
                 this.cmX = event.clientX;
                 this.cmY = event.clientY;
-                this.contextMenuNotebookId = id;
+                this.contextMenuFolderId = id;
                 this.renamingValue = name;
                 this.$nextTick(() => this.contextMenuShown = true);
             },
-            async renameSelectedNotebook(): Promise<void> {
-                const values: RenameNotebookValuesInterface = {
+            async renameSelectedFolder(): Promise<void> {
+                const values: RenameFolderValuesInterface = {
                     id: this.renamingId,
                     newName: this.renamingValue
                 };
 
-                const res: ApiReturnObjectInterface = await this.renameNotebook(values);
+                const res: ApiReturnObjectInterface = await this.renameFolder(values);
 
                 if (res.code >= 400) {
                     eventBus.$emit('show-alert', this.$t(res.message), true);
@@ -241,17 +241,17 @@
                 this.renamingId = '';
                 this.renamingValue = '';
             },
-            async deleteSelectedNotebook(): Promise<void> {
-                this.showDeleteNotebookConfirmDialog = false;
+            async deleteSelectedFolder(): Promise<void> {
+                this.showDeleteFolderConfirmDialog = false;
 
-                const res: ApiReturnObjectInterface = await this.deleteNotebook(this.contextMenuNotebookId);
+                const res: ApiReturnObjectInterface = await this.deleteFolder(this.contextMenuFolderId);
 
                 if (res.code >= 400) {
                     eventBus.$emit('show-alert', this.$t(res.message), true);
                     return;
                 }
 
-                eventBus.$emit('show-alert', this.$t('notebookSuccessfullyDeleted'));
+                eventBus.$emit('show-alert', this.$t('folderSuccessfullyDeleted'));
             },
             goBackToNotebooks(): void {
                 eventBus.$emit('openNotebooks');
