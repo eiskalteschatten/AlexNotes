@@ -21,7 +21,7 @@
         "areYouSureDeleteNotebook": "Sind Sie sicher, dass Sie dieses Notizbuch löschen möchten? Alle Ordner und Notizen darin werden auch endgültig gelöscht werden.",
         "notebookSuccessfullyDeleted": "Das Notizbuch wurde erfolgreich gelöscht.",
         "renameNotebook": "Notizbuch umbenennen",
-        "theFolderAlreadyExists": "Ein Notizbuch mit diesem Name existiert bereits.",
+        "theFolderAlreadyExists": "Ein Notizbuch mit diesem Namen existiert bereits.",
         "anErrorOccurred": "Ein Fehler ist aufgetreten."
     }
 }
