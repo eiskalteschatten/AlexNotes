@@ -27,6 +27,7 @@ export default {
         },
         resetFolders(state): void {
             state.folders = [];
+            state.selectedFolderId = '';
         },
         setSelectedFolderId(state, selectedFolderId: string): void {
             state.selectedFolderId = selectedFolderId;
