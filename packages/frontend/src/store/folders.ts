@@ -31,9 +31,9 @@ export default {
     },
 
     actions: {
-        async getFolders({ commit }): Promise<ApiReturnObjectInterface> {
+        async getFolders({ commit }, notebookId: string): Promise<ApiReturnObjectInterface> {
             try {
-                const res = await http.get('api/folders');
+                const res = await http.get(`api/folders?notebookId=${notebookId}`);
 
                 if (!res.body) {
                     throw new Error('No folders could be fetched');

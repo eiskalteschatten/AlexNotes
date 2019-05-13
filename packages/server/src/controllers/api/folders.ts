@@ -36,6 +36,10 @@ class FoldersController implements Controller {
 
     private getIndex(req: Request, res: Response): void {
         try {
+            const notebookId: string = req.query.notebookId;
+
+            console.log('notebookId:', notebookId);
+
             // const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
 
             // readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {

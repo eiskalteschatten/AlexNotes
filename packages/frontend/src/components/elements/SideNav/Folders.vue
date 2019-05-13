@@ -170,12 +170,17 @@
                 'folders',
                 'selectedFolderId'
             ]),
+            ...mapState('notebooks', [
+                'selectedNotebookId'
+            ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
-        async created(): Promise<void> {
-            await this.getFolders();
+        watch: {
+            async selectedNotebookId(newId: string): Promise<void> {
+                await this.getFolders(newId);
+            }
         },
         methods: {
             ...mapActions('folders', [
