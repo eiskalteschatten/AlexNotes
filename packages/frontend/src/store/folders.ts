@@ -25,6 +25,9 @@ export default {
         setFolders(state, folders: FolderMenuItemInterface[]): void {
             state.folders = folders;
         },
+        resetFolders(state): void {
+            state.folders = [];
+        },
         setSelectedFolderId(state, selectedFolderId: string): void {
             state.selectedFolderId = selectedFolderId;
         }
@@ -33,6 +36,8 @@ export default {
     actions: {
         async getFolders({ commit }, notebookId: string): Promise<ApiReturnObjectInterface> {
             try {
+                commit('resetFolders');
+
                 const res = await http.get(`api/folders?notebookId=${notebookId}`);
 
                 if (!res.body) {
