@@ -7,6 +7,7 @@ import eventBus from '../eventBus';
 import user from './user';
 import settings from './settings';
 import notebooks from './notebooks';
+import folders from './folders';
 
 Vue.use(Vuex);
 
@@ -14,7 +15,8 @@ const store = new Vuex.Store({
     modules: {
         user,
         settings,
-        notebooks
+        notebooks,
+        folders
     }
 });
 
