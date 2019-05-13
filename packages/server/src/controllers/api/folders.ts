@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { readdir } from 'fs';
+// import { readdir } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -10,7 +10,7 @@ import { returnError } from '../../lib/apiErrorHandling';
 import {
     createFolderInRepo,
     writeMetaDataJsonFile,
-    readFolderMetadata,
+    // readFolderMetadata,
     deleteFolderFromRepo,
     renameFolderInRepo
 } from '../../lib/fileSystem';
@@ -36,60 +36,60 @@ class FoldersController implements Controller {
 
     private getIndex(req: Request, res: Response): void {
         try {
-            const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
+            // const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
 
-            readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
-                if (error) {
-                    throw error;
+            // readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
+            //     if (error) {
+            //         throw error;
+            //     }
+
+            // const folderMenuItems: FolderMenuItemInterface[] = [];
+
+            // for (const folder of folders) {
+            //     const pathToMetadataJson: string = path.resolve(pathToFolders, folder);
+            //     const metadataString: string = await readFolderMetadata(pathToMetadataJson);
+            //     const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
+
+            //     const menuItem: FolderMenuItemInterface = {
+            //         title: metadata.title,
+            //         icon: 'book',
+            //         id: folder
+            //     };
+
+            //     folderMenuItems.push(menuItem);
+            // }
+
+            const folderMenuItems: FolderMenuItemInterface[] = [
+                {
+                    title: 'Folder 1',
+                    icon: '',
+                    id: 'folder-1'
+                },
+                {
+                    title: 'Folder 2',
+                    icon: '',
+                    id: 'folder-2'
+                },
+                {
+                    title: 'Folder 3',
+                    icon: '',
+                    id: 'folder-3'
+                },
+                {
+                    title: 'Folder 4',
+                    icon: '',
+                    id: 'folder-4'
                 }
+            ];
 
-                // const folderMenuItems: FolderMenuItemInterface[] = [];
-
-                // for (const folder of folders) {
-                //     const pathToMetadataJson: string = path.resolve(pathToFolders, folder);
-                //     const metadataString: string = await readFolderMetadata(pathToMetadataJson);
-                //     const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
-
-                //     const menuItem: FolderMenuItemInterface = {
-                //         title: metadata.title,
-                //         icon: 'book',
-                //         id: folder
-                //     };
-
-                //     folderMenuItems.push(menuItem);
-                // }
-
-                const folderMenuItems: FolderMenuItemInterface[] = [
-                    {
-                        title: 'Folder 1',
-                        icon: '',
-                        id: 'folder-1'
-                    },
-                    {
-                        title: 'Folder 2',
-                        icon: '',
-                        id: 'folder-2'
-                    },
-                    {
-                        title: 'Folder 3',
-                        icon: '',
-                        id: 'folder-3'
-                    },
-                    {
-                        title: 'Folder 4',
-                        icon: '',
-                        id: 'folder-4'
-                    }
-                ];
-
-                folderMenuItems.sort((a, b): number => {
-                    if (a.title < b.title) return -1;
-                    if (a.title > b.title) return 1;
-                    return 0;
-                });
-
-                res.json(folderMenuItems);
+            folderMenuItems.sort((a, b): number => {
+                if (a.title < b.title) return -1;
+                if (a.title > b.title) return 1;
+                return 0;
             });
+
+            res.json(folderMenuItems);
+            // });
 
         }
         catch(error) {
