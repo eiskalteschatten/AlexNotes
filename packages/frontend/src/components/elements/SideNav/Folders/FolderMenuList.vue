@@ -34,6 +34,7 @@
                 <folder-menu-list
                     :depth="depth + 1"
                     :folders="folder.subfolders"
+                    :show-context-menu="showContextMenu"
                 />
             </v-list-group>
 
@@ -66,7 +67,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
 
     export default Vue.extend({
         components: {
@@ -74,22 +75,31 @@
         },
         props: {
             depth: Number,
-            folders: Array
+            folders: Array,
+            showContextMenu: Function
         },
         computed: {
             ...mapState('settings', [
                 'theme'
             ]),
             ...mapState('folders', [
-                'selectedFolderId'
+                'selectedFolderId',
+                'renamingId',
+                'renamingValue'
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
         methods: {
+            ...mapMutations('folders', [
+                'setSelectedFolderId'
+            ]),
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
+            },
+            selectFolder(id: string): void {
+                this.setSelectedFolderId(id);
             }
         }
     });

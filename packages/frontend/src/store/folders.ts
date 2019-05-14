@@ -13,12 +13,16 @@ export default {
     namespaced: true,
     state: {
         folders: [],
-        selectedFolderId: ''
+        selectedFolderId: '',
+        renamingId: '',
+        renamingValue: ''
     },
 
     getters: {
         getFolders: (state): FolderMenuItemInterface[] => state.folders,
-        getSelectedFolderId: (state): string => state.selectedFolderId
+        getSelectedFolderId: (state): string => state.selectedFolderId,
+        getRenamingId: (state): string => state.renamingId,
+        getRenamingValue: (state): string => state.renamingValue
     },
 
     mutations: {
@@ -31,6 +35,12 @@ export default {
         },
         setSelectedFolderId(state, selectedFolderId: string): void {
             state.selectedFolderId = selectedFolderId;
+        },
+        setRenamingId(state, renamingId: string): void {
+            state.renamingId = renamingId;
+        },
+        setRenamingValue(state, renamingValue: string): void {
+            state.renamingValue = renamingValue;
         }
     },
 

@@ -64,7 +64,7 @@
             offset-y
         >
             <v-list>
-                <v-list-tile @click="renamingId = contextMenuFolderId">
+                <v-list-tile @click="setRenamingId(contextMenuFolderId)">
                     <v-list-tile-action>
                         <v-icon>edit</v-icon>
                     </v-list-tile-action>
@@ -98,6 +98,7 @@
         <folder-menu-list
             :depth="0"
             :folders="folders"
+            :show-context-menu="showContextMenu"
         />
 
         <confirm-dialog
@@ -137,25 +138,18 @@
                 cmX: 0,
                 cmY: 0,
                 contextMenuFolderId: '',
-                showDeleteFolderConfirmDialog: false,
-                renamingId: '',
-                renamingValue: ''
+                showDeleteFolderConfirmDialog: false
             };
         },
         computed: {
-            ...mapState('settings', [
-                'theme'
-            ]),
             ...mapState('folders', [
                 'folders',
-                'selectedFolderId'
+                'renamingId',
+                'renamingValue'
             ]),
             ...mapState('notebooks', [
                 'selectedNotebookId'
-            ]),
-            activeClass(): string {
-                return this.theme === 'dark' ? 'active' : 'active-light';
-            }
+            ])
         },
         watch: {
             async selectedNotebookId(newId: string): Promise<void> {
@@ -170,7 +164,9 @@
                 'renameFolder'
             ]),
             ...mapMutations('folders', [
-                'setSelectedFolderId'
+                'setSelectedFolderId',
+                'setRenamingId',
+                'setRenamingValue'
             ]),
             async saveNewFolder(): Promise<void> {
                 this.newFolderIsSaving = true;
@@ -192,9 +188,6 @@
                 this.newFolderDialog = false;
                 this.newFolderIsSaving = false;
             },
-            selectFolder(id: string): void {
-                this.setSelectedFolderId(id);
-            },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
                 this.contextMenuShown = false;
@@ -202,7 +195,7 @@
                 this.cmX = event.clientX;
                 this.cmY = event.clientY;
                 this.contextMenuFolderId = id;
-                this.renamingValue = name;
+                this.setRenamingValue(name);
                 this.$nextTick(() => this.contextMenuShown = true);
             },
             async renameSelectedFolder(): Promise<void> {
@@ -220,8 +213,8 @@
                 this.cancelRename();
             },
             cancelRename(): void {
-                this.renamingId = '';
-                this.renamingValue = '';
+                this.setRenamingId('');
+                this.setRenamingValue('');
             },
             async deleteSelectedFolder(): Promise<void> {
                 this.showDeleteFolderConfirmDialog = false;
@@ -237,24 +230,10 @@
             },
             goBackToNotebooks(): void {
                 eventBus.$emit('openNotebooks');
-            },
-            getActiveClass(isActive: boolean): string {
-                return isActive ? this.activeClass : '';
             }
         }
     });
 </script>
 
 <style lang="scss" scoped>
-    .nav-item {
-        cursor: pointer;
-
-        &.active {
-            background-color: rgba(255, 255, 255, 0.08);
-        }
-
-        &.active-light {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-    }
 </style>
