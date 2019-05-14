@@ -74,7 +74,13 @@ class FoldersController implements Controller {
                         },
                         {
                             title: 'Subfolder 4',
-                            id: `${notebookId}/folder-1/subfolder-4`
+                            id: `${notebookId}/folder-1/subfolder-4`,
+                            subfolders: [
+                                {
+                                    title: 'Subsubfolder',
+                                    id: `${notebookId}/folder-1/subfolder-4/subsubfolder`
+                                }
+                            ]
                         }
                     ]
                 },
