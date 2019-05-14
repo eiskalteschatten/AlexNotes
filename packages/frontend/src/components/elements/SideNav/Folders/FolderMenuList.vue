@@ -29,9 +29,10 @@
                 </template>
 
                 <folder-menu-list
-                    :depth="depth + 1"
                     :folders="folder.subfolders"
                     :show-context-menu="showContextMenu"
+                    :rename-selected-folder="renameSelectedFolder"
+                    :cancel-rename="cancelRename"
                 />
             </v-list-group>
 
@@ -68,9 +69,10 @@
             FolderMenuList: () => import('./FolderMenuList.vue')
         },
         props: {
-            depth: Number,
             folders: Array,
-            showContextMenu: Function
+            showContextMenu: Function,
+            renameSelectedFolder: Function,
+            cancelRename: Function
         },
         computed: {
             ...mapState('settings', [

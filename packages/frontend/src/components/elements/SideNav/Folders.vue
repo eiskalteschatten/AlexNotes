@@ -96,9 +96,10 @@
         <v-divider />
 
         <folder-menu-list
-            :depth="0"
             :folders="folders"
             :show-context-menu="showContextMenu"
+            :rename-selected-folder="renameSelectedFolder"
+            :cancel-rename="cancelRename"
         />
 
         <confirm-dialog
