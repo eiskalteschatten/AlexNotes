@@ -3,6 +3,7 @@
     "en": {
         "createFolder": "Create Folder",
         "name": "Name",
+        "parentFolder": "Parent Folder",
         "cancel": "Cancel",
         "save": "Save",
         "deleteFolder": "Delete Folder",
@@ -15,6 +16,7 @@
     "de": {
         "createFolder": "Ordner erstellen",
         "name": "Name",
+        "parentFolder": "Übergeordneter Ordner",
         "cancel": "Abbrechen",
         "save": "Speichern",
         "deleteFolder": "Ordner löschen",
@@ -37,7 +39,14 @@
                     <v-alert :value="newFolderError" type="error" class="mb-4">
                         {{ newFolderError }}
                     </v-alert>
+
                     <v-text-field :label="`${$t('name')}*`" required v-model="newFolderName" />
+
+                    <v-combobox
+                        v-model="newFolderParent"
+                        :items="folderTitles"
+                        :label="$t('parentFolder')"
+                    />
                 </v-card-text>
 
                 <v-card-actions>
@@ -123,6 +132,7 @@
 
     import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
     import { RenameFolderValuesInterface } from '../../../store/folders';
+    import { FolderMenuItemInterface } from '../../../../../shared/types/folders';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
     import FolderMenuList from './Folders/FolderMenuList.vue';
@@ -136,6 +146,7 @@
             return {
                 newFolderDialog: false,
                 newFolderName: '',
+                newFolderParent: '',
                 newFolderIsSaving: false,
                 newFolderError: '',
                 contextMenuShown: false,
@@ -153,7 +164,10 @@
             ]),
             ...mapState('notebooks', [
                 'selectedNotebookId'
-            ])
+            ]),
+            folderTitles(): string[] {
+                return this.getFolderTitles(this.folders);
+            }
         },
         watch: {
             async selectedNotebookId(newId: string): Promise<void> {
@@ -234,6 +248,20 @@
             },
             goBackToNotebooks(): void {
                 eventBus.$emit('openNotebooks');
+            },
+            getFolderTitles(folders: FolderMenuItemInterface[]): string[] {
+                let titles: string[] = [];
+
+                for (const folder of folders) {
+                    titles.push(folder.title);
+
+                    if (folder.subfolders && folder.subfolders.length) {
+                        const subTitles: string[] = this.getFolderTitles(folder.subfolders);
+                        titles = titles.concat(subTitles);
+                    }
+                }
+
+                return titles;
             }
         }
     });
