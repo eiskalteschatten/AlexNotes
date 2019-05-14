@@ -100,7 +100,7 @@
                 v-for="folder in folders"
                 :key="folder.id"
                 :folder="folder"
-                :renamingId="renamingId"
+                :renaming-id="renamingId"
                 :depth="0"
                 @click.native="selectFolder(folder.id)"
                 @contextmenu.native="showContextMenu($event, folder.id, folder.title)"

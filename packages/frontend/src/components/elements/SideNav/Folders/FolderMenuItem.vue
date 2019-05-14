@@ -27,7 +27,7 @@
                     v-for="subfolder in folder.subfolders"
                     :key="subfolder.id"
                     :folder="subfolder"
-                    :is-being-renamed="renamingId === folder.id"
+                    :renaming-id="renamingId"
                     :depth="depth + 1"
                 />
             </v-list-group>
@@ -37,7 +37,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapActions, mapMutations } from 'vuex';
+    import { mapState } from 'vuex';
 
     export default Vue.extend({
         components: {
