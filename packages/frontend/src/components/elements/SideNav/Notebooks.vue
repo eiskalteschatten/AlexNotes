@@ -94,7 +94,7 @@
         <v-list>
             <v-list-tile
                 v-for="notebook in notebooks"
-                :key="notebook.title"
+                :key="notebook.id"
                 @click="selectNotebook(notebook.id)"
                 class="nav-item"
                 :class="getActiveClass(selectedNotebookId === notebook.id)"

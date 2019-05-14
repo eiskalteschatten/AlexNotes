@@ -98,9 +98,9 @@
         <v-list>
             <folder-menu-item
                 v-for="folder in folders"
-                :key="folder.title"
+                :key="folder.id"
                 :folder="folder"
-                :is-being-renamed="renamingId === folder.id"
+                :renamingId="renamingId"
                 :depth="0"
                 @click.native="selectFolder(folder.id)"
                 @contextmenu.native="showContextMenu($event, folder.id, folder.title)"
