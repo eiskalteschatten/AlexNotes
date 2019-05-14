@@ -96,30 +96,15 @@
         <v-divider />
 
         <v-list>
-            <v-list-tile
+            <folder-menu-item
                 v-for="folder in folders"
                 :key="folder.title"
-                @click="selectFolder(folder.id)"
-                class="nav-item"
-                :class="getActiveClass(selectedFolderId === folder.id)"
-                @contextmenu="showContextMenu($event, folder.id, folder.title)"
-            >
-                <v-list-tile-action>
-                    <v-icon>{{ folder.icon }}</v-icon>
-                </v-list-tile-action>
-                <v-list-tile-content>
-                    <v-text-field
-                        v-if="renamingId === folder.id"
-                        v-model="renamingValue"
-                        :ref="`renamingTextField-${folder.id}`"
-                        @blur="renameSelectedFolder"
-                        @keyup.enter.native="renameSelectedFolder"
-                        @keyup.esc.native="cancelRename"
-                        autofocus
-                    />
-                    <v-list-tile-title v-else>{{ folder.title }}</v-list-tile-title>
-                </v-list-tile-content>
-            </v-list-tile>
+                :folder="folder"
+                :is-being-renamed="renamingId === folder.id"
+                :depth="0"
+                @click.native="selectFolder(folder.id)"
+                @contextmenu.native="showContextMenu($event, folder.id, folder.title)"
+            />
         </v-list>
 
         <confirm-dialog
@@ -142,10 +127,12 @@
     import { RenameFolderValuesInterface } from '../../../store/folders';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
+    import FolderMenuItem from './Folders/FolderMenuItem.vue';
 
     export default Vue.extend({
         components: {
-            ConfirmDialog
+            ConfirmDialog,
+            FolderMenuItem
         },
         data() {
             return {
@@ -163,19 +150,12 @@
             };
         },
         computed: {
-            ...mapState('settings', [
-                'theme'
-            ]),
             ...mapState('folders', [
-                'folders',
-                'selectedFolderId'
+                'folders'
             ]),
             ...mapState('notebooks', [
                 'selectedNotebookId'
-            ]),
-            activeClass(): string {
-                return this.theme === 'dark' ? 'active' : 'active-light';
-            }
+            ])
         },
         watch: {
             async selectedNotebookId(newId: string): Promise<void> {
@@ -192,9 +172,6 @@
             ...mapMutations('folders', [
                 'setSelectedFolderId'
             ]),
-            getActiveClass(isActive: boolean): string {
-                return isActive ? this.activeClass : '';
-            },
             async saveNewFolder(): Promise<void> {
                 this.newFolderIsSaving = true;
 
@@ -266,13 +243,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .nav-item {
-        &.active {
-            background-color: rgba(255, 255, 255, 0.08);
-        }
 
-        &.active-light {
-            background-color: rgba(0, 0, 0, 0.05);
-        }
-    }
 </style>
