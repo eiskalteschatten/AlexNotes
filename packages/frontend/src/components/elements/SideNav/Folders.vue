@@ -46,6 +46,8 @@
                         v-model="newFolderParent"
                         :items="folderTitles"
                         :label="$t('parentFolder')"
+                        item-text="title"
+                        item-value="id"
                     />
                 </v-card-text>
 
@@ -165,7 +167,7 @@
             ...mapState('notebooks', [
                 'selectedNotebookId'
             ]),
-            folderTitles(): string[] {
+            folderTitles(): FolderMenuItemInterface[] {
                 return this.getFolderTitles(this.folders);
             }
         },
@@ -249,14 +251,17 @@
             goBackToNotebooks(): void {
                 eventBus.$emit('openNotebooks');
             },
-            getFolderTitles(folders: FolderMenuItemInterface[]): string[] {
-                let titles: string[] = [];
+            getFolderTitles(folders: FolderMenuItemInterface[]): FolderMenuItemInterface[] {
+                let titles: FolderMenuItemInterface[] = [];
 
                 for (const folder of folders) {
-                    titles.push(folder.title);
+                    titles.push({
+                        title: folder.title,
+                        id: folder.id
+                    });
 
                     if (folder.subfolders && folder.subfolders.length) {
-                        const subTitles: string[] = this.getFolderTitles(folder.subfolders);
+                        const subTitles: FolderMenuItemInterface[] = this.getFolderTitles(folder.subfolders);
                         titles = titles.concat(subTitles);
                     }
                 }
