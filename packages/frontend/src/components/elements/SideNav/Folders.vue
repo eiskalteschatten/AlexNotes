@@ -9,7 +9,6 @@
         "areYouSureDeleteFolder": "Are you sure you want to delete this folder? All folders and notes within it will be permanently deleted as well.",
         "folderSuccessfullyDeleted": "The folder was successfully deleted.",
         "renameFolder": "Rename Folder",
-        "backToNotebooks": "Back to Notebooks",
         "theFolderAlreadyExists": "A folder with that name already exists.",
         "anErrorOccurred": "An error occurred."
     },
@@ -22,7 +21,6 @@
         "areYouSureDeleteFolder": "Sind Sie sicher, dass Sie diesen Ordner löschen möchten? Alle Unterordner und Notizen darin werden auch endgültig gelöscht werden.",
         "folderSuccessfullyDeleted": "Der Ordner wurde erfolgreich gelöscht.",
         "renameFolder": "Ordner umbenennen",
-        "backToNotebooks": "Zurück zu den Notizbüchern",
         "theFolderAlreadyExists": "Ein Ordner mit diesem Namen existiert bereits.",
         "anErrorOccurred": "Ein Fehler ist aufgetreten."
     }
@@ -86,14 +84,19 @@
             </v-list>
         </v-menu>
 
-        <div class="text-xs-center">
-            <v-btn class="ma-4" flat @click="goBackToNotebooks">
-                <v-icon left>arrow_back</v-icon>
-                {{ $t('backToNotebooks') }}
-            </v-btn>
-        </div>
-
-        <v-divider />
+        <v-layout>
+            <v-flex xs2>
+                <v-btn class="my-4" flat @click="goBackToNotebooks" icon>
+                    <v-icon>arrow_back</v-icon>
+                </v-btn>
+            </v-flex>
+            <v-flex xs10 class="text-xs-center">
+                <v-btn class="my-4" @click="newFolderDialog = true">
+                    <v-icon left>add</v-icon>
+                    {{ $t('createFolder') }}
+                </v-btn>
+            </v-flex>
+        </v-layout>
 
         <folder-menu-list
             :folders="folders"
