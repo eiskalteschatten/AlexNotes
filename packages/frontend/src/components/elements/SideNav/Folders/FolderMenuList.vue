@@ -13,9 +13,6 @@
                         class="nav-item"
                         :class="getActiveClass(selectedFolderId === folder.id)"
                     >
-                        <v-list-tile-action>
-                            <v-icon>{{ folder.icon }}</v-icon>
-                        </v-list-tile-action>
                         <v-list-tile-content>
                             <v-text-field
                                 v-if="renamingId === folder.id"
@@ -45,9 +42,6 @@
                 class="nav-item"
                 :class="getActiveClass(selectedFolderId === folder.id)"
             >
-                <v-list-tile-action>
-                    <v-icon>{{ folder.icon }}</v-icon>
-                </v-list-tile-action>
                 <v-list-tile-content>
                     <v-text-field
                         v-if="renamingId === folder.id"

@@ -1,6 +1,5 @@
 export interface FolderMenuItemInterface {
     title: string;
-    icon?: string;
     id: string;
     subfolders?: FolderMenuItemInterface[];
 }
