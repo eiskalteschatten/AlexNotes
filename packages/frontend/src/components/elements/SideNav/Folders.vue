@@ -95,17 +95,10 @@
 
         <v-divider />
 
-        <v-list>
-            <folder-menu-item
-                v-for="folder in folders"
-                :key="folder.id"
-                :folder="folder"
-                :renaming-id="renamingId"
-                :depth="0"
-                @click.native="selectFolder(folder.id)"
-                @contextmenu.native="showContextMenu($event, folder.id, folder.title)"
-            />
-        </v-list>
+        <folder-menu-list
+            :depth="0"
+            :folders="folders"
+        />
 
         <confirm-dialog
             :show="showDeleteFolderConfirmDialog"
@@ -127,12 +120,12 @@
     import { RenameFolderValuesInterface } from '../../../store/folders';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
-    import FolderMenuItem from './Folders/FolderMenuItem.vue';
+    import FolderMenuList from './Folders/FolderMenuList.vue';
 
     export default Vue.extend({
         components: {
             ConfirmDialog,
-            FolderMenuItem
+            FolderMenuList
         },
         data() {
             return {
@@ -150,12 +143,19 @@
             };
         },
         computed: {
+            ...mapState('settings', [
+                'theme'
+            ]),
             ...mapState('folders', [
-                'folders'
+                'folders',
+                'selectedFolderId'
             ]),
             ...mapState('notebooks', [
                 'selectedNotebookId'
-            ])
+            ]),
+            activeClass(): string {
+                return this.theme === 'dark' ? 'active' : 'active-light';
+            }
         },
         watch: {
             async selectedNotebookId(newId: string): Promise<void> {
@@ -237,11 +237,24 @@
             },
             goBackToNotebooks(): void {
                 eventBus.$emit('openNotebooks');
+            },
+            getActiveClass(isActive: boolean): string {
+                return isActive ? this.activeClass : '';
             }
         }
     });
 </script>
 
 <style lang="scss" scoped>
+    .nav-item {
+        cursor: pointer;
 
+        &.active {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        &.active-light {
+            background-color: rgba(0, 0, 0, 0.05);
+        }
+    }
 </style>
