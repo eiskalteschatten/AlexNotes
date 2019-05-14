@@ -1,7 +1,8 @@
 export interface FolderMenuItemInterface {
     title: string;
-    icon: string;
+    icon?: string;
     id: string;
+    subfolders?: FolderMenuItemInterface[];
 }
 
 export interface FolderMetaDataInterface {

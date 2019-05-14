@@ -66,23 +66,39 @@ class FoldersController implements Controller {
             const folderMenuItems: FolderMenuItemInterface[] = [
                 {
                     title: 'Folder 1',
-                    icon: '',
-                    id: 'folder-1'
+                    id: `${notebookId}/folder-1`,
+                    subfolders: [
+                        {
+                            title: 'Subfolder 2',
+                            id: `${notebookId}/folder-1/subfolder-2`
+                        },
+                        {
+                            title: 'Subfolder 4',
+                            id: `${notebookId}/folder-1/subfolder-4`
+                        }
+                    ]
                 },
                 {
                     title: 'Folder 2',
-                    icon: '',
-                    id: 'folder-2'
+                    id: `${notebookId}/folder-2`
                 },
                 {
                     title: 'Folder 3',
-                    icon: '',
-                    id: 'folder-3'
+                    id: `${notebookId}/folder-3`
                 },
                 {
                     title: 'Folder 4',
-                    icon: '',
-                    id: 'folder-4'
+                    id: `${notebookId}/folder-4`,
+                    subfolders: [
+                        {
+                            title: 'Subfolder 1',
+                            id: `${notebookId}/folder-4/subfolder-1`
+                        },
+                        {
+                            title: 'Subfolder 3',
+                            id: `${notebookId}/folder-4/subfolder-3`
+                        }
+                    ]
                 }
             ];
 
