@@ -8,7 +8,7 @@
         </v-list-tile-action>
         <v-list-tile-content>
             <v-text-field
-                v-if="isBeingRenamed"
+                v-if="renamingId === folder.id"
                 v-model="renamingValue"
                 :ref="`renamingTextField-${folder.id}`"
                 @blur="renameSelectedFolder"
@@ -17,6 +17,20 @@
                 autofocus
             />
             <v-list-tile-title v-else>{{ folder.title }}</v-list-tile-title>
+
+            <v-list-group
+                v-if="folder.subfolders"
+                v-model="subfoldersOpen"
+                no-action
+            >
+                <folder-menu-item
+                    v-for="subfolder in folder.subfolders"
+                    :key="subfolder.id"
+                    :folder="subfolder"
+                    :is-being-renamed="renamingId === folder.id"
+                    :depth="depth + 1"
+                />
+            </v-list-group>
         </v-list-tile-content>
     </v-list-tile>
 </template>
@@ -26,10 +40,18 @@
     import { mapState, mapActions, mapMutations } from 'vuex';
 
     export default Vue.extend({
+        components: {
+            FolderMenuItem: () => import('./FolderMenuItem.vue')
+        },
         props: {
             folder: Object,
-            isBeingRenamed: Boolean,
+            renamingId: String,
             depth: Number
+        },
+        data() {
+            return {
+                subfoldersOpen: false
+            };
         },
         computed: {
             ...mapState('settings', [
