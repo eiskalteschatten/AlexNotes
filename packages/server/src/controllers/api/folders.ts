@@ -34,7 +34,7 @@ class FoldersController implements Controller {
         this.router.delete('/:id', this.deleteFolder);
     }
 
-    static async readFolder(pathToFolders: string, notebookId: string): Promise<FolderMenuItemInterface[]> {
+    private static async readFolder(pathToFolders: string, notebookId: string): Promise<FolderMenuItemInterface[]> {
         return new Promise((resolve, reject): void => {
             readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
                 if (error) {
