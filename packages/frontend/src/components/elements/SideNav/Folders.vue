@@ -193,8 +193,7 @@
 
                 const values: SaveFolderValuesInterface = {
                     title: this.newFolderName,
-                    parent: this.newFolderParent.id,
-                    notebookId: this.selectedNotebookId
+                    parent: this.newFolderParent.id || this.selectedNotebookId
                 };
 
                 const res: ApiReturnObjectInterface = await this.saveFolder(values);

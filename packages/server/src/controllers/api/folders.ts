@@ -52,7 +52,7 @@ class FoldersController implements Controller {
 
                         const menuItem: FolderMenuItemInterface = {
                             title: metadata.title,
-                            id: `${notebookId}/${folder}`
+                            id: metadata.id
                         };
 
                         const subfolders: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolder, notebookId);
@@ -97,15 +97,13 @@ class FoldersController implements Controller {
 
     private async putFolder(req: Request, res: Response): Promise<void> {
         try {
-            const { title, parent, notebookId } = req.body;
+            const { title, parent } = req.body;
+            const id: string = parent + '/' + slug(title.toLowerCase());
 
-            const id: string = parent
-                ? parent + '/' + slug(title.toLowerCase())
-                : notebookId + '/' + slug(title.toLowerCase());
 
             const metadata: FolderMetaDataInterface = { title, id };
-
             const fullPath: string = path.join(config.get('notes.folder'), id);
+
             await createFolderInRepo(fullPath);
             await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
 
