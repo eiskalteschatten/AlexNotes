@@ -55,6 +55,12 @@ class FoldersController implements Controller {
                             id: `${notebookId}/${folder}`
                         };
 
+                        const subfolders: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolder, notebookId);
+
+                        if (subfolders && subfolders.length) {
+                            menuItem.subfolders = subfolders;
+                        }
+
                         folderMenuItems.push(menuItem);
                     }
                 }
@@ -81,55 +87,8 @@ class FoldersController implements Controller {
 
             const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), notebookId);
             const folderMenuItems: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolders, notebookId);
+
             res.json(folderMenuItems);
-
-            // const folderMenuItems: FolderMenuItemInterface[] = [
-            //     {
-            //         title: 'Folder 1',
-            //         id: `${notebookId}/folder-1`,
-            //         subfolders: [
-            //             {
-            //                 title: 'Subfolder 2',
-            //                 id: `${notebookId}/folder-1/subfolder-2`
-            //             },
-            //             {
-            //                 title: 'Subfolder 4',
-            //                 id: `${notebookId}/folder-1/subfolder-4`,
-            //                 subfolders: [
-            //                     {
-            //                         title: 'Subsubfolder',
-            //                         id: `${notebookId}/folder-1/subfolder-4/subsubfolder`
-            //                     }
-            //                 ]
-            //             }
-            //         ]
-            //     },
-            //     {
-            //         title: 'Folder 2',
-            //         id: `${notebookId}/folder-2`
-            //     },
-            //     {
-            //         title: 'Folder 3',
-            //         id: `${notebookId}/folder-3`
-            //     },
-            //     {
-            //         title: 'Folder 4',
-            //         id: `${notebookId}/folder-4`,
-            //         subfolders: [
-            //             {
-            //                 title: 'Subfolder 1',
-            //                 id: `${notebookId}/folder-4/subfolder-1`
-            //             },
-            //             {
-            //                 title: 'Subfolder 3',
-            //                 id: `${notebookId}/folder-4/subfolder-3`
-            //             }
-            //         ]
-            //     }
-            // ];
-
-
-
         }
         catch(error) {
             returnError(error, req, res);
