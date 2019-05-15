@@ -130,16 +130,15 @@ class FoldersController implements Controller {
 
     private async putFolder(req: Request, res: Response): Promise<void> {
         try {
-            const { title, parent, notebookId } = req.body;
+            const { title, parent } = req.body;
 
-            console.log(title, parent, notebookId);
+            const id: string = parent
+                ? parent + '/' + slug(title.toLowerCase())
+                : slug(title.toLowerCase());
 
-            const metadata: FolderMetaDataInterface = {
-                title,
-                id: slug(title.toLowerCase())
-            };
+            const metadata: FolderMetaDataInterface = { title, id };
 
-            const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
+            const fullPath: string = path.join(config.get('notes.folder'), id);
             await createFolderInRepo(fullPath);
             await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
 
