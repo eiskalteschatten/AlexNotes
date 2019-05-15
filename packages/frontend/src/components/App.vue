@@ -55,7 +55,7 @@
                 };
 
                 await pull();
-                setInterval(pull, 300000);
+                setInterval(pull, 600000);
             }
         }
     });
