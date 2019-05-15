@@ -138,11 +138,11 @@ class FoldersController implements Controller {
 
     private async putFolder(req: Request, res: Response): Promise<void> {
         try {
-            const { title, parent } = req.body;
+            const { title, parent, notebookId } = req.body;
 
             const id: string = parent
                 ? parent + '/' + slug(title.toLowerCase())
-                : slug(title.toLowerCase());
+                : notebookId + '/' + slug(title.toLowerCase());
 
             const metadata: FolderMetaDataInterface = { title, id };
 

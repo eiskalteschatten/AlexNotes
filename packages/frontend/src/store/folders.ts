@@ -6,6 +6,7 @@ import { FolderMenuItemInterface } from '../../../shared/types/folders';
 export interface SaveFolderValuesInterface {
     title: string;
     parent: string;
+    notebookId: string;
 }
 
 export interface RenameFolderValuesInterface {
