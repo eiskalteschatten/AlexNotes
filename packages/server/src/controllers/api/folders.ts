@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-// import { readdir } from 'fs';
+import { readdir } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -10,7 +10,7 @@ import { returnError } from '../../lib/apiErrorHandling';
 import {
     createFolderInRepo,
     writeMetaDataJsonFile,
-    // readFolderMetadata,
+    readFolderMetadata,
     deleteFolderFromRepo,
     renameFolderInRepo
 } from '../../lib/fileSystem';
@@ -34,7 +34,40 @@ class FoldersController implements Controller {
         this.router.delete('/:id', this.deleteFolder);
     }
 
-    private getIndex(req: Request, res: Response): void {
+    static async readFolder(pathToFolders: string, notebookId: string): Promise<FolderMenuItemInterface[]> {
+        return new Promise((resolve, reject): void => {
+            readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
+                if (error) {
+                    reject(error);
+                }
+
+                const folderMenuItems: FolderMenuItemInterface[] = [];
+
+                for (const folder of folders) {
+                    const pathToMetadataJson: string = path.resolve(pathToFolders, folder);
+                    const metadataString: string = await readFolderMetadata(pathToMetadataJson);
+                    const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
+
+                    const menuItem: FolderMenuItemInterface = {
+                        title: metadata.title,
+                        id: `${notebookId}/${folder}`
+                    };
+
+                    folderMenuItems.push(menuItem);
+                }
+
+                folderMenuItems.sort((a, b): number => {
+                    if (a.title < b.title) return -1;
+                    if (a.title > b.title) return 1;
+                    return 0;
+                });
+
+                resolve(folderMenuItems);
+            });
+        });
+    }
+
+    private async getIndex(req: Request, res: Response): Promise<void> {
         try {
             const notebookId: string = req.query.notebookId;
 
@@ -43,84 +76,56 @@ class FoldersController implements Controller {
                 return;
             }
 
-            console.log('notebookId:', notebookId);
-
-            // const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
-
-            // readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
-            //     if (error) {
-            //         throw error;
-            //     }
-
-            // const folderMenuItems: FolderMenuItemInterface[] = [];
-
-            // for (const folder of folders) {
-            //     const pathToMetadataJson: string = path.resolve(pathToFolders, folder);
-            //     const metadataString: string = await readFolderMetadata(pathToMetadataJson);
-            //     const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
-
-            //     const menuItem: FolderMenuItemInterface = {
-            //         title: metadata.title,
-            //         icon: 'book',
-            //         id: folder
-            //     };
-
-            //     folderMenuItems.push(menuItem);
-            // }
-
-            const folderMenuItems: FolderMenuItemInterface[] = [
-                {
-                    title: 'Folder 1',
-                    id: `${notebookId}/folder-1`,
-                    subfolders: [
-                        {
-                            title: 'Subfolder 2',
-                            id: `${notebookId}/folder-1/subfolder-2`
-                        },
-                        {
-                            title: 'Subfolder 4',
-                            id: `${notebookId}/folder-1/subfolder-4`,
-                            subfolders: [
-                                {
-                                    title: 'Subsubfolder',
-                                    id: `${notebookId}/folder-1/subfolder-4/subsubfolder`
-                                }
-                            ]
-                        }
-                    ]
-                },
-                {
-                    title: 'Folder 2',
-                    id: `${notebookId}/folder-2`
-                },
-                {
-                    title: 'Folder 3',
-                    id: `${notebookId}/folder-3`
-                },
-                {
-                    title: 'Folder 4',
-                    id: `${notebookId}/folder-4`,
-                    subfolders: [
-                        {
-                            title: 'Subfolder 1',
-                            id: `${notebookId}/folder-4/subfolder-1`
-                        },
-                        {
-                            title: 'Subfolder 3',
-                            id: `${notebookId}/folder-4/subfolder-3`
-                        }
-                    ]
-                }
-            ];
-
-            folderMenuItems.sort((a, b): number => {
-                if (a.title < b.title) return -1;
-                if (a.title > b.title) return 1;
-                return 0;
-            });
-
+            const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), notebookId);
+            const folderMenuItems: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolders, notebookId);
             res.json(folderMenuItems);
-            // });
+
+            // const folderMenuItems: FolderMenuItemInterface[] = [
+            //     {
+            //         title: 'Folder 1',
+            //         id: `${notebookId}/folder-1`,
+            //         subfolders: [
+            //             {
+            //                 title: 'Subfolder 2',
+            //                 id: `${notebookId}/folder-1/subfolder-2`
+            //             },
+            //             {
+            //                 title: 'Subfolder 4',
+            //                 id: `${notebookId}/folder-1/subfolder-4`,
+            //                 subfolders: [
+            //                     {
+            //                         title: 'Subsubfolder',
+            //                         id: `${notebookId}/folder-1/subfolder-4/subsubfolder`
+            //                     }
+            //                 ]
+            //             }
+            //         ]
+            //     },
+            //     {
+            //         title: 'Folder 2',
+            //         id: `${notebookId}/folder-2`
+            //     },
+            //     {
+            //         title: 'Folder 3',
+            //         id: `${notebookId}/folder-3`
+            //     },
+            //     {
+            //         title: 'Folder 4',
+            //         id: `${notebookId}/folder-4`,
+            //         subfolders: [
+            //             {
+            //                 title: 'Subfolder 1',
+            //                 id: `${notebookId}/folder-4/subfolder-1`
+            //             },
+            //             {
+            //                 title: 'Subfolder 3',
+            //                 id: `${notebookId}/folder-4/subfolder-3`
+            //             }
+            //         ]
+            //     }
+            // ];
+
+
 
         }
         catch(error) {
