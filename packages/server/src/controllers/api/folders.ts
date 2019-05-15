@@ -38,6 +38,11 @@ class FoldersController implements Controller {
         try {
             const notebookId: string = req.query.notebookId;
 
+            if (!notebookId) {
+                res.status(400).send('No notebook was selected');
+                return;
+            }
+
             console.log('notebookId:', notebookId);
 
             // const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
@@ -125,7 +130,9 @@ class FoldersController implements Controller {
 
     private async putFolder(req: Request, res: Response): Promise<void> {
         try {
-            const title: string = req.body.title;
+            const { title, parent, notebookId } = req.body;
+
+            console.log(title, parent, notebookId);
 
             const metadata: FolderMetaDataInterface = {
                 title,

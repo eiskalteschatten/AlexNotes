@@ -133,7 +133,7 @@
     import eventBus from '../../../eventBus';
 
     import { ApiReturnObjectInterface } from '../../../types/apiReturnObject';
-    import { RenameFolderValuesInterface } from '../../../store/folders';
+    import { RenameFolderValuesInterface, SaveFolderValuesInterface } from '../../../store/folders';
     import { FolderMenuItemInterface } from '../../../../../shared/types/folders';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
@@ -191,7 +191,13 @@
             async saveNewFolder(): Promise<void> {
                 this.newFolderIsSaving = true;
 
-                const res: ApiReturnObjectInterface = await this.saveFolder(this.newFolderName);
+                const values: SaveFolderValuesInterface = {
+                    title: this.newFolderName,
+                    parent: this.newFolderParent,
+                    notebookId: this.selectedNotebookId
+                };
+
+                const res: ApiReturnObjectInterface = await this.saveFolder(values);
 
                 if (res.code >= 400) {
                     this.newFolderError = this.$t(res.message);

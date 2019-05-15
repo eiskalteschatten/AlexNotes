@@ -3,6 +3,12 @@ import http from '../http';
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
 import { FolderMenuItemInterface } from '../../../shared/types/folders';
 
+export interface SaveFolderValuesInterface {
+    title: string;
+    parent: string;
+    notebookId: string;
+}
+
 export interface RenameFolderValuesInterface {
     id: string;
     newName: string;
@@ -70,9 +76,9 @@ export default {
                 };
             }
         },
-        async saveFolder({ dispatch }, title: string, parent: string): Promise<ApiReturnObjectInterface> {
+        async saveFolder({ dispatch }, values: SaveFolderValuesInterface): Promise<ApiReturnObjectInterface> {
             try {
-                const res = await http.put('api/folders', { title, parent });
+                const res = await http.put('api/folders', values);
 
                 dispatch('getFolders');
 
