@@ -70,9 +70,9 @@ export default {
                 };
             }
         },
-        async saveFolder({ dispatch }, name: string): Promise<ApiReturnObjectInterface> {
+        async saveFolder({ dispatch }, title: string, parent: string): Promise<ApiReturnObjectInterface> {
             try {
-                const res = await http.put('api/folders', { name });
+                const res = await http.put('api/folders', { title, parent });
 
                 dispatch('getFolders');
 

@@ -76,7 +76,7 @@ class NotebooksController implements Controller {
 
     private async putNotebook(req: Request, res: Response): Promise<void> {
         try {
-            const title: string = req.body.name;
+            const title: string = req.body.title;
 
             const metadata: NotebookMetaDataInterface = {
                 title,

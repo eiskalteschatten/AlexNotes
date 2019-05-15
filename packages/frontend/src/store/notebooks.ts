@@ -54,9 +54,9 @@ export default {
                 };
             }
         },
-        async saveNotebook({ dispatch }, name: string): Promise<ApiReturnObjectInterface> {
+        async saveNotebook({ dispatch }, title: string): Promise<ApiReturnObjectInterface> {
             try {
-                const res = await http.put('api/notebooks', { name });
+                const res = await http.put('api/notebooks', { title });
 
                 dispatch('getNotebooks');
 

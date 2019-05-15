@@ -125,7 +125,7 @@ class FoldersController implements Controller {
 
     private async putFolder(req: Request, res: Response): Promise<void> {
         try {
-            const title: string = req.body.name;
+            const title: string = req.body.title;
 
             const metadata: FolderMetaDataInterface = {
                 title,
