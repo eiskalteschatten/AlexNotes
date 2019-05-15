@@ -172,8 +172,8 @@
             }
         },
         watch: {
-            async selectedNotebookId(newId: string): Promise<void> {
-                await this.getFolders(newId);
+            async selectedNotebookId(): Promise<void> {
+                await this.getFolders();
             }
         },
         methods: {
