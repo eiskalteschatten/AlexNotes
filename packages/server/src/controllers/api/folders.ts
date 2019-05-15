@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { readdir } from 'fs';
+import { readdir, lstatSync } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -44,16 +44,19 @@ class FoldersController implements Controller {
                 const folderMenuItems: FolderMenuItemInterface[] = [];
 
                 for (const folder of folders) {
-                    const pathToMetadataJson: string = path.resolve(pathToFolders, folder);
-                    const metadataString: string = await readFolderMetadata(pathToMetadataJson);
-                    const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
+                    const pathToFolder: string = path.resolve(pathToFolders, folder);
 
-                    const menuItem: FolderMenuItemInterface = {
-                        title: metadata.title,
-                        id: `${notebookId}/${folder}`
-                    };
+                    if (lstatSync(pathToFolder).isDirectory()) {
+                        const metadataString: string = await readFolderMetadata(pathToFolder);
+                        const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
 
-                    folderMenuItems.push(menuItem);
+                        const menuItem: FolderMenuItemInterface = {
+                            title: metadata.title,
+                            id: `${notebookId}/${folder}`
+                        };
+
+                        folderMenuItems.push(menuItem);
+                    }
                 }
 
                 folderMenuItems.sort((a, b): number => {

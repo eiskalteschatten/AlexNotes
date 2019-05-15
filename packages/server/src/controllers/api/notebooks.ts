@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-import { readdir } from 'fs';
+import { readdir, lstatSync } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -46,17 +46,20 @@ class NotebooksController implements Controller {
                 const notebookMenuItems: NotebookMenuItemInterface[] = [];
 
                 for (const notebook of notebooks) {
-                    const pathToMetadataJson: string = path.resolve(pathToNotebooks, notebook);
-                    const metadataString: string = await readFolderMetadata(pathToMetadataJson);
-                    const metadata: NotebookMetaDataInterface = JSON.parse(metadataString);
+                    const pathToNotebook: string = path.resolve(pathToNotebooks, notebook);
 
-                    const menuItem: NotebookMenuItemInterface = {
-                        title: metadata.title,
-                        icon: 'book',
-                        id: notebook
-                    };
+                    if (lstatSync(pathToNotebook).isDirectory()) {
+                        const metadataString: string = await readFolderMetadata(pathToNotebook);
+                        const metadata: NotebookMetaDataInterface = JSON.parse(metadataString);
 
-                    notebookMenuItems.push(menuItem);
+                        const menuItem: NotebookMenuItemInterface = {
+                            title: metadata.title,
+                            icon: 'book',
+                            id: notebook
+                        };
+
+                        notebookMenuItems.push(menuItem);
+                    }
                 }
 
                 notebookMenuItems.sort((a, b): number => {
