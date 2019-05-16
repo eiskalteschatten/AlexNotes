@@ -42,7 +42,7 @@
 
                     <v-text-field :label="`${$t('name')}*`" required v-model="newFolderName" />
 
-                    <v-combobox
+                    <v-select
                         v-model="newFolderParent"
                         :items="folderTitles"
                         :label="$t('parentFolder')"
