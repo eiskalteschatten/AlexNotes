@@ -34,7 +34,7 @@ class FoldersController implements Controller {
         this.router.delete('/:id', this.deleteFolder);
     }
 
-    private static async readFolder(pathToFolders: string, notebookId: string): Promise<FolderMenuItemInterface[]> {
+    private static async readFolder(pathToFolders: string): Promise<FolderMenuItemInterface[]> {
         return new Promise((resolve, reject): void => {
             readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
                 if (error) {
@@ -55,7 +55,7 @@ class FoldersController implements Controller {
                             id: metadata.id
                         };
 
-                        const subfolders: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolder, notebookId);
+                        const subfolders: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolder);
 
                         if (subfolders && subfolders.length) {
                             menuItem.subfolders = subfolders;
@@ -86,7 +86,7 @@ class FoldersController implements Controller {
             }
 
             const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), notebookId);
-            const folderMenuItems: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolders, notebookId);
+            const folderMenuItems: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolders);
 
             res.json(folderMenuItems);
         }
