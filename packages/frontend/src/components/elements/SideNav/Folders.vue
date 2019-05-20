@@ -58,7 +58,7 @@
                                     <v-list-tile-title>{{ $t('noParentFolder') }}</v-list-tile-title>
                                 </v-list-tile-content>
                             </v-list-tile>
-                            <v-divider class="mt-2"></v-divider>
+                            <v-divider class="mt-2" />
                         </template>
                     </v-select>
                 </v-card-text>
