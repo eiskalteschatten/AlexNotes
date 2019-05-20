@@ -87,10 +87,10 @@
                 return this.theme === 'dark' ? 'active' : 'active-light';
             },
             computedRenamingValue: {
-                get() {
+                get(): string {
                     return this.renamingValue;
                 },
-                set(value: string) {
+                set(value: string): void {
                     this.setRenamingValue(value);
                 }
             }
