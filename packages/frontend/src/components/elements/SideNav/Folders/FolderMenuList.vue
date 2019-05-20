@@ -16,7 +16,7 @@
                         <v-list-tile-content>
                             <v-text-field
                                 v-if="renamingId === folder.id"
-                                v-model="renamingValue"
+                                v-model="computedRenamingValue"
                                 :ref="`renamingTextField-${folder.id}`"
                                 @blur="renameSelectedFolder"
                                 @keyup.enter.native="renameSelectedFolder"
@@ -46,7 +46,7 @@
                 <v-list-tile-content>
                     <v-text-field
                         v-if="renamingId === folder.id"
-                        v-model="renamingValue"
+                        v-model="computedRenamingValue"
                         :ref="`renamingTextField-${folder.id}`"
                         @blur="renameSelectedFolder"
                         @keyup.enter.native="renameSelectedFolder"
@@ -85,11 +85,20 @@
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
+            },
+            computedRenamingValue: {
+                get() {
+                    return this.renamingValue;
+                },
+                set(value: string) {
+                    this.setRenamingValue(value);
+                }
             }
         },
         methods: {
             ...mapMutations('folders', [
-                'setSelectedFolderId'
+                'setSelectedFolderId',
+                'setRenamingValue'
             ]),
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';

@@ -100,8 +100,7 @@ class FoldersController implements Controller {
             const { title, parent } = req.body;
             const id: string = parent + '/' + slug(title.toLowerCase());
 
-
-            const metadata: FolderMetaDataInterface = { title, id };
+            const metadata: FolderMetaDataInterface = { title, id, parent };
             const fullPath: string = path.join(config.get('notes.folder'), id);
 
             await createFolderInRepo(fullPath);
@@ -122,13 +121,16 @@ class FoldersController implements Controller {
             const oldId: string = req.body.id;
             const title: string = req.body.newName;
 
-            const metadata: FolderMetaDataInterface = {
-                title,
-                id: slug(title.toLowerCase())
-            };
-
             const oldFullPath: string = path.join(config.get('notes.folder'), oldId);
-            const newFullPath: string = path.join(config.get('notes.folder'), metadata.id);
+            const pathToFolder: string = path.resolve(config.get('git.localPath'), oldFullPath);
+            const metadataString: string = await readFolderMetadata(pathToFolder);
+            const oldMetadata: FolderMetaDataInterface = JSON.parse(metadataString);
+            const parent: string = oldMetadata.parent;
+
+            const newId: string = parent + '/' + slug(title.toLowerCase());
+            const metadata: FolderMetaDataInterface = { title, id: newId, parent };
+
+            const newFullPath: string = path.join(config.get('notes.folder'), newId);
 
             await renameFolderInRepo(oldFullPath, newFullPath);
             await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));

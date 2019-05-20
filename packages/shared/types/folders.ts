@@ -7,4 +7,5 @@ export interface FolderMenuItemInterface {
 export interface FolderMetaDataInterface {
     title: string;
     id: string;
+    parent: string;
 }
