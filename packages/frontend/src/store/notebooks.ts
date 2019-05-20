@@ -76,7 +76,8 @@ export default {
         },
         async deleteNotebook({ dispatch }, id: string): Promise<ApiReturnObjectInterface> {
             try {
-                const res = await http.delete(`api/notebooks/${id}`);
+                const encodedId: string = encodeURIComponent(id);
+                const res = await http.delete(`api/notebooks/${encodedId}`);
 
                 dispatch('getNotebooks');
 
