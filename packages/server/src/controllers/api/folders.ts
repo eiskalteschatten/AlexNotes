@@ -1,5 +1,4 @@
 import { Router, Request, Response } from 'express';
-import { readdir, lstatSync } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -11,6 +10,7 @@ import {
     createFolderInRepo,
     writeMetaDataJsonFile,
     readFolderMetadata,
+    readFolder,
     deleteFolderFromRepo,
     renameFolderInRepo
 } from '../../lib/fileSystem';
@@ -34,48 +34,6 @@ class FoldersController implements Controller {
         this.router.delete('/:id', this.deleteFolder);
     }
 
-    private static async readFolder(pathToFolders: string): Promise<FolderMenuItemInterface[]> {
-        return new Promise((resolve, reject): void => {
-            readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
-                if (error) {
-                    reject(error);
-                }
-
-                const folderMenuItems: FolderMenuItemInterface[] = [];
-
-                for (const folder of folders) {
-                    const pathToFolder: string = path.resolve(pathToFolders, folder);
-
-                    if (lstatSync(pathToFolder).isDirectory()) {
-                        const metadataString: string = await readFolderMetadata(pathToFolder);
-                        const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
-
-                        const menuItem: FolderMenuItemInterface = {
-                            title: metadata.title,
-                            id: metadata.id
-                        };
-
-                        const subfolders: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolder);
-
-                        if (subfolders && subfolders.length) {
-                            menuItem.subfolders = subfolders;
-                        }
-
-                        folderMenuItems.push(menuItem);
-                    }
-                }
-
-                folderMenuItems.sort((a, b): number => {
-                    if (a.title < b.title) return -1;
-                    if (a.title > b.title) return 1;
-                    return 0;
-                });
-
-                resolve(folderMenuItems);
-            });
-        });
-    }
-
     private async getIndex(req: Request, res: Response): Promise<void> {
         try {
             const notebookId: string = req.query.notebookId;
@@ -86,7 +44,13 @@ class FoldersController implements Controller {
             }
 
             const pathToFolders: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), notebookId);
-            const folderMenuItems: FolderMenuItemInterface[] = await FoldersController.readFolder(pathToFolders);
+            const folderMenuItems: FolderMenuItemInterface[] = await readFolder(pathToFolders);
+
+            folderMenuItems.sort((a, b): number => {
+                if (a.title < b.title) return -1;
+                if (a.title > b.title) return 1;
+                return 0;
+            });
 
             res.json(folderMenuItems);
         }

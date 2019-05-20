@@ -4,6 +4,8 @@ import * as mkdirp from 'mkdirp';
 import * as fs from 'fs';
 import * as rimraf from 'rimraf';
 
+import { FolderMenuItemInterface, FolderMetaDataInterface } from '../../../shared/types/folders';
+
 import HttpError from '../errors/HttpError';
 
 export function createFolderInRepo(pathToFolder: string): Promise<string|HttpError> {
@@ -49,6 +51,48 @@ export function readFolderMetadata(pathToFolder: string): Promise<string> {
             }
 
             resolve(data);
+        });
+    });
+}
+
+export async function readFolder(pathToFolders: string): Promise<FolderMenuItemInterface[]> {
+    return new Promise((resolve, reject): void => {
+        fs.readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
+            if (error) {
+                reject(error);
+            }
+
+            const folderMenuItems: FolderMenuItemInterface[] = [];
+
+            for (const folder of folders) {
+                const pathToFolder: string = path.resolve(pathToFolders, folder);
+
+                if (fs.lstatSync(pathToFolder).isDirectory()) {
+                    const metadataString: string = await readFolderMetadata(pathToFolder);
+                    const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
+
+                    const menuItem: FolderMenuItemInterface = {
+                        title: metadata.title,
+                        id: metadata.id
+                    };
+
+                    const subfolders: FolderMenuItemInterface[] = await readFolder(pathToFolder);
+
+                    if (subfolders && subfolders.length) {
+                        menuItem.subfolders = subfolders;
+                    }
+
+                    folderMenuItems.push(menuItem);
+                }
+            }
+
+            folderMenuItems.sort((a, b): number => {
+                if (a.title < b.title) return -1;
+                if (a.title > b.title) return 1;
+                return 0;
+            });
+
+            resolve(folderMenuItems);
         });
     });
 }
