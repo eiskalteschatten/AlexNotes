@@ -11,7 +11,8 @@
         "folderSuccessfullyDeleted": "The folder was successfully deleted.",
         "renameFolder": "Rename Folder",
         "theFolderAlreadyExists": "A folder with that name already exists.",
-        "anErrorOccurred": "An error occurred."
+        "anErrorOccurred": "An error occurred.",
+        "noParentFolder": "No Parent Folder"
     },
     "de": {
         "createFolder": "Ordner erstellen",
@@ -24,7 +25,8 @@
         "folderSuccessfullyDeleted": "Der Ordner wurde erfolgreich gelöscht.",
         "renameFolder": "Ordner umbenennen",
         "theFolderAlreadyExists": "Ein Ordner mit diesem Namen existiert bereits.",
-        "anErrorOccurred": "Ein Fehler ist aufgetreten."
+        "anErrorOccurred": "Ein Fehler ist aufgetreten.",
+        "noParentFolder": "Kein übergeordneter Ordner"
     }
 }
 </i18n>
@@ -48,7 +50,17 @@
                         :label="$t('parentFolder')"
                         item-text="title"
                         item-value="id"
-                    />
+                        ref="parentFolderSelect"
+                    >
+                        <template v-slot:prepend-item>
+                            <v-list-tile ripple @click="noParentFolder">
+                                <v-list-tile-content>
+                                    <v-list-tile-title>{{ $t('noParentFolder') }}</v-list-tile-title>
+                                </v-list-tile-content>
+                            </v-list-tile>
+                            <v-divider class="mt-2"></v-divider>
+                        </template>
+                    </v-select>
                 </v-card-text>
 
                 <v-card-actions>
@@ -209,9 +221,14 @@
             },
             closeNewFolderDialog(): void {
                 this.newFolderName = '';
+                this.newFolderParent = '';
                 this.newFolderError = '';
                 this.newFolderDialog = false;
                 this.newFolderIsSaving = false;
+            },
+            noParentFolder(): void {
+                this.newFolderParent = '';
+                this.$refs.parentFolderSelect.blur();
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
