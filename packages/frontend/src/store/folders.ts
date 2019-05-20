@@ -97,7 +97,8 @@ export default {
         },
         async deleteFolder({ dispatch }, id: string): Promise<ApiReturnObjectInterface> {
             try {
-                const res = await http.delete(`api/folders/${id}`);
+                const encodedId: string = encodeURIComponent(id);
+                const res = await http.delete(`api/folders/${encodedId}`);
 
                 dispatch('getFolders');
 

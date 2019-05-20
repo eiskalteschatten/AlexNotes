@@ -145,7 +145,7 @@ class FoldersController implements Controller {
 
     private async deleteFolder(req: Request, res: Response): Promise<void> {
         try {
-            const id: string = req.params.id;
+            const id: string = decodeURIComponent(req.params.id);
             const fullPath: string = path.join(config.get('notes.folder'), id);
 
             await deleteFolderFromRepo(fullPath);
