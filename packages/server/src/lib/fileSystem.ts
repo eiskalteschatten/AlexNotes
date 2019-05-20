@@ -86,12 +86,6 @@ export async function readFolder(pathToFolders: string): Promise<FolderMenuItemI
                 }
             }
 
-            folderMenuItems.sort((a, b): number => {
-                if (a.title < b.title) return -1;
-                if (a.title > b.title) return 1;
-                return 0;
-            });
-
             resolve(folderMenuItems);
         });
     });
