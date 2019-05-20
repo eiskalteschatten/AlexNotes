@@ -26,7 +26,7 @@
                                 <div class="by mb-4">
                                     by <external-link :href="$t('alexseifertWebsite')" link-content="Alex Seifert" />
                                     <div>
-                                        0.2.0
+                                        0.3.0
                                     </div>
                                 </div>
 
