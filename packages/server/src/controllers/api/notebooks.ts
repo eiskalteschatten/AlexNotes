@@ -113,7 +113,7 @@ class NotebooksController implements Controller {
             const oldFullPath: string = path.join(config.get('notes.folder'), oldId);
             const newFullPath: string = path.join(config.get('notes.folder'), metadata.id);
 
-            await renameFolderInRepo(oldFullPath, newFullPath);
+            await renameFolderInRepo(oldFullPath, newFullPath, oldId, metadata.id);
             await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));
 
             const git = new Git();

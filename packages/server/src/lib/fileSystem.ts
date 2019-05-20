@@ -105,7 +105,39 @@ export function deleteFolderFromRepo(pathToFolder: string): Promise<string> {
     });
 }
 
-export function renameFolderInRepo(oldPathToFolder: string, newPathToFolder: string): Promise<string> {
+export async function renameSubFoldersInRepo(pathToFolders: string, oldParentId: string, newParentId: string): Promise<string[]> {
+    return new Promise((resolve, reject): void => {
+        fs.readdir(pathToFolders, async (error: Error, folders: string[]): Promise<void> => {
+            if (error) {
+                reject(error);
+            }
+
+            for (const folder of folders) {
+                const pathToFolder: string = path.resolve(pathToFolders, folder);
+
+                if (fs.lstatSync(pathToFolder).isDirectory()) {
+                    const metadataString: string = await readFolderMetadata(pathToFolder);
+                    const metadata: FolderMetaDataInterface = JSON.parse(metadataString);
+
+                    metadata.parent = newParentId;
+                    metadata.id = metadata.id.replace(oldParentId, newParentId);
+
+                    try {
+                        await writeMetaDataJsonFile(pathToFolder, JSON.stringify(metadata));
+                        await renameSubFoldersInRepo(pathToFolder, oldParentId, newParentId);
+                    }
+                    catch(error) {
+                        reject(error);
+                    }
+                }
+            }
+
+            resolve(folders);
+        });
+    });
+}
+
+export function renameFolderInRepo(oldPathToFolder: string, newPathToFolder: string, oldParentId: string, newParentId: string): Promise<string> {
     return new Promise((resolve, reject): void => {
         const oldFullPath: string = path.resolve(config.get('git.localPath'), oldPathToFolder);
         const newFullPath: string = path.resolve(config.get('git.localPath'), newPathToFolder);
@@ -115,10 +147,12 @@ export function renameFolderInRepo(oldPathToFolder: string, newPathToFolder: str
             reject(httpError);
         }
 
-        fs.rename(oldFullPath, newFullPath, (error: Error): void => {
+        fs.rename(oldFullPath, newFullPath, async (error: Error): Promise<void> => {
             if (error) {
                 reject(error);
             }
+
+            await renameSubFoldersInRepo(newFullPath, oldParentId, newParentId);
 
             resolve();
         });

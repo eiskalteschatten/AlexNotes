@@ -96,7 +96,7 @@ class FoldersController implements Controller {
 
             const newFullPath: string = path.join(config.get('notes.folder'), newId);
 
-            await renameFolderInRepo(oldFullPath, newFullPath);
+            await renameFolderInRepo(oldFullPath, newFullPath, oldId, newId);
             await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));
 
             const git = new Git();
