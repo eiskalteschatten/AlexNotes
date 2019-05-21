@@ -13,7 +13,7 @@
     },
     "dependencies": {
         "browser-cookies": "^1.2.0",
-        "jquery": "^3.4.0"
+        "monaco-editor": "^0.17.0"
     },
     "devDependencies": {
         "@kazupon/vue-i18n-loader": "^0.3.0",
