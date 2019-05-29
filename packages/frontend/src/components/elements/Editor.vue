@@ -13,7 +13,7 @@
             return {
                 editor: null,
                 diffEditor: false,
-                value: 'test',
+                value: '# test',
                 language: 'markdown',
             };
         },
@@ -32,8 +32,10 @@
                 theme: this.editorTheme,
                 automaticLayout: true
             });
-            // this.diffEditor && this._setModel(this.value, this.original);
-            // this._editorMounted(this.editor);
+
+            this.editor.onDidChangeModelContent((event): void => {
+                this.value = this.editor.getValue();
+            });
         },
         beforeDestroy() {
             this.editor && this.editor.dispose();
