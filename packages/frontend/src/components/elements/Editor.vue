@@ -29,7 +29,8 @@
             this.editor = monaco.editor[this.diffEditor ? 'createDiffEditor' : 'create'](this.$refs.editor, {
                 value: this.value,
                 language: this.language,
-                theme: this.editorTheme
+                theme: this.editorTheme,
+                automaticLayout: true
             });
             // this.diffEditor && this._setModel(this.value, this.original);
             // this._editorMounted(this.editor);
