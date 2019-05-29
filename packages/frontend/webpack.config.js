@@ -1,6 +1,7 @@
 const path = require('path');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const CopyPlugin = require('copy-webpack-plugin');
+const MonacoEditorPlugin = require('monaco-editor-webpack-plugin');
 
 const plugins = [
     new VueLoaderPlugin(),
@@ -11,7 +12,15 @@ const plugins = [
     {
         from: './src/resources/images/loader.svg',
         to: 'resources/[name].[ext]'
-    }])
+    }]),
+    new MonacoEditorPlugin({
+        // https://github.com/Microsoft/monaco-editor-webpack-plugin#options
+        // Include a subset of languages support
+        // Some language extensions like typescript are so huge that may impact build performance
+        // e.g. Build full languages support with webpack 4.0 takes over 80 seconds
+        // Languages are loaded on demand at runtime
+        languages: ['markdown']
+    })
 ];
 
 const commonConfig = {
