@@ -58,7 +58,7 @@
                 automaticLayout: true
             });
 
-            this.editor.onDidChangeModelContent((event): void => {
+            this.editor.onDidChangeModelContent((): void => {
                 this.value = this.editor.getValue();
             });
 
