@@ -6,7 +6,7 @@
     import Vue from 'vue';
     import { mapState } from 'vuex';
 
-    import * as monaco from 'monaco-editor';
+    import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
     export default Vue.extend({
         data() {
