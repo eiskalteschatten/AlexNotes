@@ -11,13 +11,11 @@ export default (app: express.Application): void => {
 
         if (typeof router === 'object') {
             if (router.excludeEnv && router.excludeEnv.indexOf(app.get('env')) === -1) {
-                const pathToRouteScript = path.join('../../', router.router);
-                app.use(routePath, express.static(pathToRouteScript));
+                app.use(routePath, express.static(router.router));
             }
         }
         else {
-            const pathToRouteScript = path.join('../../', router);
-            app.use(routePath, express.static(pathToRouteScript));
+            app.use(routePath, express.static(router));
         }
     }
 };
