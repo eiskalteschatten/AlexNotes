@@ -103,14 +103,16 @@ const commonConfig = {
 };
 
 module.exports = [
-    Object.assign({}, commonConfig, {
+    {
+        ...commonConfig,
         target: 'web',
         entry: {
             app: path.resolve(__dirname, 'src', 'app.ts')
         },
         output: {
             filename: 'index.js',
-            path: path.resolve(__dirname, 'dist', 'assets')
+            path: path.resolve(__dirname, 'dist', 'assets'),
+            publicPath: 'assets/'
         }
-    })
+    }
 ];

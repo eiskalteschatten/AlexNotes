@@ -8,30 +8,6 @@
 
     import * as monaco from 'monaco-editor/esm/vs/editor/editor.api';
 
-    const assetsPath = './assets/';
-
-    function getWorkerUrl(workerId: string, label: string): string {
-        switch (label) {
-            case 'json':
-                return assetsPath + 'json.worker.js';
-            case 'css':
-            case 'less':
-            case 'scss':
-                return assetsPath + 'css.worker.js';
-            case 'html':
-            case 'handlebars':
-            case 'razor':
-                return assetsPath + 'html.worker.js';
-            case 'javascript':
-            case 'typescript':
-                return assetsPath + 'typescript.worker.js';
-            default:
-                return assetsPath + 'editor.worker.js';
-        }
-    }
-
-    self.MonacoEnvironment = { getWorkerUrl };
-
     export default Vue.extend({
         data() {
             return {
