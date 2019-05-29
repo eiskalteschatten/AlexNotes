@@ -15,6 +15,7 @@
                 diffEditor: false,
                 value: '# test',
                 language: 'markdown',
+                model: null
             };
         },
         computed: {
@@ -36,6 +37,9 @@
             this.editor.onDidChangeModelContent((event): void => {
                 this.value = this.editor.getValue();
             });
+
+            this.model = monaco.editor.createModel(this.value, this.language);
+            this.editor.setModel(this.model);
         },
         beforeDestroy() {
             this.editor && this.editor.dispose();
