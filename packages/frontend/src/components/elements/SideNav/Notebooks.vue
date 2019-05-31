@@ -158,6 +158,11 @@
                 renamingValue: ''
             };
         },
+        watch: {
+            '$route.params.notebook'(notebook: string): void {
+                this.selectNotebook(notebook);
+            }
+        },
         computed: {
             ...mapState('settings', [
                 'theme'
@@ -172,6 +177,10 @@
         },
         async created(): Promise<void> {
             await this.getNotebooks();
+
+            if (this.$route.params.notebook) {
+                this.selectNotebook(this.$route.params.notebook);
+            }
         },
         methods: {
             ...mapActions('notebooks', [
@@ -209,6 +218,7 @@
             selectNotebook(id: string): void {
                 this.setSelectedNotebookId(id);
                 eventBus.$emit('openFolders');
+                this.$router.push({ name: 'notebook', params: { notebook: id } });
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();

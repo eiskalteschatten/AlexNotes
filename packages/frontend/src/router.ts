@@ -2,6 +2,7 @@ import VueRouter from 'vue-router';
 import * as cookies from 'browser-cookies';
 
 import MainLayout from './components/MainLayout.vue';
+import FolderLayout from './components/FolderLayout.vue';
 import LoggedOutLayout from './components/LoggedOutLayout.vue';
 
 import Default from './components/pages/Default.vue';
@@ -52,6 +53,22 @@ const router = new VueRouter({
             path: 'settings',
             name: 'settings',
             component: Settings
+        }]
+    },
+    {
+        path: '/:lang/notebook/:notebook',
+        component: MainLayout,
+        children: [{
+            path: '',
+            name: 'notebook',
+            component: Default,
+            props: true
+        },
+        {
+            path: ':folder',
+            name: 'folder',
+            component: FolderLayout,
+            props: true
         }]
     },
     {   // Login should not be a child of MainLayout
