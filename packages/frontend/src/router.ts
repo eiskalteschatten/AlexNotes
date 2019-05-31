@@ -56,7 +56,7 @@ const router = new VueRouter({
         }]
     },
     {
-        path: '/:lang/n/:notebook',
+        path: '/:lang/nb/:notebook',
         component: MainLayout,
         children: [{
             path: '',
@@ -65,8 +65,17 @@ const router = new VueRouter({
         },
         {
             path: 'f/:folder',
-            name: 'folder',
-            component: FolderLayout
+            component: FolderLayout,
+            children: [{
+                path: '',
+                name: 'folder',
+                component: Default
+            },
+            {
+                path: 'n/:note',
+                name: 'note',
+                component: Default
+            }]
         }]
     },
     {   // Login should not be a child of MainLayout
