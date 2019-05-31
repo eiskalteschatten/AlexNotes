@@ -1,11 +1,18 @@
 <template>
-    <div class="logo" />
+    <div class="logo">
+        <editor />
+    </div>
 </template>
 
 <script lang="ts">
     import Vue from 'vue';
 
+    import Editor from '../elements/Editor.vue';
+
     export default Vue.extend({
+        components: {
+            Editor
+        }
     });
 </script>
 

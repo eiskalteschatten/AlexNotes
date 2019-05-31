@@ -4,8 +4,10 @@ import * as cookies from 'browser-cookies';
 import MainLayout from './components/MainLayout.vue';
 import FolderLayout from './components/FolderLayout.vue';
 import LoggedOutLayout from './components/LoggedOutLayout.vue';
+import PageWrapper from './components/PageWrapper.vue';
 
 import Default from './components/pages/Default.vue';
+import Editor from './components/pages/Editor.vue';
 import AccountSettings from './components/pages/AccountSettings.vue';
 import Settings from './components/pages/Settings.vue';
 
@@ -73,8 +75,17 @@ const router = new VueRouter({
             },
             {
                 path: 'n/:note',
-                name: 'note',
-                component: Default
+                component: PageWrapper,
+                children: [{
+                    path: '',
+                    name: 'note',
+                    component: Default
+                },
+                {
+                    path: 'edit',
+                    name: 'editNote',
+                    component: Editor
+                }]
             }]
         }]
     },
