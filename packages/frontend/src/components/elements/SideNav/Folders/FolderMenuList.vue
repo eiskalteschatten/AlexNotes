@@ -120,7 +120,7 @@
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            selectFolder(id: string, push?: boolean = true): void {
+            selectFolder(id: string, push: boolean = true): void {
                 this.setSelectedFolderId(id);
                 const folder: string = this.getFolderIdNoNotebook();
 

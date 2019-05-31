@@ -218,7 +218,7 @@
                 this.newNotebookDialog = false;
                 this.newNotebookIsSaving = false;
             },
-            selectNotebook(id: string, push?: boolean = true): void {
+            selectNotebook(id: string, push: boolean = true): void {
                 this.setSelectedNotebookId(id);
                 eventBus.$emit('openFolders');
 
