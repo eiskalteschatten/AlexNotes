@@ -62,7 +62,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapMutations, mapGetters } from 'vuex';
 
     export default Vue.extend({
         components: {
@@ -73,6 +73,14 @@
             showContextMenu: Function,
             renameSelectedFolder: Function,
             cancelRename: Function
+        },
+        watch: {
+            '$route.params.folder'(folder: string, oldFolder: string): void {
+                if (this.$route.params.notebook && folder && folder !== oldFolder) {
+                    const folderId = `${this.$route.params.notebook}/${folder}`;
+                    this.selectFolder(folderId, false);
+                }
+            }
         },
         computed: {
             ...mapState('settings', [
@@ -95,16 +103,30 @@
                 }
             }
         },
+        mounted(): void {
+            if (this.$route.params.notebook && this.$route.params.folder) {
+                const folderId = `${this.$route.params.notebook}/${this.$route.params.folder}`;
+                this.selectFolder(folderId, false);
+            }
+        },
         methods: {
             ...mapMutations('folders', [
                 'setSelectedFolderId',
                 'setRenamingValue'
             ]),
+            ...mapGetters('folders', [
+                'getFolderIdNoNotebook'
+            ]),
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            selectFolder(id: string): void {
+            selectFolder(id: string, push?: boolean = true): void {
                 this.setSelectedFolderId(id);
+                const folder: string = this.getFolderIdNoNotebook();
+
+                if (push) {
+                    this.$router.push({ name: 'folder', params: { folder } });
+                }
             }
         }
     });

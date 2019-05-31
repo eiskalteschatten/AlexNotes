@@ -26,6 +26,11 @@ export default {
     getters: {
         getFolders: (state): FolderMenuItemInterface[] => state.folders,
         getSelectedFolderId: (state): string => state.selectedFolderId,
+        getFolderIdNoNotebook(state): string {
+            const idParts: string[] = state.selectedFolderId.split('/');
+            idParts.shift();
+            return idParts.join('/');
+        },
         getRenamingId: (state): string => state.renamingId,
         getRenamingValue: (state): string => state.renamingValue
     },
