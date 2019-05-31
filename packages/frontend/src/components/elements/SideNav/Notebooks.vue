@@ -159,8 +159,10 @@
             };
         },
         watch: {
-            '$route.params.notebook'(notebook: string): void {
-                this.selectNotebook(notebook);
+            '$route.params.notebook'(notebook: string, oldNotebook: string): void {
+                if (notebook !== oldNotebook) {
+                    this.selectNotebook(notebook, false);
+                }
             }
         },
         computed: {
@@ -177,9 +179,10 @@
         },
         async created(): Promise<void> {
             await this.getNotebooks();
-
+        },
+        mounted(): void {
             if (this.$route.params.notebook) {
-                this.selectNotebook(this.$route.params.notebook);
+                this.selectNotebook(this.$route.params.notebook, false);
             }
         },
         methods: {
@@ -215,10 +218,13 @@
                 this.newNotebookDialog = false;
                 this.newNotebookIsSaving = false;
             },
-            selectNotebook(id: string): void {
+            selectNotebook(id: string, push?: boolean = true): void {
                 this.setSelectedNotebookId(id);
                 eventBus.$emit('openFolders');
-                this.$router.push({ name: 'notebook', params: { notebook: id } });
+
+                if (push) {
+                    this.$router.push({ name: 'notebook', params: { notebook: id } });
+                }
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
