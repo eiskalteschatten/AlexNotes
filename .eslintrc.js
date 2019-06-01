@@ -46,6 +46,7 @@ module.exports = {
                 }
             }
         ],
+        "vue/order-in-components": [ "error" ],
         "vue/attributes-order": [ "off" ],
         "vue/require-default-prop": [ "off" ],
         "vue/no-side-effects-in-computed-properties": [ "off" ],
