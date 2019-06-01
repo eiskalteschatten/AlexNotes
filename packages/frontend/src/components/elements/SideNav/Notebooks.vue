@@ -99,6 +99,7 @@
                 class="nav-item"
                 :class="getActiveClass(selectedNotebookId === notebook.id)"
                 @contextmenu="showContextMenu($event, notebook.id, notebook.title)"
+                ripple
             >
                 <v-list-tile-action>
                     <v-icon>{{ notebook.icon }}</v-icon>

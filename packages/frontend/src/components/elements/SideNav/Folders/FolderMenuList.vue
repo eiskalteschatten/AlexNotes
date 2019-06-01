@@ -42,6 +42,7 @@
                 @contextmenu="showContextMenu($event, folder.id, folder.title)"
                 class="nav-item"
                 :class="getActiveClass(selectedFolderId === folder.id)"
+                ripple
             >
                 <v-list-tile-content>
                     <v-text-field

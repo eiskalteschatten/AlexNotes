@@ -5,6 +5,7 @@
                 :key="note.id"
                 :avatar="note.icon"
                 @click="selectNote(note.id)"
+                ripple
             >
                 <v-list-tile-avatar v-if="note.icon">
                     <img :src="note.icon">
