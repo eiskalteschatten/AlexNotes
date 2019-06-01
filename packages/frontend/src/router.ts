@@ -2,7 +2,6 @@ import VueRouter from 'vue-router';
 import * as cookies from 'browser-cookies';
 
 import MainLayout from './components/MainLayout.vue';
-import FolderLayout from './components/FolderLayout.vue';
 import LoggedOutLayout from './components/LoggedOutLayout.vue';
 import PageWrapper from './components/PageWrapper.vue';
 
@@ -67,7 +66,7 @@ const router = new VueRouter({
         },
         {
             path: 'f/:folder',
-            component: FolderLayout,
+            component: PageWrapper,
             children: [{
                 path: '',
                 name: 'folder',
