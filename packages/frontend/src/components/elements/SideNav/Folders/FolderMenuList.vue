@@ -62,7 +62,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapMutations, mapGetters } from 'vuex';
+    import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 
     export default Vue.extend({
         components: {
@@ -107,6 +107,7 @@
             if (this.$route.params.notebook && this.$route.params.folder) {
                 const folderId = `${this.$route.params.notebook}/${this.$route.params.folder}`;
                 this.selectFolder(folderId, false);
+                this.getNotes();
             }
         },
         methods: {
@@ -116,6 +117,9 @@
             ]),
             ...mapGetters('folders', [
                 'getFolderIdNoNotebook'
+            ]),
+            ...mapActions('notes', [
+                'getNotes'
             ]),
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';

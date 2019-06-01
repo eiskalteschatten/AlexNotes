@@ -8,6 +8,7 @@ import user from './user';
 import settings from './settings';
 import notebooks from './notebooks';
 import folders from './folders';
+import notes from './notes';
 
 Vue.use(Vuex);
 
@@ -16,7 +17,8 @@ const store = new Vuex.Store({
         user,
         settings,
         notebooks,
-        folders
+        folders,
+        notes
     }
 });
 
