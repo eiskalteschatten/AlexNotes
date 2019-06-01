@@ -44,7 +44,8 @@
             ]),
             ...mapState('notes', [
                 'notes',
-                'selectedNoteId'
+                'selectedNoteId',
+                'selectedNote'
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
@@ -70,7 +71,11 @@
                 'getNotes'
             ]),
             ...mapMutations('notes', [
-                'setSelectedNoteId'
+                'setSelectedNoteId',
+                'setSelectedNote'
+            ]),
+            ...mapMutations('markdownViewer', [
+                'setRenderedHtml'
             ]),
             preparePreview(content: string): string {
                 let preview: string = content.replace(/<[^>]*>?/g, '');
@@ -82,7 +87,9 @@
             },
             selectNote(id: string, push: boolean = true): void {
                 this.setSelectedNoteId(id);
+                this.setSelectedNote(id);
                 this.$emit('noteSelected');
+                this.setRenderedHtml(this.selectedNote.content);
 
                 if (push) {
                     this.$router.push({ name: 'note', params: { note: id } });

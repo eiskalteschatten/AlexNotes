@@ -9,6 +9,7 @@ import settings from './settings';
 import notebooks from './notebooks';
 import folders from './folders';
 import notes from './notes';
+import markdownViewer from './markdownViewer';
 
 Vue.use(Vuex);
 
@@ -18,7 +19,8 @@ const store = new Vuex.Store({
         settings,
         notebooks,
         folders,
-        notes
+        notes,
+        markdownViewer
     }
 });
 
