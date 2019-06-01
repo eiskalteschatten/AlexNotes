@@ -70,7 +70,6 @@
                 return isActive ? this.activeClass : '';
             },
             selectNote(id: string, push: boolean = true): void {
-                console.log("select note")
                 this.setSelectedNoteId(id);
                 this.setSelectedNote(id);
                 this.$emit('noteSelected');
