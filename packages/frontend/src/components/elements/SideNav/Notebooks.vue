@@ -158,13 +158,6 @@
                 renamingValue: ''
             };
         },
-        watch: {
-            '$route.params.notebook'(notebook: string, oldNotebook: string): void {
-                if (notebook !== oldNotebook) {
-                    this.selectNotebook(notebook, false);
-                }
-            }
-        },
         computed: {
             ...mapState('settings', [
                 'theme'
@@ -175,6 +168,13 @@
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
+            }
+        },
+        watch: {
+            '$route.params.notebook'(notebook: string, oldNotebook: string): void {
+                if (notebook !== oldNotebook) {
+                    this.selectNotebook(notebook, false);
+                }
             }
         },
         async created(): Promise<void> {

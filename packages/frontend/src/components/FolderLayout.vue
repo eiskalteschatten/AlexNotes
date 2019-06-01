@@ -14,21 +14,24 @@
                         v-else-if="note.divider"
                         :key="index"
                         :inset="note.inset"
-                    ></v-divider>
+                    />
 
                     <v-list-tile
                         v-else
                         :key="note.title"
                         avatar
-                        @click=""
                     >
                         <v-list-tile-avatar>
                             <img :src="note.avatar">
                         </v-list-tile-avatar>
 
                         <v-list-tile-content>
-                            <v-list-tile-title v-html="note.title" />
-                            <v-list-tile-sub-title v-html="note.subtitle" />
+                            <v-list-tile-title>
+                                {{ note.title }}
+                            </v-list-tile-title>
+                            <v-list-tile-sub-title>
+                                {{ note.subtitle }}
+                            </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </template>
@@ -53,7 +56,7 @@
                 'notes'
             ])
         },
-        async created(): void {
+        async created(): Promise<void> {
             await this.getNotes();
         },
         methods: {

@@ -74,14 +74,6 @@
             renameSelectedFolder: Function,
             cancelRename: Function
         },
-        watch: {
-            '$route.params.folder'(folder: string, oldFolder: string): void {
-                if (this.$route.params.notebook && folder && folder !== oldFolder) {
-                    const folderId = `${this.$route.params.notebook}/${folder}`;
-                    this.selectFolder(folderId, false);
-                }
-            }
-        },
         computed: {
             ...mapState('settings', [
                 'theme'
@@ -100,6 +92,14 @@
                 },
                 set(value: string): void {
                     this.setRenamingValue(value);
+                }
+            }
+        },
+        watch: {
+            '$route.params.folder'(folder: string, oldFolder: string): void {
+                if (this.$route.params.notebook && folder && folder !== oldFolder) {
+                    const folderId = `${this.$route.params.notebook}/${folder}`;
+                    this.selectFolder(folderId, false);
                 }
             }
         },
