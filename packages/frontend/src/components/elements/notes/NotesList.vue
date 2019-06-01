@@ -5,6 +5,7 @@
                 :key="note.id"
                 :avatar="note.icon"
                 @click="selectNote(note.id)"
+                :class="getActiveClass(selectedNoteId === note.id)"
                 ripple
             >
                 <v-list-tile-avatar v-if="note.icon">
@@ -33,12 +34,19 @@
 
     export default Vue.extend({
         computed: {
+            ...mapState('settings', [
+                'theme'
+            ]),
             ...mapState('folders', [
                 'selectedFolderId'
             ]),
             ...mapState('notes', [
-                'notes'
-            ])
+                'notes',
+                'selectedNoteId'
+            ]),
+            activeClass(): string {
+                return this.theme === 'dark' ? 'active' : 'active-light';
+            }
         },
         async created(): Promise<void> {
             await this.getNotes();
@@ -55,6 +63,9 @@
                 preview = preview.substring(0, 75);
                 return preview;
             },
+            getActiveClass(isActive: boolean): string {
+                return isActive ? this.activeClass : '';
+            },
             selectNote(id: string): void {
                 this.setSelectedNoteId(id);
             }
@@ -63,6 +74,14 @@
 </script>
 
 <style lang="scss" scoped>
+    .active {
+        background-color: rgba(255, 255, 255, 0.08);
+    }
+
+    .active-light {
+        background-color: rgba(0, 0, 0, 0.05);
+    }
+
     .date {
         display: inline-block;
         font-weight: bold;
