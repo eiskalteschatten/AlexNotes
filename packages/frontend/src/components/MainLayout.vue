@@ -4,10 +4,20 @@
         <toolbar />
         <v-content>
             <v-layout v-if="selectedFolderId">
-                <v-flex xs12 md3>
-                    <notes-list />
+                <v-flex
+                    xs12
+                    lg3
+                    :class="{'mobile-middle-view': $vuetify.breakpoint.mdAndDown}"
+                    ref="middleView"
+                >
+                    <notes-list v-if="selectedFolderId" @noteSelected="selectNote" />
                 </v-flex>
-                <v-flex xs12 md9>
+                <v-flex
+                    xs12
+                    lg9
+                    :class="{'mobile-main-view': $vuetify.breakpoint.mdAndDown}"
+                    ref="mainView"
+                >
                     <v-container fluid>
                         <router-view />
                     </v-container>
@@ -37,11 +47,35 @@
         computed: {
             ...mapState('folders', [
                 'selectedFolderId',
+            ]),
+            ...mapState('notes', [
+                'selectedNoteId',
             ])
+        },
+        methods: {
+            selectNote(): void {
+                if (this.$vuetify.breakpoint.mdAndDown) {
+                    this.$refs.middleView.style.left = '-100%';
+                    this.$refs.mainView.style.left = '0';
+                }
+            }
         }
     });
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+    .mobile-middle-view, .mobile-main-view {
+        position: absolute;
+        top: 0;
+        transition: 250ms left;
+        width: 100%;
+    }
 
+    .mobile-middle-view {
+        left: 0;
+    }
+
+    .mobile-main-view {
+        left: 100%;
+    }
 </style>

@@ -68,6 +68,7 @@
             },
             selectNote(id: string): void {
                 this.setSelectedNoteId(id);
+                this.$emit('noteSelected');
             }
         }
     });
