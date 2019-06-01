@@ -107,7 +107,6 @@
             if (this.$route.params.notebook && this.$route.params.folder) {
                 const folderId = `${this.$route.params.notebook}/${this.$route.params.folder}`;
                 this.selectFolder(folderId, false);
-                this.getNotes();
             }
         },
         methods: {
@@ -127,6 +126,7 @@
             selectFolder(id: string, push: boolean = true): void {
                 this.setSelectedFolderId(id);
                 const folder: string = this.getFolderIdNoNotebook();
+                this.getNotes();
 
                 if (push) {
                     this.$router.push({ name: 'folder', params: { folder } });
