@@ -56,9 +56,6 @@
                 if (note !== oldNote) {
                     this.selectNote(note, false);
                 }
-            },
-            async selectedFolderId(): Promise<void> {
-                await this.getNotes();
             }
         },
         created(): void {
