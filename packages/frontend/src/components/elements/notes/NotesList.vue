@@ -48,13 +48,6 @@
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
-        watch: {
-            '$route.params.note'(note: string, oldNote: string): void {
-                if (note !== oldNote) {
-                    this.selectNote(note, false);
-                }
-            }
-        },
         created(): void {
             eventBus.$on('selectNote', (noteId: string) => {
                 this.selectNote(noteId, false);
@@ -77,6 +70,7 @@
                 return isActive ? this.activeClass : '';
             },
             selectNote(id: string, push: boolean = true): void {
+                console.log("select note")
                 this.setSelectedNoteId(id);
                 this.setSelectedNote(id);
                 this.$emit('noteSelected');

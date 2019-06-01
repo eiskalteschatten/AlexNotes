@@ -103,14 +103,6 @@
                 }
             }
         },
-        watch: {
-            '$route.params.folder'(folder: string, oldFolder: string): void {
-                if (this.$route.params.notebook && folder && folder !== oldFolder) {
-                    const folderId = `${this.$route.params.notebook}/${folder}`;
-                    this.selectFolder(folderId, false);
-                }
-            }
-        },
         created(): void {
             eventBus.$on('selectFolder', async (params: SelectEvent): Promise<void> => {
                 if (this.selectedNotebookId && params.id) {

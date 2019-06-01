@@ -171,13 +171,6 @@
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
-        watch: {
-            '$route.params.notebook'(notebook: string, oldNotebook: string): void {
-                if (notebook !== oldNotebook) {
-                    this.selectNotebook(notebook, false);
-                }
-            }
-        },
         async created(): Promise<void> {
             eventBus.$on('selectNotebook', (notebookId: string) => {
                 this.selectNotebook(notebookId, false);
