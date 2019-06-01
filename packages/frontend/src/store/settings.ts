@@ -3,6 +3,11 @@ import eventBus from '../eventBus';
 
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
 
+interface Language {
+    title: string;
+    code: string;
+}
+
 export default {
     namespaced: true,
     state: {
@@ -19,20 +24,20 @@ export default {
 
     getters: {
         theme: (state): string => state.theme,
-        languages: (state): {}[] => state.languages
+        languages: (state): Language[] => state.languages
     },
 
     mutations: {
-        setTheme(state, theme): void {
+        setTheme(state, theme: string): void {
             state.theme = theme;
         },
-        setLanguages(state, languages): void {
+        setLanguages(state, languages: Language[]): void {
             state.languages = languages;
         }
     },
 
     actions: {
-        async setTheme({ commit }, theme): Promise<ApiReturnObjectInterface> {
+        async setTheme({ commit }, theme: string): Promise<ApiReturnObjectInterface> {
             commit('setTheme', theme);
 
             try {
