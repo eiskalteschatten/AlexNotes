@@ -67,6 +67,8 @@
 
     import eventBus from '../../../../eventBus';
 
+    import { SelectEvent } from '../../../../types/selectEvent';
+
     export default Vue.extend({
         components: {
             FolderMenuList: () => import('./FolderMenuList.vue')
@@ -110,10 +112,11 @@
             }
         },
         created(): void {
-            eventBus.$on('selectFolder', (folder: string) => {
-                if (this.selectedNotebookId && folder) {
-                    const folderId = `${this.selectedNotebookId}/${folder}`;
-                    this.selectFolder(folderId, false);
+            eventBus.$on('selectFolder', async (params: SelectEvent): Promise<void> => {
+                if (this.selectedNotebookId && params.id) {
+                    const folderId = `${this.selectedNotebookId}/${params.id}`;
+                    await this.selectFolder(folderId, false);
+                    await params.callback();
                 }
             });
         },
@@ -131,10 +134,10 @@
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            selectFolder(id: string, push: boolean = true): void {
+            async selectFolder(id: string, push: boolean = true): Promise<void> {
                 this.setSelectedFolderId(id);
                 const folder: string = this.getFolderIdNoNotebook();
-                this.getNotes();
+                await this.getNotes();
 
                 if (push) {
                     this.$router.push({ name: 'folder', params: { folder } });

@@ -2,6 +2,8 @@ import Vue from 'vue';
 
 import eventBus from '../eventBus';
 
+import { SelectEvent } from '../types/selectEvent';
+
 export async function buildFromRoute(vue: Vue): Promise<void> {
     const notebookId: string = vue.$route.params.notebook;
     const folderId: string = vue.$route.params.folder;
@@ -12,10 +14,15 @@ export async function buildFromRoute(vue: Vue): Promise<void> {
     }
 
     if (folderId) {
-        await eventBus.$emit('selectFolder', folderId);
-    }
+        const params: SelectEvent = {
+            id: folderId,
+            async callback(): Promise<void> {
+                if (noteId) {
+                    await eventBus.$emit('selectNote', noteId);
+                }
+            }
+        };
 
-    if (noteId) {
-        await eventBus.$emit('selectNote', noteId);
+        await eventBus.$emit('selectFolder', params);
     }
 }

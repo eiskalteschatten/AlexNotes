@@ -61,9 +61,6 @@
             });
         },
         methods: {
-            ...mapActions('notes', [
-                'getNotes'
-            ]),
             ...mapMutations('notes', [
                 'setSelectedNoteId',
                 'setSelectedNote'
