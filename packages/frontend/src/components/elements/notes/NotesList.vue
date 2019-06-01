@@ -39,9 +39,6 @@
             ...mapState('settings', [
                 'theme'
             ]),
-            ...mapState('folders', [
-                'selectedFolderId'
-            ]),
             ...mapState('notes', [
                 'notes',
                 'selectedNoteId',
