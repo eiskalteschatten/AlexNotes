@@ -179,12 +179,10 @@
             }
         },
         async created(): Promise<void> {
+            eventBus.$on('selectNotebook', (notebookId: string) => {
+                this.selectNotebook(notebookId, false);
+            });
             await this.getNotebooks();
-        },
-        mounted(): void {
-            if (this.$route.params.notebook) {
-                this.selectNotebook(this.$route.params.notebook, false);
-            }
         },
         methods: {
             ...mapActions('notebooks', [

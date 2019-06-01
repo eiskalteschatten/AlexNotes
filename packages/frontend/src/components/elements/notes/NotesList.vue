@@ -32,6 +32,8 @@
     import Vue from 'vue';
     import { mapState, mapActions, mapMutations } from 'vuex';
 
+    import eventBus from '../../../eventBus';
+
     export default Vue.extend({
         computed: {
             ...mapState('settings', [
@@ -48,8 +50,20 @@
                 return this.theme === 'dark' ? 'active' : 'active-light';
             }
         },
-        async created(): Promise<void> {
-            await this.getNotes();
+        watch: {
+            '$route.params.note'(note: string, oldNote: string): void {
+                if (note !== oldNote) {
+                    this.selectNote(note, false);
+                }
+            },
+            async selectedFolderId(): Promise<void> {
+                await this.getNotes();
+            }
+        },
+        created(): Promise<void> {
+            eventBus.$on('selectNote', (noteId: string) => {
+                this.selectNote(noteId, false);
+            });
         },
         methods: {
             ...mapActions('notes', [
@@ -66,9 +80,13 @@
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            selectNote(id: string): void {
+            selectNote(id: string, push: boolean = true): void {
                 this.setSelectedNoteId(id);
                 this.$emit('noteSelected');
+
+                if (push) {
+                    this.$router.push({ name: 'note', params: { note: id } });
+                }
             }
         }
     });

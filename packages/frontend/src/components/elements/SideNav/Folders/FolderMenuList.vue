@@ -65,6 +65,8 @@
     import Vue from 'vue';
     import { mapState, mapMutations, mapGetters, mapActions } from 'vuex';
 
+    import eventBus from '../../../../eventBus';
+
     export default Vue.extend({
         components: {
             FolderMenuList: () => import('./FolderMenuList.vue')
@@ -84,6 +86,9 @@
                 'renamingId',
                 'renamingValue'
             ]),
+            ...mapState('notebooks', [
+                'selectedNotebookId'
+            ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
             },
@@ -98,17 +103,17 @@
         },
         watch: {
             '$route.params.folder'(folder: string, oldFolder: string): void {
-                if (this.$route.params.notebook && folder && folder !== oldFolder) {
+                if (this.$route.params.notebook && folder !== oldFolder) {
                     const folderId = `${this.$route.params.notebook}/${folder}`;
                     this.selectFolder(folderId, false);
                 }
             }
         },
-        mounted(): void {
-            if (this.$route.params.notebook && this.$route.params.folder) {
-                const folderId = `${this.$route.params.notebook}/${this.$route.params.folder}`;
+        created(): void {
+            eventBus.$on('selectFolder', (folder: string) => {
+                const folderId = `${this.selectedNotebookId}/${folder}`;
                 this.selectFolder(folderId, false);
-            }
+            });
         },
         methods: {
             ...mapMutations('folders', [

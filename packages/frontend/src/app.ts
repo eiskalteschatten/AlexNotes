@@ -13,6 +13,7 @@ import theme from './theme';
 import store from './store';
 import http from './http';
 import router, { routeTitles, setDocumentTitle } from './router';
+import { buildFromRoute } from './lib/buildFromRoute';
 
 import App from './components/App.vue';
 
@@ -80,9 +81,10 @@ new Vue({
     async created(): Promise<void> {
         await this.determineAuthentication();
     },
-    mounted(): void {
+    async mounted(): Promise<void> {
         const title = routeTitles[this.$i18n.locale][this.$route.name];
         setDocumentTitle(title);
+        await buildFromRoute(this);
     },
     methods: {
         ...mapActions('user', [
