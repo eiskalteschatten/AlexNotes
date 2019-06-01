@@ -48,6 +48,7 @@ class NotesController implements Controller {
                     title: 'test note',
                     id: 'test-note',
                     content: 'this is where the <b>entirety</b> of the HTML content will go and will usually be quite a large string',
+                    markdown: 'this is where the **entirety** of the HTML content will go and will usually be quite a large string',
                     dateCreated: new Date(),
                     dateUpdated: new Date()
                 },
@@ -55,6 +56,7 @@ class NotesController implements Controller {
                     title: 'test note2',
                     id: 'test-note2',
                     content: 'another note here. this is where the <b>entirety</b> of the HTML content will go and will usually be quite a large string',
+                    markdown: 'another note here. this is where the **entirety** of the HTML content will go and will usually be quite a large string',
                     dateCreated: new Date(),
                     dateUpdated: new Date()
                 }
