@@ -21,6 +21,24 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css';
 
 const locale: string = cookies.get('preferedLanguage') || 'en';
 
+const sharedDateTimeFormats = {
+    numeric: {
+        year: 'numeric', month: 'numeric', day: 'numeric'
+    },
+    short: {
+        year: 'numeric', month: 'short', day: 'numeric'
+    },
+    long: {
+        year: 'numeric', month: 'short', day: 'numeric',
+        weekday: 'short', hour: 'numeric', minute: 'numeric'
+    }
+};
+
+const dateTimeFormats = {
+    en: sharedDateTimeFormats,
+    de: sharedDateTimeFormats
+};
+
 Vue.use(VueRouter);
 Vue.use(VueI18n);
 Vue.use(Vuetify, {
@@ -37,6 +55,7 @@ Vue.use(Vuetify, {
 
 const i18n = new VueI18n({
     locale,
+    dateTimeFormats,
     fallbackLocale: 'en'
 });
 

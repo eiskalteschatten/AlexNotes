@@ -1,26 +1,13 @@
 <template>
     <v-list two-line>
         <template v-for="(note, index) in notes">
-            <v-subheader
-                v-if="note.header"
-                :key="note.header"
-            >
-                {{ note.header }}
-            </v-subheader>
-
-            <v-divider
-                v-else-if="note.divider"
-                :key="index"
-                :inset="note.inset"
-            />
-
             <v-list-tile
-                v-else
-                :key="note.title"
-                avatar
+                :key="note.id"
+                :avatar="note.icon"
+                @click="selectNote(note.id)"
             >
-                <v-list-tile-avatar>
-                    <img :src="note.avatar">
+                <v-list-tile-avatar v-if="note.icon">
+                    <img :src="note.icon">
                 </v-list-tile-avatar>
 
                 <v-list-tile-content>
@@ -28,7 +15,10 @@
                         {{ note.title }}
                     </v-list-tile-title>
                     <v-list-tile-sub-title>
-                        {{ note.subtitle }}
+                        <span class="date">
+                            {{ $d(new Date(note.dateUpdated), 'numeric') }}
+                        </span>
+                        {{ preparePreview(note.content) }}
                     </v-list-tile-sub-title>
                 </v-list-tile-content>
             </v-list-tile>
@@ -38,7 +28,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapActions } from 'vuex';
+    import { mapState, mapActions, mapMutations } from 'vuex';
 
     export default Vue.extend({
         computed: {
@@ -55,11 +45,26 @@
         methods: {
             ...mapActions('notes', [
                 'getNotes'
-            ])
+            ]),
+            ...mapMutations('notes', [
+                'setSelectedNoteId'
+            ]),
+            preparePreview(content: string): string {
+                let preview: string = content.replace(/<[^>]*>?/g, '');
+                preview = preview.substring(0, 75);
+                return preview;
+            },
+            selectNote(id: string): void {
+                this.setSelectedNoteId(id);
+            }
         }
     });
 </script>
 
-<style lang="scss">
-
+<style lang="scss" scoped>
+    .date {
+        display: inline-block;
+        font-weight: bold;
+        margin-right: 12px;
+    }
 </style>
