@@ -1,6 +1,6 @@
 <template>
     <v-list two-line>
-        <template v-for="(note, index) in notes">
+        <template v-for="note in notes">
             <v-list-tile
                 :key="note.id"
                 :avatar="note.icon"
