@@ -1,5 +1,5 @@
 {
-    "name": "alexnotes-frontend",
+    "name": "@alexnotes/frontend",
     "version": "0.3.0",
     "main": "./dist/index.js",
     "scripts": {

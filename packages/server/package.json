@@ -1,5 +1,5 @@
 {
-	"name": "alexnotes-server",
+	"name": "@alexnotes/server",
 	"version": "0.3.0",
 	"main": "./dist/server/src/index.js",
 	"private": true,
@@ -13,7 +13,7 @@
 		"test": "echo 'Tests should be run here'"
 	},
 	"dependencies": {
-		"alexnotes-frontend": "^0.3.0",
+		"@alexnotes/frontend": "^0.3.0",
 		"apicache": "^1.4.0",
 		"bcrypt": "^3.0.6",
 		"bcryptjs": "^2.4.3",
