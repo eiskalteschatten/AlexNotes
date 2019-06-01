@@ -30,7 +30,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapActions, mapMutations } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
 
     import eventBus from '../../../eventBus';
 
