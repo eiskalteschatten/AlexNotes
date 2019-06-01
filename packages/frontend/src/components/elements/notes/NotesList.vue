@@ -60,7 +60,7 @@
                 await this.getNotes();
             }
         },
-        created(): Promise<void> {
+        created(): void {
             eventBus.$on('selectNote', (noteId: string) => {
                 this.selectNote(noteId, false);
             });
