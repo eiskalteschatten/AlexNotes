@@ -1,5 +1,5 @@
 <template>
-    <v-list two-line>
+    <v-list two-line class="fill-height">
         <template v-for="note in notes">
             <v-list-tile
                 :key="note.id"
@@ -84,6 +84,10 @@
 </script>
 
 <style lang="scss" scoped>
+    .fill-height {
+        height: 100%;
+    }
+
     .active {
         background-color: rgba(255, 255, 255, 0.08);
     }

@@ -1,9 +1,9 @@
 <template>
-    <div>
+    <div class="fill-page">
         <side-nav />
         <toolbar />
-        <v-content>
-            <v-layout v-if="selectedFolderId">
+        <v-content class="fill-page">
+            <v-layout v-if="selectedFolderId" class="fill-page">
                 <v-flex
                     xs12
                     lg3
@@ -17,6 +17,7 @@
                     lg9
                     :class="{'mobile-main-view': $vuetify.breakpoint.mdAndDown}"
                     ref="mainView"
+                    grow
                 >
                     <v-container fluid>
                         <router-view />
@@ -64,6 +65,11 @@
 </script>
 
 <style lang="scss" scoped>
+    .fill-page {
+        height: 100%;
+        width: 100%;
+    }
+
     .mobile-middle-view, .mobile-main-view {
         position: absolute;
         top: 0;
