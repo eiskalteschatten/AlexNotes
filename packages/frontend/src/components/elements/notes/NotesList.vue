@@ -1,31 +1,54 @@
-<template>
-    <v-list two-line class="fill-height">
-        <template v-for="note in notes">
-            <v-list-tile
-                :key="note.id"
-                :avatar="note.icon"
-                @click="selectNote(note.id)"
-                :class="getActiveClass(selectedNoteId === note.id)"
-                ripple
-            >
-                <v-list-tile-avatar v-if="note.icon">
-                    <img :src="note.icon">
-                </v-list-tile-avatar>
+<i18n>
+{
+    "en": {
+        "createNote": "Create Note"
+    },
+    "de": {
+        "createNote": "Notiz erstellen"
+    }
+}
+</i18n>
 
-                <v-list-tile-content>
-                    <v-list-tile-title>
-                        {{ note.title }}
-                    </v-list-tile-title>
-                    <v-list-tile-sub-title>
-                        <span class="date">
-                            {{ $d(new Date(note.dateUpdated), 'numeric') }}
-                        </span>
-                        {{ preparePreview(note.content) }}
-                    </v-list-tile-sub-title>
-                </v-list-tile-content>
-            </v-list-tile>
-        </template>
-    </v-list>
+<template>
+    <v-layout row wrap fill-height>
+        <v-flex>
+            <sub-toolbar class="text-xs-center">
+                <v-btn>
+                    <v-icon left>add</v-icon>
+                    {{ $t('createNote') }}
+                </v-btn>
+            </sub-toolbar>
+        </v-flex>
+        <v-flex class="fill-height-with-toolbar">
+            <v-list two-line class="fill-height">
+                <template v-for="note in notes">
+                    <v-list-tile
+                        :key="note.id"
+                        :avatar="note.icon"
+                        @click="selectNote(note.id)"
+                        :class="getActiveClass(selectedNoteId === note.id)"
+                        ripple
+                    >
+                        <v-list-tile-avatar v-if="note.icon">
+                            <img :src="note.icon">
+                        </v-list-tile-avatar>
+
+                        <v-list-tile-content>
+                            <v-list-tile-title>
+                                {{ note.title }}
+                            </v-list-tile-title>
+                            <v-list-tile-sub-title>
+                                <span class="date">
+                                    {{ $d(new Date(note.dateUpdated), 'numeric') }}
+                                </span>
+                                {{ preparePreview(note.content) }}
+                            </v-list-tile-sub-title>
+                        </v-list-tile-content>
+                    </v-list-tile>
+                </template>
+            </v-list>
+        </v-flex>
+    </v-layout>
 </template>
 
 <script lang="ts">
@@ -34,7 +57,12 @@
 
     import eventBus from '../../../eventBus';
 
+    import SubToolbar from '../../elements/toolbars/SubToolbar.vue';
+
     export default Vue.extend({
+        components: {
+            SubToolbar
+        },
         computed: {
             ...mapState('settings', [
                 'theme'
@@ -84,6 +112,12 @@
 </script>
 
 <style lang="scss" scoped>
+    $toolbarHeight: 80px;
+
+    .fill-height-with-toolbar {
+        height: calc(100% - #{$toolbarHeight});
+    }
+
     .fill-height {
         height: 100%;
     }

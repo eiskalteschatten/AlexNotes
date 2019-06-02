@@ -84,12 +84,12 @@
             </v-list>
         </v-menu>
 
-        <div class="text-xs-center">
-            <v-btn class="ma-4" @click="newNotebookDialog = true">
+        <sub-toolbar class="text-xs-center">
+            <v-btn @click="newNotebookDialog = true">
                 <v-icon left>add</v-icon>
                 {{ $t('createNotebook') }}
             </v-btn>
-        </div>
+        </sub-toolbar>
 
         <v-list>
             <v-list-tile
@@ -139,10 +139,12 @@
     import { RenameNotebookValuesInterface } from '../../../store/notebooks';
 
     import ConfirmDialog from '../ConfirmDialog.vue';
+    import SubToolbar from '../toolbars/SubToolbar.vue';
 
     export default Vue.extend({
         components: {
-            ConfirmDialog
+            ConfirmDialog,
+            SubToolbar
         },
         data() {
             return {

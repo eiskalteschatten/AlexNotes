@@ -107,19 +107,21 @@
             </v-list>
         </v-menu>
 
-        <v-layout>
-            <v-flex xs2>
-                <v-btn class="my-4" flat @click="goBackToNotebooks" icon>
-                    <v-icon>arrow_back</v-icon>
-                </v-btn>
-            </v-flex>
-            <v-flex xs10 class="text-xs-center">
-                <v-btn class="my-4" @click="newFolderDialog = true">
-                    <v-icon left>add</v-icon>
-                    {{ $t('createFolder') }}
-                </v-btn>
-            </v-flex>
-        </v-layout>
+        <sub-toolbar>
+            <v-layout>
+                <v-flex xs2>
+                    <v-btn flat @click="goBackToNotebooks" icon>
+                        <v-icon>arrow_back</v-icon>
+                    </v-btn>
+                </v-flex>
+                <v-flex xs10 class="text-xs-center">
+                    <v-btn @click="newFolderDialog = true">
+                        <v-icon left>add</v-icon>
+                        {{ $t('createFolder') }}
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+        </sub-toolbar>
 
         <folder-menu-list
             :folders="folders"
@@ -150,11 +152,13 @@
 
     import ConfirmDialog from '../ConfirmDialog.vue';
     import FolderMenuList from './Folders/FolderMenuList.vue';
+    import SubToolbar from '../toolbars/SubToolbar.vue';
 
     export default Vue.extend({
         components: {
             ConfirmDialog,
-            FolderMenuList
+            FolderMenuList,
+            SubToolbar
         },
         data() {
             return {

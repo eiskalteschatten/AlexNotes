@@ -3,7 +3,7 @@
         <side-nav />
         <toolbar />
         <v-content class="fill-page">
-            <v-layout v-if="selectedFolderId" class="fill-page">
+            <v-layout v-if="selectedFolderId" fill-height>
                 <v-flex
                     xs12
                     lg3
