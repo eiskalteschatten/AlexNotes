@@ -19,12 +19,12 @@
                     ref="mainView"
                     grow
                 >
-                    <v-container fluid>
+                    <v-container fluid fill-height pa-0>
                         <router-view />
                     </v-container>
                 </v-flex>
             </v-layout>
-            <v-container v-else fluid>
+            <v-container v-else fluid fill-height>
                 <router-view />
             </v-container>
         </v-content>

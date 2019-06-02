@@ -7,7 +7,7 @@ import PageWrapper from './components/PageWrapper.vue';
 
 import Default from './components/pages/Default.vue';
 import MarkdownViewer from './components/pages/MarkdownViewer.vue';
-import Editor from './components/pages/Editor.vue';
+import NotesEditor from './components/pages/NotesEditor.vue';
 import AccountSettings from './components/pages/AccountSettings.vue';
 import Settings from './components/pages/Settings.vue';
 
@@ -84,7 +84,7 @@ const router = new VueRouter({
                 {
                     path: 'edit',
                     name: 'editNote',
-                    component: Editor
+                    component: NotesEditor
                 }]
             }]
         }]

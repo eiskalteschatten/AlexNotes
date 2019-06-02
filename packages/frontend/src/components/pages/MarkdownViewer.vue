@@ -1,5 +1,5 @@
 <template>
-    <v-flex fill-height>
+    <v-flex fill-height pa-4>
         <v-btn
             fixed
             dark
