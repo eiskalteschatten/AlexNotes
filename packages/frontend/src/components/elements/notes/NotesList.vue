@@ -10,8 +10,8 @@
 </i18n>
 
 <template>
-    <v-layout row wrap fill-height>
-        <v-flex>
+    <v-layout column fill-height>
+        <v-flex shrink>
             <sub-toolbar class="text-xs-center">
                 <v-btn>
                     <v-icon left>add</v-icon>
@@ -19,7 +19,7 @@
                 </v-btn>
             </sub-toolbar>
         </v-flex>
-        <v-flex class="fill-height-with-toolbar">
+        <v-flex grow>
             <v-list two-line class="fill-height">
                 <template v-for="note in notes">
                     <v-list-tile
@@ -112,12 +112,6 @@
 </script>
 
 <style lang="scss" scoped>
-    $toolbarHeight: 80px;
-
-    .fill-height-with-toolbar {
-        height: calc(100% - #{$toolbarHeight});
-    }
-
     .fill-height {
         height: 100%;
     }
