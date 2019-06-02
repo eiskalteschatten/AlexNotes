@@ -27,7 +27,7 @@
                     {{ $t('saveAndClose') }}
                 </v-btn>
 
-                <v-btn color="error">
+                <v-btn color="error" @click="closeWithoutSaving">
                     <v-icon left>close</v-icon>
                     {{ $t('close') }}
                 </v-btn>
@@ -49,6 +49,11 @@
         components: {
             Editor,
             SubToolbar
+        },
+        methods: {
+            closeWithoutSaving(): void {
+                this.$router.push({ name: 'note' });
+            }
         }
     });
 </script>
