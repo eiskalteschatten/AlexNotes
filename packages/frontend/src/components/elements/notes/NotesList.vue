@@ -13,7 +13,7 @@
     <v-layout column fill-height>
         <v-flex shrink>
             <sub-toolbar class="text-xs-center">
-                <v-btn>
+                <v-btn @click="createNote">
                     <v-icon left>add</v-icon>
                     {{ $t('createNote') }}
                 </v-btn>
@@ -84,13 +84,15 @@
         methods: {
             ...mapMutations('notes', [
                 'setSelectedNoteId',
-                'setSelectedNote'
+                'setSelectedNote',
+                'resetSelectedNote'
             ]),
             ...mapMutations('markdownViewer', [
                 'setRenderedHtml'
             ]),
             ...mapMutations('editor', {
-                setEditorContent: 'setAllContent'
+                setEditorContent: 'setAllContent',
+                resetEditorContent: 'resetContent'
             }),
             preparePreview(content: string): string {
                 let preview: string = content.replace(/<[^>]*>?/g, '');
@@ -110,6 +112,11 @@
                 if (push) {
                     this.$router.push({ name: 'note', params: { note: id } });
                 }
+            },
+            createNote(): void {
+                this.resetSelectedNote();
+                this.resetEditorContent();
+                this.$router.push({ name: 'newNote' });
             }
         }
     });

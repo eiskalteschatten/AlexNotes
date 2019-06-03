@@ -86,6 +86,11 @@ const router = new VueRouter({
                     name: 'editNote',
                     component: NotesEditor
                 }]
+            },
+            {
+                path: 'new-note',
+                name: 'newNote',
+                component: NotesEditor
             }]
         }]
     },

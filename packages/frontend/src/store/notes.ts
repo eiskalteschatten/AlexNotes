@@ -32,6 +32,10 @@ export default {
             state.selectedNoteId = '';
             state.selectedNote = {};
         },
+        resetSelectedNote(state): void {
+            state.selectedNoteId = '';
+            state.selectedNote = {};
+        },
         setSelectedNoteId(state, selectedNoteId: string): void {
             state.selectedNoteId = selectedNoteId;
         },

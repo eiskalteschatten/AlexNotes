@@ -78,14 +78,14 @@
         },
         methods: {
             ...mapMutations('editor', [
-                'resetContent'
+                'resetToOriginalContent'
             ]),
             ...mapMutations('editor', [
                 'resetContent'
             ]),
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
-                this.resetContent();
+                this.resetToOriginalContent();
             }
         }
     });

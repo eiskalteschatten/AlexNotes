@@ -21,8 +21,12 @@ export default {
             state.content = content;
             state.originalContent = content;
         },
-        resetContent(state): void {
+        resetToOriginalContent(state): void {
             state.content = state.originalContent;
+        },
+        resetContent(state): void {
+            state.content = '';
+            state.originalContent = '';
         }
     }
 };
