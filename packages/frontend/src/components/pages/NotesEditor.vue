@@ -105,6 +105,7 @@
                 },
                 set(newTitle: string): void {
                     // Todo: set it somewhere for saving when saving the note
+                    console.log(newTitle);
                 }
             }
         },
