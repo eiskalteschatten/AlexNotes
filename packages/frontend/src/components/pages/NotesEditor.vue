@@ -25,7 +25,7 @@
                         {{ $t('save') }}
                     </v-btn>
 
-                    <v-btn>
+                    <v-btn @click="saveAndCloseNote">
                         <v-icon left>save</v-icon>
                         {{ $t('saveAndClose') }}
                     </v-btn>
@@ -55,7 +55,7 @@
                                 </template>
                                 <v-list>
                                     <v-list-tile>
-                                        <v-list-tile-title>
+                                        <v-list-tile-title @click="saveAndCloseNote">
                                             <v-icon left>save</v-icon>
                                             {{ $t('saveAndClose') }}
                                         </v-list-tile-title>
@@ -126,6 +126,10 @@
             },
             async saveNoteLocal(): Promise<void> {
                 await this.saveNote(this.additionalFields.title);
+            },
+            async saveAndCloseNote(): Promise<void> {
+                await this.saveNoteLocal();
+                this.$router.push({ name: 'note' });
             }
         }
     });
