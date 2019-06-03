@@ -4,7 +4,7 @@ import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
 
-// import Git from '../../lib/git';
+import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
 
 import {
@@ -120,8 +120,8 @@ class NotesController implements Controller {
                 await deleteMarkdownAndJsonFile(fullPath, oldId);
             }
 
-            // const git = new Git();
-            // git.addCommitPullPush(`Added or updated the note "${title}"`);
+            const git = new Git();
+            git.addCommitPullPush(`Added or updated the note "${title}"`);
 
             res.status(200).json(metadata);
         }
