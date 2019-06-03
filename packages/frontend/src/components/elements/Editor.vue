@@ -43,7 +43,8 @@
                 value: this.content,
                 language: this.language,
                 theme: this.editorTheme,
-                automaticLayout: true
+                automaticLayout: true,
+                wordWrap: 'on'
             });
 
             this.editor.onDidChangeModelContent((): void => {
