@@ -32,6 +32,7 @@ export default {
         resetContent(state): void {
             state.content = '';
             state.originalContent = '';
+            state.additionalFields = {};
         },
         setAdditionalFields(state, additionalFields: any): void {
             state.additionalFields = additionalFields;
