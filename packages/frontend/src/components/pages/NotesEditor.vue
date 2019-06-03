@@ -20,7 +20,7 @@
         <v-flex shrink>
             <sub-toolbar>
                 <div v-if="$vuetify.breakpoint.smAndUp" class="text-xs-right">
-                    <v-btn color="success">
+                    <v-btn color="success" @click="saveNoteLocal">
                         <v-icon left>save</v-icon>
                         {{ $t('save') }}
                     </v-btn>
@@ -37,7 +37,7 @@
                 </div>
                 <div v-else>
                     <v-layout row>
-                        <v-btn color="success">
+                        <v-btn color="success" @click="saveNoteLocal">
                             <v-icon left>save</v-icon>
                             {{ $t('save') }}
                         </v-btn>
@@ -85,7 +85,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapMutations, mapActions } from 'vuex';
 
     import Editor from '../elements/Editor.vue';
     import SubToolbar from '../elements/toolbars/SubToolbar.vue';
@@ -99,26 +99,33 @@
             ...mapState('notes', [
                 'selectedNote'
             ]),
+            ...mapState('editor', [
+                'additionalFields'
+            ]),
             inputTitle: {
                 get(): string {
-                    return this.selectedNote.title;
+                    return this.additionalFields.title;
                 },
-                set(newTitle: string): void {
-                    // Todo: set it somewhere for saving when saving the note
-                    console.log(newTitle);
+                set(title: string): void {
+                    this.setAdditionalFields({ title });
                 }
             }
         },
         methods: {
             ...mapMutations('editor', [
-                'resetToOriginalContent'
+                'resetToOriginalContent',
+                'resetContent',
+                'setAdditionalFields'
             ]),
-            ...mapMutations('editor', [
-                'resetContent'
+            ...mapActions('notes', [
+                'saveNote'
             ]),
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
                 this.resetToOriginalContent();
+            },
+            async saveNoteLocal(): Promise<void> {
+                await this.saveNote(this.additionalFields.title);
             }
         }
     });

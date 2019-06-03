@@ -92,7 +92,8 @@
             ]),
             ...mapMutations('editor', {
                 setEditorContent: 'setAllContent',
-                resetEditorContent: 'resetContent'
+                resetEditorContent: 'resetContent',
+                setEditorAdditionalFields: 'setAdditionalFields'
             }),
             preparePreview(content: string): string {
                 let preview: string = content.replace(/<[^>]*>?/g, '');
@@ -108,6 +109,7 @@
                 this.$emit('noteSelected');
                 this.setRenderedHtml(this.selectedNote.content);
                 this.setEditorContent(this.selectedNote.markdown);
+                this.setEditorAdditionalFields({ title: this.selectedNote.title });
 
                 if (push) {
                     this.$router.push({ name: 'note', params: { note: id } });

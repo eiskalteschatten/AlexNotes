@@ -2,12 +2,14 @@ export default {
     namespaced: true,
     state: {
         content: '',
-        originalContent: ''
+        originalContent: '',
+        additionalFields: {}
     },
 
     getters: {
         content: (state): string => state.content,
-        originalContent: (state): string => state.originalContent
+        originalContent: (state): string => state.originalContent,
+        additionalFields: (state): string => state.additionalFields
     },
 
     mutations: {
@@ -27,6 +29,9 @@ export default {
         resetContent(state): void {
             state.content = '';
             state.originalContent = '';
+        },
+        setAdditionalFields(state, additionalFields: any): void {
+            state.additionalFields = additionalFields;
         }
     }
 };

@@ -1,19 +1,19 @@
 import { Router, Request, Response } from 'express';
 // import { readdir, lstatSync } from 'fs';
-// import * as slug from 'slug';
-// import * as config from 'config';
-// import * as path from 'path';
+import * as slug from 'slug';
+import * as config from 'config';
+import * as path from 'path';
 
 // import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
 
-// import {
-//     createFolderInRepo,
-//     writeMetaDataJsonFile,
-//     readFolderMetadata,
-//     deleteFolderFromRepo,
-//     renameFolderInRepo
-// } from '../../lib/fileSystem';
+import {
+    // writeMetaDataJsonFile,
+    writeMarkdownAndJsonFiles,
+    // readFolderMetadata,
+    // deleteFolderFromRepo,
+    // renameFolderInRepo
+} from '../../lib/fileSystem';
 
 import { NoteMetaDataInterface } from '../../../../shared/types/notes';
 import Controller from '../../interfaces/Controller';
@@ -29,8 +29,7 @@ class NotesController implements Controller {
 
     private initilizeRoutes(): void {
         this.router.get('/', this.getIndex);
-        // this.router.put('/', this.putNote);
-        // this.router.patch('/rename', this.patchRenameNote);
+        this.router.put('/', this.putNote);
         // this.router.delete('/:id', this.deleteNote);
     }
 
@@ -104,54 +103,30 @@ class NotesController implements Controller {
         }
     }
 
-    // private async putNote(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const title: string = req.body.title;
+    private async putNote(req: Request, res: Response): Promise<void> {
+        try {
+            const { title, content, folderId } = req.body;
+            const { dateCreated } = req.body.metaData;
 
-    //         const metadata: NotebookMetaDataInterface = {
-    //             title,
-    //             id: slug(title.toLowerCase())
-    //         };
+            const metadata: NoteMetaDataInterface = {
+                title,
+                id: slug(title.toLowerCase()),
+                dateCreated: dateCreated || new Date().toISOString(),
+                dateUpdated: new Date().toISOString()
+            };
 
-    //         const fullPath: string = path.join(config.get('notes.folder'), metadata.id);
-    //         await createFolderInRepo(fullPath);
-    //         await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
+            const fullPath: string = path.join(config.get('notes.folder'), folderId);
+            await writeMarkdownAndJsonFiles(fullPath, metadata.id, content, JSON.stringify(metadata));
 
-    //         const git = new Git();
-    //         git.addCommitPullPush(`Added or updated the notebook "${title}"`);
+            // const git = new Git();
+            // git.addCommitPullPush(`Added or updated the note "${title}"`);
 
-    //         res.status(200).json(metadata);
-    //     }
-    //     catch(error) {
-    //         returnError(error, req, res);
-    //     }
-    // }
-
-    // private async patchRenameNote(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const oldId: string = req.body.id;
-    //         const title: string = req.body.newName;
-
-    //         const metadata: NotebookMetaDataInterface = {
-    //             title,
-    //             id: slug(title.toLowerCase())
-    //         };
-
-    //         const oldFullPath: string = path.join(config.get('notes.folder'), oldId);
-    //         const newFullPath: string = path.join(config.get('notes.folder'), metadata.id);
-
-    //         await renameFolderInRepo(oldFullPath, newFullPath, oldId, metadata.id);
-    //         await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));
-
-    //         const git = new Git();
-    //         git.addCommitPullPush(`Renamed a notebook to "${title}"`);
-
-    //         res.status(200).json(metadata);
-    //     }
-    //     catch(error) {
-    //         returnError(error, req, res);
-    //     }
-    // }
+            res.status(200).json(metadata);
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
+    }
 
     // private async deleteNote(req: Request, res: Response): Promise<void> {
     //     try {

@@ -3,12 +3,6 @@ import http from '../http';
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
 import { NoteMetaDataInterface } from '../../../shared/types/notes';
 
-// export interface RenameNotebookValuesInterface {
-//     id: string;
-//     newName: string;
-// }
-
-
 export default {
     namespaced: true,
     state: {
@@ -78,50 +72,36 @@ export default {
                     message: error.bodyText
                 };
             }
+        },
+        async saveNote({ state, dispatch, rootState }, title: string): Promise<ApiReturnObjectInterface> {
+            try {
+                const res = await http.put('api/notes', {
+                    content: rootState.editor.content,
+                    title,
+                    folderId: rootState.folders.selectedFolderId,
+                    metaData: state.selectedNote
+                });
+
+                dispatch('getNotes');
+
+                return {
+                    code: res.status,
+                    message: res.bodyText,
+                    body: res.body
+                } as any as ApiReturnObjectInterface;
+            }
+            catch(error) {
+                console.error(error);
+                return {
+                    code: error.status | 500,
+                    message: error.bodyText
+                };
+            }
         }//,
-        // async saveNote({ dispatch }, title: string): Promise<ApiReturnObjectInterface> {
-        //     try {
-        //         const res = await http.put('api/notebooks', { title });
-
-        //         dispatch('getNotebooks');
-
-        //         return {
-        //             code: res.status,
-        //             message: res.bodyText,
-        //             body: res.body
-        //         } as any as ApiReturnObjectInterface;
-        //     }
-        //     catch(error) {
-        //         console.error(error);
-        //         return {
-        //             code: error.status | 500,
-        //             message: error.bodyText
-        //         };
-        //     }
-        // },
         // async deleteNotebook({ dispatch }, id: string): Promise<ApiReturnObjectInterface> {
         //     try {
         //         const encodedId: string = encodeURIComponent(id);
         //         const res = await http.delete(`api/notebooks/${encodedId}`);
-
-        //         dispatch('getNotebooks');
-
-        //         return {
-        //             code: res.status,
-        //             message: res.bodyText
-        //         } as any as ApiReturnObjectInterface;
-        //     }
-        //     catch(error) {
-        //         console.error(error);
-        //         return {
-        //             code: error.status | 500,
-        //             message: error.bodyText
-        //         };
-        //     }
-        // },
-        // async renameNotebook({ dispatch }, values: RenameNotebookValuesInterface): Promise<ApiReturnObjectInterface> {
-        //     try {
-        //         const res = await http.patch('api/notebooks/rename/', values);
 
         //         dispatch('getNotebooks');
 

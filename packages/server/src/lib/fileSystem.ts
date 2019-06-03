@@ -41,6 +41,29 @@ export function writeMetaDataJsonFile(pathToFolder: string, metadata: string): P
     });
 }
 
+export function writeMarkdownAndJsonFiles(pathToFolder: string, fileName: string, content: string, metadata: string): Promise<string> {
+    return new Promise((resolve, reject): void => {
+        const localPathToFolder: string = path.join(config.get('git.localPath'), pathToFolder);
+        const fullPath: string = path.resolve(localPathToFolder, `${fileName}.md`);
+
+        fs.writeFile(fullPath, content, 'utf8', (error: Error): void => {
+            if (error) {
+                reject(error);
+            }
+
+            const fullMetaDataJsonPath: string = path.resolve(localPathToFolder, `metadata-${fileName}.json`);
+
+            fs.writeFile(fullMetaDataJsonPath, metadata, 'utf8', (error: Error): void => {
+                if (error) {
+                    reject(error);
+                }
+
+                resolve(fullPath);
+            });
+        });
+    });
+}
+
 export function readFolderMetadata(pathToFolder: string): Promise<string> {
     return new Promise((resolve, reject): void => {
         const pathToMetadataJson: string = path.resolve(pathToFolder, 'metadata.json');
