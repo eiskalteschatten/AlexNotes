@@ -3,12 +3,14 @@
     "en": {
         "save": "Save",
         "saveAndClose": "Save and Close",
-        "close": "Close"
+        "close": "Close",
+        "title": "Title"
     },
     "de": {
         "save": "Speichern",
         "saveAndClose": "Speichern und schließen",
-        "close": "Schließen"
+        "close": "Schließen",
+        "title": "Titel"
     }
 }
 </i18n>
@@ -33,6 +35,15 @@
                 </v-btn>
             </sub-toolbar>
         </v-flex>
+        <v-flex shrink>
+            <v-card flat class="pa-3">
+                <v-text-field
+                    v-model="inputTitle"
+                    :label="$t('title')"
+                    required
+                />
+            </v-card>
+        </v-flex>
         <v-flex grow>
             <editor />
         </v-flex>
@@ -41,7 +52,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapMutations } from 'vuex';
+    import { mapState, mapMutations } from 'vuex';
 
     import Editor from '../elements/Editor.vue';
     import SubToolbar from '../elements/toolbars/SubToolbar.vue';
@@ -51,7 +62,23 @@
             Editor,
             SubToolbar
         },
+        computed: {
+            ...mapState('notes', [
+                'selectedNote'
+            ]),
+            inputTitle: {
+                get(): string {
+                    return this.selectedNote.title;
+                },
+                set(newTitle: string): void {
+                    // Todo: set it somewhere for saving when saving the note
+                }
+            }
+        },
         methods: {
+            ...mapMutations('editor', [
+                'resetContent'
+            ]),
             ...mapMutations('editor', [
                 'resetContent'
             ]),
