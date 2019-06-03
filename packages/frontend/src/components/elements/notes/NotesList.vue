@@ -89,6 +89,9 @@
             ...mapMutations('markdownViewer', [
                 'setRenderedHtml'
             ]),
+            ...mapMutations('editor', {
+                setEditorContent: 'setAllContent'
+            }),
             preparePreview(content: string): string {
                 let preview: string = content.replace(/<[^>]*>?/g, '');
                 preview = preview.substring(0, 75);
@@ -102,6 +105,7 @@
                 this.setSelectedNote(id);
                 this.$emit('noteSelected');
                 this.setRenderedHtml(this.selectedNote.content);
+                this.setEditorContent(this.selectedNote.markdown);
 
                 if (push) {
                     this.$router.push({ name: 'note', params: { note: id } });

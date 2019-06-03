@@ -41,6 +41,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
+    import { mapState, mapMutations } from 'vuex';
 
     import Editor from '../elements/Editor.vue';
     import SubToolbar from '../elements/toolbars/SubToolbar.vue';
@@ -51,8 +52,12 @@
             SubToolbar
         },
         methods: {
+            ...mapMutations('editor', [
+                'resetContent'
+            ]),
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
+                this.resetContent();
             }
         }
     });

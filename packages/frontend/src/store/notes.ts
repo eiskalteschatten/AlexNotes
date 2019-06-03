@@ -1,7 +1,7 @@
 import http from '../http';
 
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
-import { NoteMenuItemInterface } from '../../../shared/types/notes';
+import { NoteMetaDataInterface } from '../../../shared/types/notes';
 
 // export interface RenameNotebookValuesInterface {
 //     id: string;
@@ -18,13 +18,13 @@ export default {
     },
 
     getters: {
-        getNotes: (state): NoteMenuItemInterface[] => state.notes,
+        getNotes: (state): NoteMetaDataInterface[] => state.notes,
         getSelectedNoteId: (state): string => state.selectedNoteId,
-        getSelectedNote: (state): NoteMenuItemInterface => state.selectedNote
+        getSelectedNote: (state): NoteMetaDataInterface => state.selectedNote
     },
 
     mutations: {
-        setNotes(state, notes: NoteMenuItemInterface[]): void {
+        setNotes(state, notes: NoteMetaDataInterface[]): void {
             state.notes = notes;
         },
         resetNotes(state): void {
