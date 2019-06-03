@@ -36,11 +36,12 @@
             </sub-toolbar>
         </v-flex>
         <v-flex shrink>
-            <v-card flat class="pa-3">
+            <v-card flat class="pl-3 pr-3 pb-3">
                 <v-text-field
                     v-model="inputTitle"
                     :label="$t('title')"
                     required
+                    class="mt-0"
                 />
             </v-card>
         </v-flex>
