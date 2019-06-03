@@ -35,6 +35,8 @@
     import Vue from 'vue';
     import { mapState } from 'vuex';
 
+    import eventBus from '../eventBus';
+
     import Toolbar from './elements/toolbars/Main.vue';
     import SideNav from './elements/SideNav.vue';
     import NotesList from './elements/notes/NotesList.vue';
@@ -53,12 +55,19 @@
                 'selectedNoteId',
             ])
         },
+        created(): void {
+            eventBus.$on('mobile-go-back-to-middle-view', this.mobileGoBackToMiddleView);
+        },
         methods: {
             selectNote(): void {
                 if (this.$vuetify.breakpoint.mdAndDown) {
                     this.$refs.middleView.style.left = '-100%';
                     this.$refs.mainView.style.left = '0';
                 }
+            },
+            mobileGoBackToMiddleView(): void {
+                this.$refs.middleView.style.left = '0';
+                this.$refs.mainView.style.left = '100%';
             }
         }
     });

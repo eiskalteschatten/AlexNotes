@@ -1,3 +1,14 @@
+<i18n>
+{
+    "en": {
+        "backToNotes": "Back to Notes"
+    },
+    "de": {
+        "backToNotes": "Zurück zu den Notizen"
+    }
+}
+</i18n>
+
 <template>
     <v-flex fill-height pa-4>
         <v-btn
@@ -13,6 +24,13 @@
             <v-icon style="height: auto;">edit</v-icon>
         </v-btn>
 
+        <div class="mb-4" v-if="$vuetify.breakpoint.smAndDown">
+            <v-btn @click="mobileGoBackToMiddleView">
+                <v-icon left>arrow_back</v-icon>
+                {{ $t('backToNotes') }}
+            </v-btn>
+        </div>
+
         <div v-html="renderedHtml" />
     </v-flex>
 </template>
@@ -21,11 +39,18 @@
     import Vue from 'vue';
     import { mapState } from 'vuex';
 
+    import eventBus from '../../eventBus';
+
     export default Vue.extend({
         computed: {
             ...mapState('markdownViewer', [
                 'renderedHtml'
             ])
+        },
+        methods: {
+            mobileGoBackToMiddleView(): void {
+                eventBus.$emit('mobile-go-back-to-middle-view');
+            }
         }
     });
 </script>
