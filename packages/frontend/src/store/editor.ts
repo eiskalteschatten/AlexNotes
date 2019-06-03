@@ -19,6 +19,9 @@ export default {
         setOriginalContent(state, originalContent: string): void {
             state.originalContent = originalContent;
         },
+        updateOriginalContent(state): void {
+            state.originalContent = state.content;
+        },
         setAllContent(state, content: string): void {
             state.content = content;
             state.originalContent = content;

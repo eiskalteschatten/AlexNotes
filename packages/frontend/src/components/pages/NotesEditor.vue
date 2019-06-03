@@ -115,7 +115,8 @@
             ...mapMutations('editor', [
                 'resetToOriginalContent',
                 'resetContent',
-                'setAdditionalFields'
+                'setAdditionalFields',
+                'updateOriginalContent'
             ]),
             ...mapActions('notes', [
                 'saveNote'
@@ -126,6 +127,7 @@
             },
             async saveNoteLocal(): Promise<void> {
                 await this.saveNote(this.additionalFields.title);
+                this.updateOriginalContent();
             },
             async saveAndCloseNote(): Promise<void> {
                 await this.saveNoteLocal();
