@@ -57,7 +57,8 @@ Vue.use(Vuetify, {
 const i18n = new VueI18n({
     locale,
     dateTimeFormats,
-    fallbackLocale: 'en'
+    fallbackLocale: 'en',
+    silentTranslationWarn: true
 });
 
 new Vue({
