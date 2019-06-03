@@ -131,6 +131,8 @@
                 const folder: string = this.getFolderIdNoNotebook();
                 await this.getNotes();
 
+                eventBus.$emit('mobile-go-back-to-middle-view');
+
                 if (push) {
                     this.$router.push({ name: 'folder', params: { folder } });
                 }
