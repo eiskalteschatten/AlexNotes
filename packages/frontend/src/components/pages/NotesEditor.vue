@@ -4,13 +4,15 @@
         "save": "Save",
         "saveAndClose": "Save and Close",
         "close": "Close",
-        "title": "Title"
+        "title": "Title",
+        "areYouSureUnsavedChanges": "Are you sure you want to leave? There are still unsaved changes."
     },
     "de": {
         "save": "Speichern",
         "saveAndClose": "Speichern und schließen",
         "close": "Schließen",
-        "title": "Titel"
+        "title": "Titel",
+        "areYouSureUnsavedChanges": "Sind Sie sicher, dass sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen."
     }
 }
 </i18n>
@@ -79,6 +81,13 @@
         </v-flex>
         <v-flex grow>
             <editor />
+                <confirm-dialog
+                :show="showLeaveConfirmDialog"
+                :cancel-function="() => showLeaveConfirmDialog = false"
+                :confirm-function="leavePageNoPrompt"
+                :confirm-question="$t('areYouSureUnsavedChanges')"
+                button-color="error"
+            />
         </v-flex>
     </v-layout>
 </template>
@@ -89,17 +98,27 @@
 
     import Editor from '../elements/Editor.vue';
     import SubToolbar from '../elements/toolbars/SubToolbar.vue';
+    import ConfirmDialog from '../elements/ConfirmDialog.vue';
 
     export default Vue.extend({
         components: {
             Editor,
-            SubToolbar
+            SubToolbar,
+            ConfirmDialog
+        },
+        data() {
+            return {
+                showLeaveConfirmDialog: false,
+                leavePageTo: ''
+            };
         },
         computed: {
             ...mapState('notes', [
                 'selectedNote'
             ]),
             ...mapState('editor', [
+                'content',
+                'originalContent',
                 'additionalFields'
             ]),
             inputTitle: {
@@ -109,6 +128,17 @@
                 set(title: string): void {
                     this.setAdditionalFields({ title });
                 }
+            }
+        },
+        beforeRouteLeave(to, from, next): void {
+            if (this.content !== this.originalContent) {
+                this.showLeaveConfirmDialog = true;
+                this.leavePageTo = to;
+                next(false);
+            }
+            else {
+                next();
+                this.resetToOriginalContent();
             }
         },
         methods: {
@@ -123,7 +153,6 @@
             ]),
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
-                this.resetToOriginalContent();
             },
             async saveNoteLocal(): Promise<void> {
                 await this.saveNote(this.additionalFields.title);
@@ -132,6 +161,11 @@
             async saveAndCloseNote(): Promise<void> {
                 await this.saveNoteLocal();
                 this.$router.push({ name: 'note' });
+            },
+            leavePageNoPrompt(): void {
+                this.showLeaveConfirmDialog = false;
+                this.resetToOriginalContent();
+                this.$router.push(this.leavePageTo);
             }
         }
     });
