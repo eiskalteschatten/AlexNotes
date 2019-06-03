@@ -18,21 +18,53 @@
 <template>
     <v-layout column fill-height>
         <v-flex shrink>
-            <sub-toolbar class="text-xs-right">
-                <v-btn color="success">
-                    <v-icon left>save</v-icon>
-                    {{ $t('save') }}
-                </v-btn>
+            <sub-toolbar>
+                <div v-if="$vuetify.breakpoint.smAndUp" class="text-xs-right">
+                    <v-btn color="success">
+                        <v-icon left>save</v-icon>
+                        {{ $t('save') }}
+                    </v-btn>
 
-                <v-btn>
-                    <v-icon left>save</v-icon>
-                    {{ $t('saveAndClose') }}
-                </v-btn>
+                    <v-btn>
+                        <v-icon left>save</v-icon>
+                        {{ $t('saveAndClose') }}
+                    </v-btn>
 
-                <v-btn color="error" @click="closeWithoutSaving">
-                    <v-icon left>close</v-icon>
-                    {{ $t('close') }}
-                </v-btn>
+                    <v-btn color="error" @click="closeWithoutSaving">
+                        <v-icon left>close</v-icon>
+                        {{ $t('close') }}
+                    </v-btn>
+                </div>
+                <div v-else>
+                    <v-layout row>
+                        <v-btn color="success">
+                            <v-icon left>save</v-icon>
+                            {{ $t('save') }}
+                        </v-btn>
+
+                        <v-flex class="text-xs-right">
+                            <v-btn icon @click="closeWithoutSaving">
+                                <v-icon>close</v-icon>
+                            </v-btn>
+
+                            <v-menu offset-y>
+                                <template v-slot:activator="{ on }">
+                                    <v-btn icon v-on="on">
+                                        <v-icon>arrow_drop_down</v-icon>
+                                    </v-btn>
+                                </template>
+                                <v-list>
+                                    <v-list-tile>
+                                        <v-list-tile-title>
+                                            <v-icon left>save</v-icon>
+                                            {{ $t('saveAndClose') }}
+                                        </v-list-tile-title>
+                                    </v-list-tile>
+                                </v-list>
+                            </v-menu>
+                        </v-flex>
+                    </v-layout>
+                </div>
             </sub-toolbar>
         </v-flex>
         <v-flex shrink>
