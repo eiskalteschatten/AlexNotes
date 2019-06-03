@@ -8,11 +8,8 @@ import * as path from 'path';
 import { returnError } from '../../lib/apiErrorHandling';
 
 import {
-    // writeMetaDataJsonFile,
-    writeMarkdownAndJsonFiles,
-    // readFolderMetadata,
-    // deleteFolderFromRepo,
-    // renameFolderInRepo
+    deleteMarkdownAndJsonFile,
+    writeMarkdownAndJsonFiles
 } from '../../lib/fileSystem';
 
 import { NoteMetaDataInterface } from '../../../../shared/types/notes';
@@ -107,6 +104,7 @@ class NotesController implements Controller {
         try {
             const { title, content, folderId } = req.body;
             const { dateCreated } = req.body.metaData;
+            const oldId = req.body.metaData.id;
 
             const metadata: NoteMetaDataInterface = {
                 title,
@@ -117,6 +115,10 @@ class NotesController implements Controller {
 
             const fullPath: string = path.join(config.get('notes.folder'), folderId);
             await writeMarkdownAndJsonFiles(fullPath, metadata.id, content, JSON.stringify(metadata));
+
+            if (oldId !== metadata.id) {
+                await deleteMarkdownAndJsonFile(fullPath, oldId);
+            }
 
             // const git = new Git();
             // git.addCommitPullPush(`Added or updated the note "${title}"`);

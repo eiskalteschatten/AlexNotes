@@ -41,24 +41,46 @@ export function writeMetaDataJsonFile(pathToFolder: string, metadata: string): P
     });
 }
 
-export function writeMarkdownAndJsonFiles(pathToFolder: string, fileName: string, content: string, metadata: string): Promise<string> {
+export function writeMarkdownAndJsonFiles(pathToFolder: string, fileName: string, content: string, metadata: string): Promise<void> {
     return new Promise((resolve, reject): void => {
         const localPathToFolder: string = path.join(config.get('git.localPath'), pathToFolder);
-        const fullPath: string = path.resolve(localPathToFolder, `${fileName}.md`);
+        const fullPathMarkdown: string = path.resolve(localPathToFolder, `${fileName}.md`);
 
-        fs.writeFile(fullPath, content, 'utf8', (error: Error): void => {
+        fs.writeFile(fullPathMarkdown, content, 'utf8', (error: Error): void => {
             if (error) {
                 reject(error);
             }
 
-            const fullMetaDataJsonPath: string = path.resolve(localPathToFolder, `metadata-${fileName}.json`);
+            const fullPathMetadataJson: string = path.resolve(localPathToFolder, `metadata-${fileName}.json`);
 
-            fs.writeFile(fullMetaDataJsonPath, metadata, 'utf8', (error: Error): void => {
+            fs.writeFile(fullPathMetadataJson, metadata, 'utf8', (error: Error): void => {
                 if (error) {
                     reject(error);
                 }
 
-                resolve(fullPath);
+                resolve();
+            });
+        });
+    });
+}
+
+export function deleteMarkdownAndJsonFile(pathToFolder: string, fileName: string): Promise<void> {
+    return new Promise((resolve, reject): void => {
+        const localPathToFolder: string = path.join(config.get('git.localPath'), pathToFolder);
+        const fullPathMarkdown: string = path.resolve(localPathToFolder, `${fileName}.md`);
+        const fullPathMetadataJson: string = path.resolve(localPathToFolder, `metadata-${fileName}.json`);
+
+        fs.unlink(fullPathMarkdown, (error: Error): void => {
+            if (error) {
+                reject(error);
+            }
+
+            fs.unlink(fullPathMetadataJson, (error: Error): void => {
+                if (error) {
+                    reject(error);
+                }
+
+                resolve();
             });
         });
     });
