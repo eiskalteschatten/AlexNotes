@@ -71,6 +71,7 @@
     }
 
     .mobile-middle-view, .mobile-main-view {
+        height: 100%;
         position: absolute;
         top: 0;
         transition: 250ms left;
