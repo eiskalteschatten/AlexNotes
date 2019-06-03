@@ -81,7 +81,7 @@
         </v-flex>
         <v-flex grow>
             <editor />
-                <confirm-dialog
+            <confirm-dialog
                 :show="showLeaveConfirmDialog"
                 :cancel-function="() => showLeaveConfirmDialog = false"
                 :confirm-function="leavePageNoPrompt"
