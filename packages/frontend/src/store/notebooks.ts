@@ -36,7 +36,7 @@ export default {
                 const res = await http.get('api/notebooks');
 
                 if (!res.body) {
-                    throw new Error('No notebooks could be fetched');
+                    throw new Error('No notebooks could not be fetched');
                 }
 
                 commit('setNotebooks', res.body);

@@ -12,3 +12,8 @@ export interface NoteMetaDataInterface {
     dateCreated: Date | string;
     dateUpdated: Date | string;
 }
+
+export interface NoteDataInterface {
+    markdown: string;
+    html: string;
+}

@@ -62,7 +62,7 @@ export default {
                 const res = await http.get(`api/folders?notebookId=${rootState.notebooks.selectedNotebookId}`);
 
                 if (!res.body) {
-                    throw new Error('No folders could be fetched');
+                    throw new Error('No folders could not be fetched');
                 }
 
                 commit('setFolders', res.body);

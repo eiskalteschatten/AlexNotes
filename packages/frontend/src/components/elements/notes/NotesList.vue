@@ -53,7 +53,7 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import { mapState, mapMutations } from 'vuex';
+    import { mapState, mapMutations, mapActions } from 'vuex';
 
     import eventBus from '../../../eventBus';
 
@@ -70,7 +70,8 @@
             ...mapState('notes', [
                 'notes',
                 'selectedNoteId',
-                'selectedNote'
+                'selectedNote',
+                'selectedNoteMenuItem'
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
@@ -84,8 +85,11 @@
         methods: {
             ...mapMutations('notes', [
                 'setSelectedNoteId',
-                'setSelectedNote',
+                'setSelectedNoteMenuItem',
                 'resetSelectedNote'
+            ]),
+            ...mapActions('notes', [
+                'getSelectedNote'
             ]),
             ...mapMutations('markdownViewer', [
                 'setRenderedHtml'
@@ -98,13 +102,16 @@
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },
-            selectNote(id: string, push: boolean = true): void {
+            async selectNote(id: string, push: boolean = true): Promise<void> {
                 this.setSelectedNoteId(id);
-                this.setSelectedNote(id);
+                this.setSelectedNoteMenuItem(id);
+                await this.getSelectedNote(id);
+
                 this.$emit('noteSelected');
-                this.setRenderedHtml(this.selectedNote.content);
+
+                this.setRenderedHtml(this.selectedNote.html);
                 this.setEditorContent(this.selectedNote.markdown);
-                this.setEditorAdditionalFields({ title: this.selectedNote.title });
+                this.setEditorAdditionalFields({ title: this.selectedNoteMenuItem.title });
 
                 if (push) {
                     this.$router.push({ name: 'note', params: { note: id } });

@@ -4,6 +4,7 @@ import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
 
+import { markdownToHtml, markdownToHtmlWithCodeHighlighting } from '../../lib/markdown';
 import Git from '../../lib/git';
 import { returnError } from '../../lib/apiErrorHandling';
 
@@ -13,7 +14,7 @@ import {
     readFile
 } from '../../lib/fileSystem';
 
-import { NoteMetaDataInterface, NoteMenuItemInterface } from '../../../../shared/types/notes';
+import { NoteMetaDataInterface, NoteMenuItemInterface, NoteDataInterface } from '../../../../shared/types/notes';
 import Controller from '../../interfaces/Controller';
 
 
@@ -27,6 +28,7 @@ class NotesController implements Controller {
 
     private initilizeRoutes(): void {
         this.router.get('/', this.getIndex);
+        this.router.get('/note/', this.getNote);
         this.router.put('/', this.putNote);
         // this.router.delete('/:id', this.deleteNote);
     }
@@ -57,8 +59,9 @@ class NotesController implements Controller {
                         const pathToNoteMetaData: string = path.resolve(pathToNotes, `metadata-${baseName}.json`);
                         const metadataString: string = await readFile(pathToNoteMetaData);
                         const metadata: NoteMetaDataInterface = JSON.parse(metadataString);
-                        const content: string = await readFile(pathToNote);
 
+                        let content: string = await readFile(pathToNote);
+                        content = markdownToHtml(content);
                         let excerpt: string = content.replace(/<[^>]*>?/g, '');
                         excerpt = excerpt.substring(0, 75);
 
@@ -82,6 +85,37 @@ class NotesController implements Controller {
 
                 res.json(noteMenuItems);
             });
+
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
+    }
+
+    private async getNote(req: Request, res: Response): Promise<void> {
+        try {
+            const folderId: string = req.query.folderId;
+            const noteId: string = req.query.noteId;
+
+            if (!folderId) {
+                res.status(400).send('No folder was selected');
+                return;
+            }
+
+            if (!noteId) {
+                res.status(400).send('No note was selected');
+                return;
+            }
+
+            const pathToNote: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), folderId, `${noteId}.md`);
+            const markdown: string = await readFile(pathToNote);
+
+            const data: NoteDataInterface = {
+                markdown,
+                html: markdownToHtmlWithCodeHighlighting(markdown)
+            };
+
+            res.json(data);
 
         }
         catch(error) {

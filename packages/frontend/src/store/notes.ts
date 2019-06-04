@@ -1,20 +1,22 @@
 import http from '../http';
 
 import { ApiReturnObjectInterface } from '../types/apiReturnObject';
-import { NoteMenuItemInterface, NoteMetaDataInterface } from '../../../shared/types/notes';
+import { NoteMenuItemInterface, NoteDataInterface } from '../../../shared/types/notes';
 
 export default {
     namespaced: true,
     state: {
         notes: [],
         selectedNoteId: '',
-        selectedNote: {}
+        selectedNote: {},
+        selectedNoteMenuItem: {}
     },
 
     getters: {
         getNotes: (state): NoteMenuItemInterface[] => state.notes,
         getSelectedNoteId: (state): string => state.selectedNoteId,
-        getSelectedNote: (state): NoteMetaDataInterface => state.selectedNote
+        getSelectedNote: (state): NoteDataInterface => state.selectedNote,
+        getSelectedNoteMenuItem: (state): NoteMenuItemInterface => state.selectedNoteMenuItem
     },
 
     mutations: {
@@ -29,11 +31,15 @@ export default {
         resetSelectedNote(state): void {
             state.selectedNoteId = '';
             state.selectedNote = {};
+            state.selectedNoteMenuItem = {};
         },
         setSelectedNoteId(state, selectedNoteId: string): void {
             state.selectedNoteId = selectedNoteId;
         },
-        setSelectedNote(state, selectedNoteId: string): void {
+        setSelectedNote(state, selectedNote: string): void {
+            state.selectedNote = selectedNote;
+        },
+        setSelectedNoteMenuItem(state, selectedNoteId: string): void {
             for (const note of state.notes) {
                 if (note.id === selectedNoteId) {
                     state.selectedNote = note;
@@ -55,10 +61,37 @@ export default {
                 const res = await http.get(`api/notes?folderId=${rootState.folders.selectedFolderId}`);
 
                 if (!res.body) {
-                    throw new Error('No notes could be fetched');
+                    throw new Error('No notes could not be fetched');
                 }
 
                 commit('setNotes', res.body);
+
+                return {
+                    code: res.status,
+                    message: res.bodyText
+                } as any as ApiReturnObjectInterface;
+            }
+            catch(error) {
+                console.error(error);
+                return {
+                    code: error.status | 500,
+                    message: error.bodyText
+                };
+            }
+        },
+        async getSelectedNote({ commit, rootState }, noteId: string): Promise<ApiReturnObjectInterface> {
+            try {
+                if (!rootState.folders.selectedFolderId) {
+                    return;
+                }
+
+                const res = await http.get(`api/notes/note?noteId=${noteId}&folderId=${rootState.folders.selectedFolderId}`);
+
+                if (!res.body) {
+                    throw new Error('The selected note could not be fetched');
+                }
+
+                commit('setSelectedNote', res.body);
 
                 return {
                     code: res.status,
