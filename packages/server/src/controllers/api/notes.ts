@@ -1,5 +1,5 @@
 import { Router, Request, Response } from 'express';
-// import { readdir, lstatSync } from 'fs';
+import { readdir } from 'fs';
 import * as slug from 'slug';
 import * as config from 'config';
 import * as path from 'path';
@@ -9,10 +9,11 @@ import { returnError } from '../../lib/apiErrorHandling';
 
 import {
     deleteMarkdownAndJsonFile,
-    writeMarkdownAndJsonFiles
+    writeMarkdownAndJsonFiles,
+    readFile
 } from '../../lib/fileSystem';
 
-import { NoteMetaDataInterface } from '../../../../shared/types/notes';
+import { NoteMetaDataInterface, NoteMenuItemInterface } from '../../../../shared/types/notes';
 import Controller from '../../interfaces/Controller';
 
 
@@ -39,60 +40,48 @@ class NotesController implements Controller {
                 return;
             }
 
-            const tempNotes: NoteMetaDataInterface[] = [
-                {
-                    title: 'test note',
-                    id: 'test-note',
-                    content: 'this is where the <b>entirety</b> of the HTML content will go and will usually be quite a large string',
-                    markdown: 'this is where the **entirety** of the HTML content will go and will usually be quite a large string',
-                    dateCreated: new Date(),
-                    dateUpdated: new Date()
-                },
-                {
-                    title: 'test note2',
-                    id: 'test-note2',
-                    content: 'another note here. this is where the <b>entirety</b> of the HTML content will go and will usually be quite a large string',
-                    markdown: 'another note here. this is where the **entirety** of the HTML content will go and will usually be quite a large string',
-                    dateCreated: new Date(),
-                    dateUpdated: new Date()
+            const pathToNotes: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), folderId);
+
+            readdir(pathToNotes, async (error: Error, notes: string[]): Promise<void> => {
+                if (error) {
+                    throw error;
                 }
-            ];
 
-            res.json(tempNotes);
-            // const pathToNotebooks: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'));
+                const noteMenuItems: NoteMenuItemInterface[] = [];
 
-            // readdir(pathToNotebooks, async (error: Error, notebooks: string[]): Promise<void> => {
-            //     if (error) {
-            //         throw error;
-            //     }
+                for (const note of notes) {
+                    const pathToNote: string = path.resolve(pathToNotes, note);
 
-            //     const notebookMenuItems: NotebookMenuItemInterface[] = [];
+                    if (path.extname(note) === '.md') {
+                        const baseName: string = path.basename(note, '.md');
+                        const pathToNoteMetaData: string = path.resolve(pathToNotes, `metadata-${baseName}.json`);
+                        const metadataString: string = await readFile(pathToNoteMetaData);
+                        const metadata: NoteMetaDataInterface = JSON.parse(metadataString);
+                        const content: string = await readFile(pathToNote);
 
-            //     for (const notebook of notebooks) {
-            //         const pathToNotebook: string = path.resolve(pathToNotebooks, notebook);
+                        let excerpt: string = content.replace(/<[^>]*>?/g, '');
+                        excerpt = excerpt.substring(0, 75);
 
-            //         if (lstatSync(pathToNotebook).isDirectory()) {
-            //             const metadataString: string = await readFolderMetadata(pathToNotebook);
-            //             const metadata: NotebookMetaDataInterface = JSON.parse(metadataString);
+                        const menuItem: NoteMenuItemInterface = {
+                            title: metadata.title,
+                            id: metadata.id,
+                            excerpt,
+                            dateCreated: new Date(metadata.dateCreated),
+                            dateUpdated: new Date(metadata.dateUpdated)
+                        };
 
-            //             const menuItem: NotebookMenuItemInterface = {
-            //                 title: metadata.title,
-            //                 icon: 'book',
-            //                 id: notebook
-            //             };
+                        noteMenuItems.push(menuItem);
+                    }
+                }
 
-            //             notebookMenuItems.push(menuItem);
-            //         }
-            //     }
+                noteMenuItems.sort((a, b): number => {
+                    if (a.dateUpdated < b.dateUpdated) return -1;
+                    if (a.dateUpdated > b.dateUpdated) return 1;
+                    return 0;
+                });
 
-            //     notebookMenuItems.sort((a, b): number => {
-            //         if (a.title < b.title) return -1;
-            //         if (a.title > b.title) return 1;
-            //         return 0;
-            //     });
-
-            //     res.json(notebookMenuItems);
-            // });
+                res.json(noteMenuItems);
+            });
 
         }
         catch(error) {

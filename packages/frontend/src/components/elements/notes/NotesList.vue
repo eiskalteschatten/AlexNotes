@@ -41,7 +41,7 @@
                                 <span class="date">
                                     {{ $d(new Date(note.dateUpdated), 'numeric') }}
                                 </span>
-                                {{ preparePreview(note.content) }}
+                                {{ note.excerpt }}
                             </v-list-tile-sub-title>
                         </v-list-tile-content>
                     </v-list-tile>
@@ -95,11 +95,6 @@
                 resetEditorContent: 'resetContent',
                 setEditorAdditionalFields: 'setAdditionalFields'
             }),
-            preparePreview(content: string): string {
-                let preview: string = content.replace(/<[^>]*>?/g, '');
-                preview = preview.substring(0, 75);
-                return preview;
-            },
             getActiveClass(isActive: boolean): string {
                 return isActive ? this.activeClass : '';
             },

@@ -86,11 +86,9 @@ export function deleteMarkdownAndJsonFile(pathToFolder: string, fileName: string
     });
 }
 
-export function readFolderMetadata(pathToFolder: string): Promise<string> {
+export function readFile(pathToFile: string): Promise<string> {
     return new Promise((resolve, reject): void => {
-        const pathToMetadataJson: string = path.resolve(pathToFolder, 'metadata.json');
-
-        fs.readFile(pathToMetadataJson, 'utf8', (error: Error, data: string): void => {
+        fs.readFile(pathToFile, 'utf8', (error: Error, data: string): void => {
             if (error) {
                 reject(error);
             }
@@ -98,6 +96,10 @@ export function readFolderMetadata(pathToFolder: string): Promise<string> {
             resolve(data);
         });
     });
+}
+
+export function readFolderMetadata(pathToFolder: string): Promise<string> {
+    return readFile(path.resolve(pathToFolder, 'metadata.json'));
 }
 
 export async function readFolder(pathToFolders: string): Promise<FolderMenuItemInterface[]> {
