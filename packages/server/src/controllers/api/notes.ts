@@ -78,8 +78,8 @@ class NotesController implements Controller {
                 }
 
                 noteMenuItems.sort((a, b): number => {
-                    if (a.dateUpdated < b.dateUpdated) return -1;
-                    if (a.dateUpdated > b.dateUpdated) return 1;
+                    if (a.dateUpdated < b.dateUpdated) return 1;
+                    if (a.dateUpdated > b.dateUpdated) return -1;
                     return 0;
                 });
 
@@ -139,7 +139,7 @@ class NotesController implements Controller {
             const fullPath: string = path.join(config.get('notes.folder'), folderId);
             await writeMarkdownAndJsonFiles(fullPath, metadata.id, content, JSON.stringify(metadata));
 
-            if (oldId !== metadata.id) {
+            if (oldId && oldId !== metadata.id) {
                 await deleteMarkdownAndJsonFile(fullPath, oldId);
             }
 
