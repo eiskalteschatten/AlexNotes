@@ -5,14 +5,16 @@
         "saveAndClose": "Save and Close",
         "close": "Close",
         "title": "Title",
-        "areYouSureUnsavedChanges": "Are you sure you want to leave? There are still unsaved changes."
+        "areYouSureUnsavedChanges": "Are you sure you want to leave? There are still unsaved changes.",
+        "titleIsRequired": "A title is required."
     },
     "de": {
         "save": "Speichern",
         "saveAndClose": "Speichern und schließen",
         "close": "Schließen",
         "title": "Titel",
-        "areYouSureUnsavedChanges": "Sind Sie sicher, dass sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen."
+        "areYouSureUnsavedChanges": "Sind Sie sicher, dass sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen.",
+        "titleIsRequired": "Ein Titel ist erforderlich."
     }
 }
 </i18n>
@@ -76,6 +78,8 @@
                     :label="$t('title')"
                     required
                     class="mt-0"
+                    :error="titleError"
+                    :error-messages="$t('titleIsRequired')"
                 />
             </v-card>
         </v-flex>
@@ -109,7 +113,8 @@
         data() {
             return {
                 showLeaveConfirmDialog: false,
-                leavePageTo: ''
+                leavePageTo: '',
+                titleError: false
             };
         },
         computed: {
@@ -127,6 +132,7 @@
                 },
                 set(title: string): void {
                     this.setAdditionalFields({ title });
+                    this.titleError = title ? false : true;
                 }
             }
         },
@@ -155,8 +161,14 @@
                 this.$router.push({ name: 'note' });
             },
             async saveNoteLocal(): Promise<void> {
-                await this.saveNote(this.additionalFields.title);
-                this.updateOriginalContent();
+                if (this.additionalFields.title) {
+                    await this.saveNote(this.additionalFields.title);
+                    this.updateOriginalContent();
+                    this.titleError = false;
+                }
+                else {
+                    this.titleError = true;
+                }
             },
             async saveAndCloseNote(): Promise<void> {
                 await this.saveNoteLocal();
