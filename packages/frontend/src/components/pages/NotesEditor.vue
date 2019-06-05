@@ -6,7 +6,8 @@
         "close": "Close",
         "title": "Title",
         "areYouSureUnsavedChanges": "Are you sure you want to leave? There are still unsaved changes.",
-        "titleIsRequired": "A title is required."
+        "titleIsRequired": "A title is required.",
+        "deleteNote": "Delete Note"
     },
     "de": {
         "save": "Speichern",
@@ -14,7 +15,8 @@
         "close": "Schließen",
         "title": "Titel",
         "areYouSureUnsavedChanges": "Sind Sie sicher, dass sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen.",
-        "titleIsRequired": "Ein Titel ist erforderlich."
+        "titleIsRequired": "Ein Titel ist erforderlich.",
+        "deleteNote": "Notiz löschen"
     }
 }
 </i18n>
@@ -24,6 +26,10 @@
         <v-flex shrink>
             <sub-toolbar>
                 <div v-if="$vuetify.breakpoint.smAndUp" class="text-xs-right">
+                    <v-btn icon @click="deleteNote">
+                        <v-icon>delete</v-icon>
+                    </v-btn>
+
                     <v-btn color="success" @click="saveNoteLocal">
                         <v-icon left>save</v-icon>
                         {{ $t('save') }}
@@ -62,6 +68,12 @@
                                         <v-list-tile-title @click="saveAndCloseNote">
                                             <v-icon left>save</v-icon>
                                             {{ $t('saveAndClose') }}
+                                        </v-list-tile-title>
+                                    </v-list-tile>
+                                    <v-list-tile>
+                                        <v-list-tile-title @click="deleteNote">
+                                            <v-icon left>delete</v-icon>
+                                            {{ $t('deleteNote') }}
                                         </v-list-tile-title>
                                     </v-list-tile>
                                 </v-list>
@@ -176,6 +188,9 @@
                 if (saved) {
                     this.$router.push({ name: 'note' });
                 }
+            },
+            deleteNote(): void {
+
             },
             leavePageNoPrompt(): void {
                 this.showLeaveConfirmDialog = false;
