@@ -78,8 +78,7 @@
                     :label="$t('title')"
                     required
                     class="mt-0"
-                    :error="titleError"
-                    :error-messages="$t('titleIsRequired')"
+                    :error-messages="titleErrorMessage"
                 />
             </v-card>
         </v-flex>
@@ -114,7 +113,7 @@
             return {
                 showLeaveConfirmDialog: false,
                 leavePageTo: '',
-                titleError: false
+                titleErrorMessage: ''
             };
         },
         computed: {
@@ -132,7 +131,7 @@
                 },
                 set(title: string): void {
                     this.setAdditionalFields({ title });
-                    this.titleError = title ? false : true;
+                    this.setTitleErrorMessage();
                 }
             }
         },
@@ -160,24 +159,31 @@
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
             },
-            async saveNoteLocal(): Promise<void> {
+            async saveNoteLocal(): Promise<boolean> {
+                this.setTitleErrorMessage();
+
                 if (this.additionalFields.title) {
                     await this.saveNote(this.additionalFields.title);
                     this.updateOriginalContent();
-                    this.titleError = false;
+                    return true;
                 }
-                else {
-                    this.titleError = true;
-                }
+
+                return false;
             },
             async saveAndCloseNote(): Promise<void> {
-                await this.saveNoteLocal();
-                this.$router.push({ name: 'note' });
+                const saved: boolean = await this.saveNoteLocal();
+
+                if (saved) {
+                    this.$router.push({ name: 'note' });
+                }
             },
             leavePageNoPrompt(): void {
                 this.showLeaveConfirmDialog = false;
                 this.resetToOriginalContent();
                 this.$router.push(this.leavePageTo);
+            },
+            setTitleErrorMessage(): void {
+                this.titleErrorMessage = this.additionalFields.title ? '' : this.$t('titleIsRequired');
             }
         }
     });
