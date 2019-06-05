@@ -30,7 +30,7 @@ class NotesController implements Controller {
         this.router.get('/', this.getIndex);
         this.router.get('/note/', this.getNote);
         this.router.put('/', this.putNote);
-        // this.router.delete('/:id', this.deleteNote);
+        this.router.delete('/:folderId/:id/', this.deleteNote);
     }
 
     private getIndex(req: Request, res: Response): void {
@@ -153,22 +153,28 @@ class NotesController implements Controller {
         }
     }
 
-    // private async deleteNote(req: Request, res: Response): Promise<void> {
-    //     try {
-    //         const id: string = decodeURIComponent(req.params.id);
-    //         const fullPath: string = path.join(config.get('notes.folder'), id);
+    private async deleteNote(req: Request, res: Response): Promise<void> {
+        try {
+            const folderId: string = decodeURIComponent(req.params.folderId);
+            const id: string = decodeURIComponent(req.params.id);
+            const fullPath: string = path.join(config.get('notes.folder'), folderId);
 
-    //         await deleteFolderFromRepo(fullPath);
+            if (!folderId) {
+                res.status(400).send('No folder was selected');
+                return;
+            }
 
-    //         const git = new Git();
-    //         git.addCommitPullPush(`Deleted the notebook with id "${id}"`);
+            await deleteMarkdownAndJsonFile(fullPath, id);
 
-    //         res.status(204).send('');
-    //     }
-    //     catch(error) {
-    //         returnError(error, req, res);
-    //     }
-    // }
+            const git = new Git();
+            git.addCommitPullPush(`Deleted the note with id "${id}"`);
+
+            res.status(204).send('');
+        }
+        catch(error) {
+            returnError(error, req, res);
+        }
+    }
 }
 
 export default (router: Router): void => {

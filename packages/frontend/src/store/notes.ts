@@ -27,6 +27,7 @@ export default {
             state.notes = [];
             state.selectedNoteId = '';
             state.selectedNote = {};
+            state.selectedNoteMenuItem = {};
         },
         resetSelectedNote(state): void {
             state.selectedNoteId = '';
@@ -130,26 +131,32 @@ export default {
                     message: error.bodyText
                 };
             }
-        }//,
-        // async deleteNotebook({ dispatch }, id: string): Promise<ApiReturnObjectInterface> {
-        //     try {
-        //         const encodedId: string = encodeURIComponent(id);
-        //         const res = await http.delete(`api/notebooks/${encodedId}`);
+        },
+        async deleteNote({ dispatch, commit, rootState }, id: string): Promise<ApiReturnObjectInterface> {
+            try {
+                if (!rootState.folders.selectedFolderId) {
+                    return;
+                }
 
-        //         dispatch('getNotebooks');
+                const encodedFolderId: string = encodeURIComponent(rootState.folders.selectedFolderId);
+                const encodedId: string = encodeURIComponent(id);
+                const res = await http.delete(`api/notes/${encodedFolderId}/${encodedId}/`);
 
-        //         return {
-        //             code: res.status,
-        //             message: res.bodyText
-        //         } as any as ApiReturnObjectInterface;
-        //     }
-        //     catch(error) {
-        //         console.error(error);
-        //         return {
-        //             code: error.status | 500,
-        //             message: error.bodyText
-        //         };
-        //     }
-        // }
+                commit('resetSelectedNote');
+                dispatch('getNotes');
+
+                return {
+                    code: res.status,
+                    message: res.bodyText
+                } as any as ApiReturnObjectInterface;
+            }
+            catch(error) {
+                console.error(error);
+                return {
+                    code: error.status | 500,
+                    message: error.bodyText
+                };
+            }
+        }
     }
 };
