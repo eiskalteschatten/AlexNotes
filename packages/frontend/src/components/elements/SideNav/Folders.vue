@@ -192,6 +192,11 @@
                 await this.getFolders();
             }
         },
+        created(): void {
+            eventBus.$on('close-all-context-menus', (): void => {
+                this.contextMenuShown = false;
+            });
+        },
         methods: {
             ...mapActions('folders', [
                 'getFolders',
@@ -236,7 +241,7 @@
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
-                this.contextMenuShown = false;
+                eventBus.$emit('close-all-context-menus');
                 this.cancelRename();
                 this.cmX = event.clientX;
                 this.cmY = event.clientY;

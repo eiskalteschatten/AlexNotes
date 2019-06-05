@@ -174,9 +174,14 @@
             }
         },
         async created(): Promise<void> {
-            eventBus.$on('selectNotebook', (notebookId: string) => {
+            eventBus.$on('selectNotebook', (notebookId: string): void => {
                 this.selectNotebook(notebookId, false);
             });
+
+            eventBus.$on('close-all-context-menus', (): void => {
+                this.contextMenuShown = false;
+            });
+
             await this.getNotebooks();
         },
         methods: {
@@ -222,7 +227,7 @@
             },
             showContextMenu(event: any, id: string, name: string): void {
                 event.preventDefault();
-                this.contextMenuShown = false;
+                eventBus.$emit('close-all-context-menus');
                 this.cancelRename();
                 this.cmX = event.clientX;
                 this.cmY = event.clientY;
