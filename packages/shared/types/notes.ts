@@ -14,6 +14,7 @@ export interface NoteMetaDataInterface {
 }
 
 export interface NoteDataInterface {
+    title: string;
     markdown: string;
     html: string;
 }

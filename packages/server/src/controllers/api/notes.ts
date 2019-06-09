@@ -107,10 +107,15 @@ class NotesController implements Controller {
                 return;
             }
 
-            const pathToNote: string = path.resolve(config.get('git.localPath'), config.get('notes.folder'), folderId, `${noteId}.md`);
+            const pathToFolder = path.join(config.get('git.localPath'), config.get('notes.folder'), folderId);
+            const pathToNote: string = path.resolve(pathToFolder, `${noteId}.md`);
             const markdown: string = await readFile(pathToNote);
+            const pathToNoteMetaData: string = path.resolve(pathToFolder, `metadata-${noteId}.json`);
+            const metadataString: string = await readFile(pathToNoteMetaData);
+            const metadata: NoteMetaDataInterface = JSON.parse(metadataString);
 
             const data: NoteDataInterface = {
+                title: metadata.title,
                 markdown,
                 html: markdownToHtmlWithCodeHighlighting(markdown)
             };

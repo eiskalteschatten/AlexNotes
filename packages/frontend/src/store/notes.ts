@@ -8,15 +8,13 @@ export default {
     state: {
         notes: [],
         selectedNoteId: '',
-        selectedNote: {},
-        selectedNoteMenuItem: {}
+        selectedNote: {}
     },
 
     getters: {
         getNotes: (state): NoteMenuItemInterface[] => state.notes,
         getSelectedNoteId: (state): string => state.selectedNoteId,
-        getSelectedNote: (state): NoteDataInterface => state.selectedNote,
-        getSelectedNoteMenuItem: (state): NoteMenuItemInterface => state.selectedNoteMenuItem
+        getSelectedNote: (state): NoteDataInterface => state.selectedNote
     },
 
     mutations: {
@@ -27,12 +25,10 @@ export default {
             state.notes = [];
             state.selectedNoteId = '';
             state.selectedNote = {};
-            state.selectedNoteMenuItem = {};
         },
         resetSelectedNote(state): void {
             state.selectedNoteId = '';
             state.selectedNote = {};
-            state.selectedNoteMenuItem = {};
         },
         setSelectedNoteId(state, selectedNoteId: string): void {
             state.selectedNoteId = selectedNoteId;
@@ -40,7 +36,7 @@ export default {
         setSelectedNote(state, selectedNote: string): void {
             state.selectedNote = selectedNote;
         },
-        setSelectedNoteMenuItem(state, selectedNoteId: string): void {
+        setSelectedNoteById(state, selectedNoteId: string): void {
             for (const note of state.notes) {
                 if (note.id === selectedNoteId) {
                     state.selectedNote = note;

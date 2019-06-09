@@ -113,8 +113,7 @@
             ...mapState('notes', [
                 'notes',
                 'selectedNoteId',
-                'selectedNote',
-                'selectedNoteMenuItem'
+                'selectedNote'
             ]),
             activeClass(): string {
                 return this.theme === 'dark' ? 'active' : 'active-light';
@@ -134,7 +133,7 @@
         methods: {
             ...mapMutations('notes', [
                 'setSelectedNoteId',
-                'setSelectedNoteMenuItem',
+                'setSelectedNoteById',
                 'resetSelectedNote'
             ]),
             ...mapActions('notes', [
@@ -154,14 +153,14 @@
             },
             async selectNote(id: string, push: boolean = true): Promise<void> {
                 this.setSelectedNoteId(id);
-                this.setSelectedNoteMenuItem(id);
+                this.setSelectedNoteById(id);
                 await this.getSelectedNote(id);
 
                 this.$emit('noteSelected');
 
                 this.setRenderedHtml(this.selectedNote.html);
                 this.setEditorContent(this.selectedNote.markdown);
-                this.setEditorAdditionalFields({ title: this.selectedNoteMenuItem.title });
+                this.setEditorAdditionalFields({ title: this.selectedNote.title });
 
                 if (push) {
                     this.$router.push({ name: 'note', params: { note: id } });
