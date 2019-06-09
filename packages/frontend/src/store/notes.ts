@@ -132,14 +132,15 @@ export default {
                 };
             }
         },
-        async deleteNote({ dispatch, commit, rootState }, id: string): Promise<ApiReturnObjectInterface> {
+        async deleteNote({ dispatch, commit, state, rootState }, id?: string): Promise<ApiReturnObjectInterface> {
             try {
                 if (!rootState.folders.selectedFolderId) {
                     return;
                 }
 
                 const encodedFolderId: string = encodeURIComponent(rootState.folders.selectedFolderId);
-                const encodedId: string = encodeURIComponent(id);
+                const deleteId = id ? id : state.selectedNoteId;
+                const encodedId: string = encodeURIComponent(deleteId);
                 const res = await http.delete(`api/notes/${encodedFolderId}/${encodedId}/`);
 
                 commit('resetSelectedNote');

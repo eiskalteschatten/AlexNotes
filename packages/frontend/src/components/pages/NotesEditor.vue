@@ -7,16 +7,18 @@
         "title": "Title",
         "areYouSureUnsavedChanges": "Are you sure you want to leave? There are still unsaved changes.",
         "titleIsRequired": "A title is required.",
-        "deleteNote": "Delete Note"
+        "deleteNote": "Delete Note",
+        "areYouSureDeleteNote": "Are you sure you want to delete this note? This is permanent and cannot be undone."
     },
     "de": {
         "save": "Speichern",
         "saveAndClose": "Speichern und schließen",
         "close": "Schließen",
         "title": "Titel",
-        "areYouSureUnsavedChanges": "Sind Sie sicher, dass sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen.",
+        "areYouSureUnsavedChanges": "Sind Sie sicher, dass Sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen.",
         "titleIsRequired": "Ein Titel ist erforderlich.",
-        "deleteNote": "Notiz löschen"
+        "deleteNote": "Notiz löschen",
+        "areYouSureDeleteNote": "Sind Sie sicher, dass Sie dieses Notiz löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden."
     }
 }
 </i18n>
@@ -26,7 +28,7 @@
         <v-flex shrink>
             <sub-toolbar>
                 <div v-if="$vuetify.breakpoint.smAndUp" class="text-xs-right">
-                    <v-btn icon @click="deleteNote">
+                    <v-btn icon @click="deleteNotePrompt">
                         <v-icon>delete</v-icon>
                     </v-btn>
 
@@ -103,6 +105,13 @@
                 :confirm-question="$t('areYouSureUnsavedChanges')"
                 button-color="error"
             />
+            <confirm-dialog
+                :show="showDeleteConfirmDialog"
+                :cancel-function="() => showDeleteConfirmDialog = false"
+                :confirm-function="deleteNoteLocal"
+                :confirm-question="$t('areYouSureDeleteNote')"
+                button-color="error"
+            />
         </v-flex>
     </v-layout>
 </template>
@@ -124,6 +133,7 @@
         data() {
             return {
                 showLeaveConfirmDialog: false,
+                showDeleteConfirmDialog: false,
                 leavePageTo: '',
                 titleErrorMessage: ''
             };
@@ -166,7 +176,8 @@
                 'updateOriginalContent'
             ]),
             ...mapActions('notes', [
-                'saveNote'
+                'saveNote',
+                'deleteNote'
             ]),
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
@@ -189,8 +200,14 @@
                     this.$router.push({ name: 'note' });
                 }
             },
-            deleteNote(): void {
-
+            deleteNotePrompt(): void {
+                this.showDeleteConfirmDialog = true;
+            },
+            async deleteNoteLocal(): Promise<void> {
+                this.showDeleteConfirmDialog = false;
+                await this.deleteNote();
+                this.resetContent();
+                this.$router.push({ name: 'folder' });
             },
             leavePageNoPrompt(): void {
                 this.showLeaveConfirmDialog = false;
