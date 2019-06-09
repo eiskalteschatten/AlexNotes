@@ -47,13 +47,18 @@ export default {
     },
 
     actions: {
-        async getNotes({ commit, rootState }): Promise<ApiReturnObjectInterface> {
+        async getNotes({ commit, rootState }, resetSelectedNote: boolean = true): Promise<ApiReturnObjectInterface> {
             try {
                 if (!rootState.folders.selectedFolderId) {
                     return;
                 }
 
-                commit('resetNotes');
+                if (resetSelectedNote) {
+                    commit('resetNotes');
+                }
+                else {
+                    commit('setNotes', []);
+                }
 
                 const res = await http.get(`api/notes?folderId=${rootState.folders.selectedFolderId}`);
 
@@ -112,7 +117,7 @@ export default {
                     metaData: state.selectedNote
                 });
 
-                dispatch('getNotes');
+                dispatch('getNotes', false);
 
                 return {
                     code: res.status,

@@ -132,7 +132,8 @@
         },
         computed: {
             ...mapState('notes', [
-                'selectedNote'
+                'selectedNote',
+                'selectedNoteId'
             ]),
             ...mapState('editor', [
                 'content',
@@ -158,6 +159,7 @@
             else {
                 next();
                 this.resetToOriginalContent();
+                eventBus.$emit('selectNote', this.selectedNoteId);
             }
         },
         methods: {
