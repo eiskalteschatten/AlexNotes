@@ -7,8 +7,7 @@
         "title": "Title",
         "areYouSureUnsavedChanges": "Are you sure you want to leave? There are still unsaved changes.",
         "titleIsRequired": "A title is required.",
-        "deleteNote": "Delete Note",
-        "areYouSureDeleteNote": "Are you sure you want to delete this note? This is permanent and cannot be undone."
+        "deleteNote": "Delete Note"
     },
     "de": {
         "save": "Speichern",
@@ -17,8 +16,7 @@
         "title": "Titel",
         "areYouSureUnsavedChanges": "Sind Sie sicher, dass Sie diese Seite verlassen möchten? Es gibt noch ungespeicherte Änderungen.",
         "titleIsRequired": "Ein Titel ist erforderlich.",
-        "deleteNote": "Notiz löschen",
-        "areYouSureDeleteNote": "Sind Sie sicher, dass Sie dieses Notiz löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden."
+        "deleteNote": "Notiz löschen"
     }
 }
 </i18n>
@@ -28,7 +26,7 @@
         <v-flex shrink>
             <sub-toolbar>
                 <div v-if="$vuetify.breakpoint.smAndUp" class="text-xs-right">
-                    <v-btn icon @click="deleteNotePrompt">
+                    <v-btn icon @click="deleteNote">
                         <v-icon>delete</v-icon>
                     </v-btn>
 
@@ -105,13 +103,6 @@
                 :confirm-question="$t('areYouSureUnsavedChanges')"
                 button-color="error"
             />
-            <confirm-dialog
-                :show="showDeleteConfirmDialog"
-                :cancel-function="() => showDeleteConfirmDialog = false"
-                :confirm-function="deleteNoteLocal"
-                :confirm-question="$t('areYouSureDeleteNote')"
-                button-color="error"
-            />
         </v-flex>
     </v-layout>
 </template>
@@ -119,6 +110,8 @@
 <script lang="ts">
     import Vue from 'vue';
     import { mapState, mapMutations, mapActions } from 'vuex';
+
+    import eventBus from '../../eventBus';
 
     import Editor from '../elements/Editor.vue';
     import SubToolbar from '../elements/toolbars/SubToolbar.vue';
@@ -133,7 +126,6 @@
         data() {
             return {
                 showLeaveConfirmDialog: false,
-                showDeleteConfirmDialog: false,
                 leavePageTo: '',
                 titleErrorMessage: ''
             };
@@ -176,8 +168,7 @@
                 'updateOriginalContent'
             ]),
             ...mapActions('notes', [
-                'saveNote',
-                'deleteNote'
+                'saveNote'
             ]),
             closeWithoutSaving(): void {
                 this.$router.push({ name: 'note' });
@@ -200,14 +191,8 @@
                     this.$router.push({ name: 'note' });
                 }
             },
-            deleteNotePrompt(): void {
-                this.showDeleteConfirmDialog = true;
-            },
-            async deleteNoteLocal(): Promise<void> {
-                this.showDeleteConfirmDialog = false;
-                await this.deleteNote();
-                this.resetContent();
-                this.$router.push({ name: 'folder' });
+            deleteNote(): void {
+                eventBus.$emit('delete-note');
             },
             leavePageNoPrompt(): void {
                 this.showLeaveConfirmDialog = false;

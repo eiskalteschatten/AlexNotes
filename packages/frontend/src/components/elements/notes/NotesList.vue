@@ -2,11 +2,13 @@
 {
     "en": {
         "createNote": "Create Note",
-        "deleteNote": "Delete Note"
+        "deleteNote": "Delete Note",
+        "areYouSureDeleteNote": "Are you sure you want to delete this note? This is permanent and cannot be undone."
     },
     "de": {
         "createNote": "Notiz erstellen",
-        "deleteNote": "Notiz löschen"
+        "deleteNote": "Notiz löschen",
+        "areYouSureDeleteNote": "Sind Sie sicher, dass Sie dieses Notiz löschen möchten? Dieser Vorgang kann nicht rückgängig gemacht werden."
     }
 }
 </i18n>
@@ -60,7 +62,7 @@
             offset-y
         >
             <v-list>
-                <v-list-tile @click="showDeleteFolderConfirmDialog = true">
+                <v-list-tile @click="deleteNotePrompt">
                     <v-list-tile-action>
                         <v-icon>delete</v-icon>
                     </v-list-tile-action>
@@ -70,6 +72,14 @@
                 </v-list-tile>
             </v-list>
         </v-menu>
+
+        <confirm-dialog
+            :show="showDeleteConfirmDialog"
+            :cancel-function="() => showDeleteConfirmDialog = false"
+            :confirm-function="deleteNoteLocal"
+            :confirm-question="$t('areYouSureDeleteNote')"
+            button-color="error"
+        />
     </v-layout>
 </template>
 
@@ -80,17 +90,20 @@
     import eventBus from '../../../eventBus';
 
     import SubToolbar from '../../elements/toolbars/SubToolbar.vue';
+    import ConfirmDialog from '../../elements/ConfirmDialog.vue';
 
     export default Vue.extend({
         components: {
-            SubToolbar
+            SubToolbar,
+            ConfirmDialog
         },
         data() {
             return {
                 contextMenuShown: false,
                 cmX: 0,
                 cmY: 0,
-                contextMenuNoteId: ''
+                contextMenuNoteId: '',
+                showDeleteConfirmDialog: false
             };
         },
         computed: {
@@ -115,6 +128,8 @@
             eventBus.$on('close-all-context-menus', (): void => {
                 this.contextMenuShown = false;
             });
+
+            eventBus.$on('delete-note', this.deleteNotePrompt);
         },
         methods: {
             ...mapMutations('notes', [
@@ -123,7 +138,8 @@
                 'resetSelectedNote'
             ]),
             ...mapActions('notes', [
-                'getSelectedNote'
+                'getSelectedNote',
+                'deleteNote'
             ]),
             ...mapMutations('markdownViewer', [
                 'setRenderedHtml'
@@ -163,6 +179,15 @@
                 this.cmY = event.clientY;
                 this.contextMenuNoteId = id;
                 this.$nextTick(() => this.contextMenuShown = true);
+            },
+            deleteNotePrompt(): void {
+                this.showDeleteConfirmDialog = true;
+            },
+            async deleteNoteLocal(): Promise<void> {
+                this.showDeleteConfirmDialog = false;
+                const id = this.contextMenuNoteId ? this.contextMenuNoteId : this.selectedNoteId;
+                await this.deleteNote(id);
+                this.$router.push({ name: 'folder' });
             }
         }
     });
