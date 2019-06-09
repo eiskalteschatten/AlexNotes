@@ -143,7 +143,7 @@
             ...mapMutations('markdownViewer', {
                 setMarkdownTitle: 'setTitle',
                 setMarkdownRenderedHtml: 'setRenderedHtml'
-            ]}),
+            }),
             ...mapMutations('editor', {
                 setEditorContent: 'setAllContent',
                 resetEditorContent: 'resetContent',
