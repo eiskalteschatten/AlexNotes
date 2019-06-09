@@ -31,6 +31,7 @@
             </v-btn>
         </div>
 
+        <h1 v-if="title">{{ title }}</h1>
         <div v-html="renderedHtml" />
     </v-flex>
 </template>
@@ -44,6 +45,7 @@
     export default Vue.extend({
         computed: {
             ...mapState('markdownViewer', [
+                'title',
                 'renderedHtml'
             ])
         },

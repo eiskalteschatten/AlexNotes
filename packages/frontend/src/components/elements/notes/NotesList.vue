@@ -140,9 +140,10 @@
                 'getSelectedNote',
                 'deleteNote'
             ]),
-            ...mapMutations('markdownViewer', [
-                'setRenderedHtml'
-            ]),
+            ...mapMutations('markdownViewer', {
+                setMarkdownTitle: 'setTitle',
+                setMarkdownRenderedHtml: 'setRenderedHtml'
+            ]}),
             ...mapMutations('editor', {
                 setEditorContent: 'setAllContent',
                 resetEditorContent: 'resetContent',
@@ -158,7 +159,8 @@
 
                 this.$emit('noteSelected');
 
-                this.setRenderedHtml(this.selectedNote.html);
+                this.setMarkdownTitle(this.selectedNote.title);
+                this.setMarkdownRenderedHtml(this.selectedNote.html);
                 this.setEditorContent(this.selectedNote.markdown);
                 this.setEditorAdditionalFields({ title: this.selectedNote.title });
 
