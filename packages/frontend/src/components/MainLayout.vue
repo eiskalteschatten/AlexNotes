@@ -10,7 +10,9 @@
                     :class="{'mobile-middle-view': $vuetify.breakpoint.mdAndDown}"
                     ref="middleView"
                 >
-                    <notes-list v-if="selectedFolderId" @noteSelected="selectNote" />
+                    <div class="middle-view">
+                        <notes-list v-if="selectedFolderId" @noteSelected="selectNote" />
+                    </div>
                 </v-flex>
                 <v-flex
                     xs12
@@ -79,8 +81,14 @@
         width: 100%;
     }
 
+    .middle-view {
+        height: calc(100vh - 64px);
+        overflow: auto;
+    }
+
     .mobile-middle-view, .mobile-main-view {
         height: 100%;
+        overflow: auto;
         position: absolute;
         top: 0;
         transition: 250ms left;
