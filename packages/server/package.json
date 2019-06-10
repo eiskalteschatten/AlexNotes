@@ -1,6 +1,6 @@
 {
 	"name": "@alexnotes/server",
-	"version": "0.3.0",
+	"version": "0.3.1",
 	"main": "./dist/server/src/index.js",
 	"private": true,
 	"scripts": {
@@ -13,7 +13,7 @@
 		"test": "echo 'Tests should be run here'"
 	},
 	"dependencies": {
-		"@alexnotes/frontend": "^0.3.0",
+		"@alexnotes/frontend": "^0.3.1",
 		"apicache": "^1.4.0",
 		"bcrypt": "^3.0.6",
 		"bcryptjs": "^2.4.3",
