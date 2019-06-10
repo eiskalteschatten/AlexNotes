@@ -3,9 +3,12 @@ version: '3.7'
 services:
     app:
         build: .
+        container_name: alexnotes
         volumes:
             - "./storage.sqlite3:/app/storage.sqlite3"
             - "./config.js:/app/config.js:ro"
+            - "~/.gitconfig:/etc/gitconfig:ro"
+            - "~/.ssh/id_rsa:/home/alexnotes/.ssh/id_rsa:ro"
         ports:
             - "80:3010"
             - "5858:5858"
