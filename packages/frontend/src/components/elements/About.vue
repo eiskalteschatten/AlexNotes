@@ -26,7 +26,11 @@
                                 <div class="by mb-4">
                                     by <external-link :href="$t('alexseifertWebsite')" link-content="Alex Seifert" />
                                     <div>
+<<<<<<< HEAD
                                         0.4.0
+=======
+                                        0.3.1
+>>>>>>> v0.3.1
                                     </div>
                                 </div>
 

@@ -7,8 +7,12 @@ services:
         volumes:
             - "./storage.sqlite3:/app/storage.sqlite3"
             - "./config.js:/app/config.js:ro"
+            # Add your local git config to the Docker container
             - "~/.gitconfig:/etc/gitconfig:ro"
+            # Mount your SSH key if necessary
             - "~/.ssh/id_rsa:/home/alexnotes/.ssh/id_rsa:ro"
+            # Mount the notes repo to an external folder. This is optional!
+            - "~/.alexnotes:/home/alexnotes/.alexnotes"
         ports:
             - "80:3010"
             - "5858:5858"

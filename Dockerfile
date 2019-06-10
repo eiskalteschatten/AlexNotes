@@ -18,18 +18,14 @@ COPY ./packages/server/package.json /app/packages/server/package.json
 RUN npm run bootstrap
 
 COPY ./packages /app/packages
-COPY ./storage.sqlite3 /app/storage.sqlite3
 
 RUN npm run build && \
     npm prune --production && \
     apk del .build-deps
 
-COPY ./config.js /app/config.js
-
 RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
     chown -R alexnotes:alexnotes ./packages/frontend/src && \
-    chown -R alexnotes:alexnotes ./packages/server/src && \
-    chown alexnotes:alexnotes ./storage.sqlite3
+    chown -R alexnotes:alexnotes ./packages/server/src
 
 USER alexnotes
 
