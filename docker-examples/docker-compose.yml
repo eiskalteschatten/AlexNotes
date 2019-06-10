@@ -2,10 +2,13 @@ version: '3.7'
 
 services:
     app:
-        build: alexseifert/alexnotes:latest
+        build: .
+        container_name: alexnotes
         volumes:
             - "./storage.sqlite3:/app/storage.sqlite3"
             - "./config.js:/app/config.js:ro"
+            # Mount the notes repo to an external folder. This is optional!
+            - "~/.alexnotes:/home/alexnotes/.alexnotes"
         ports:
             - "80:3010"
             - "5858:5858"
