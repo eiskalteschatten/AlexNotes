@@ -91,7 +91,7 @@ class NotebooksController implements Controller {
             await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
 
             const git = new Git();
-            git.addCommitPullPush(`Added or updated the notebook "${title}"`);
+            git.addCommit(`Added or updated the notebook "${title}"`);
 
             res.status(200).json(metadata);
         }
@@ -117,7 +117,7 @@ class NotebooksController implements Controller {
             await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));
 
             const git = new Git();
-            git.addCommitPullPush(`Renamed a notebook to "${title}"`);
+            git.addCommit(`Renamed a notebook to "${title}"`);
 
             res.status(200).json(metadata);
         }
@@ -134,7 +134,7 @@ class NotebooksController implements Controller {
             await deleteFolderFromRepo(fullPath);
 
             const git = new Git();
-            git.addCommitPullPush(`Deleted the notebook with id "${id}"`);
+            git.addCommit(`Deleted the notebook with id "${id}"`);
 
             res.status(204).send('');
         }

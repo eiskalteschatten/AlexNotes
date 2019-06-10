@@ -8,9 +8,16 @@ export interface GitConfigAuthInterface {
     username?: string;
     password?: string;
 }
+
+export interface GitPullPushCronjobInterface {
+    time: string;
+    timezone: string;
+}
+
 export interface GitConfigInterface {
     url: string;
     branch: string;
     auth: GitConfigAuthInterface;
     localPath: string;
+    pullPushCronjob: GitPullPushCronjobInterface;
 }

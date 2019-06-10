@@ -37,6 +37,7 @@ class Git {
             }
             else {
                 await this.pull();
+                await this.push();
             }
         }
         catch(error) {
@@ -102,6 +103,16 @@ class Git {
             console.log('Pushing all local commits.');
             await this.git.push('origin', gitConfig.branch);
             console.log('All local commits pushed.');
+        }
+        catch(error) {
+            throw new Error(error);
+        }
+    }
+
+    public async addCommit(commitMessage: string): Promise<void> {
+        try {
+            await this.add();
+            await this.commit(commitMessage);
         }
         catch(error) {
             throw new Error(error);

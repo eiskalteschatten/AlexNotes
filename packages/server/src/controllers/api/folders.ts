@@ -71,7 +71,7 @@ class FoldersController implements Controller {
             await writeMetaDataJsonFile(fullPath, JSON.stringify(metadata));
 
             const git = new Git();
-            git.addCommitPullPush(`Added or updated the folder "${title}"`);
+            git.addCommit(`Added or updated the folder "${title}"`);
 
             res.status(200).json(metadata);
         }
@@ -100,7 +100,7 @@ class FoldersController implements Controller {
             await writeMetaDataJsonFile(newFullPath, JSON.stringify(metadata));
 
             const git = new Git();
-            git.addCommitPullPush(`Renamed a folder to "${title}"`);
+            git.addCommit(`Renamed a folder to "${title}"`);
 
             res.status(200).json(metadata);
         }
@@ -117,7 +117,7 @@ class FoldersController implements Controller {
             await deleteFolderFromRepo(fullPath);
 
             const git = new Git();
-            git.addCommitPullPush(`Deleted the folder with id "${id}"`);
+            git.addCommit(`Deleted the folder with id "${id}"`);
 
             res.status(204).send('');
         }

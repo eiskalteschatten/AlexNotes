@@ -149,7 +149,7 @@ class NotesController implements Controller {
             }
 
             const git = new Git();
-            git.addCommitPullPush(`Added or updated the note "${title}"`);
+            git.addCommit(`Added or updated the note "${title}"`);
 
             res.status(200).json(metadata);
         }
@@ -172,7 +172,7 @@ class NotesController implements Controller {
             await deleteMarkdownAndJsonFile(fullPath, id);
 
             const git = new Git();
-            git.addCommitPullPush(`Deleted the note with id "${id}"`);
+            git.addCommit(`Deleted the note with id "${id}"`);
 
             res.status(204).send('');
         }
