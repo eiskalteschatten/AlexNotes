@@ -1,0 +1,17 @@
+version: '3.7'
+
+services:
+    app:
+        build: alexseifert/alexnotes:latest
+        volumes:
+            - "./storage.sqlite3:/app/storage.sqlite3"
+            - "./config.js:/app/config.js:ro"
+        ports:
+            - "80:3010"
+            - "5858:5858"
+        cap_drop:
+            - ALL
+        cap_add:
+            - CHOWN
+        # environment:
+        #   - SETUP_DEFAULT_USER=true

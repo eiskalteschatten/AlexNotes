@@ -21,6 +21,7 @@ This project is yet another note-taking application. Why create another one? The
 - <a href="#building">Building</a>
 - <a href="#linting-and-testing">Linting and Testing</a>
 - <a href="#docker">Docker</a>
+    - <a href="#docker-hub">Docker Hub</a>
 - <a href="#contributing">Contributing</a>
 
 
@@ -225,6 +226,10 @@ docker-compose up --build
 ```
 
 This will build the application and start it in production mode.
+
+### Docker Hub
+
+AlexNotes can also be found on [Docker Hub](https://hub.docker.com/r/alexseifert/alexnotes). If for examples using the image from Docker Hub, see the `docker-examples` folder.
 
 
 ## Contributing
