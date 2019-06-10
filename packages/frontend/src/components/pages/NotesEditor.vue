@@ -94,7 +94,7 @@
                 />
             </v-card>
         </v-flex>
-        <v-flex grow>
+        <v-flex grow class="editor-wrapper">
             <editor />
             <confirm-dialog
                 :show="showLeaveConfirmDialog"
@@ -209,5 +209,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .editor-wrapper {
+        height: calc(100vh - 250px)
+    }
 </style>
