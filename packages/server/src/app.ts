@@ -6,7 +6,7 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as passport from 'passport';
 
-import frontendPath from 'alexnotes-frontend';
+import frontendPath from '@alexnotes/frontend';
 
 import configureProxies from './lib/booting/proxies';
 import { setupSequelize } from './lib/db';
