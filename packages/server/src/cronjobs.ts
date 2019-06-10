@@ -7,7 +7,7 @@ import { GitPullPushCronjobInterface } from './interfaces/Config';
 
 // import cleanupDatabase from './cronjobs/cleanupDatabase';
 
-async function gitPullPush(): void {
+async function gitPullPush(): Promise<void> {
     try {
         console.log('Starting scheduled git pull and push.');
         const git = new Git();
