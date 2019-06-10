@@ -8,17 +8,8 @@ import { GitPullPushCronjobInterface } from './interfaces/Config';
 // import cleanupDatabase from './cronjobs/cleanupDatabase';
 
 async function gitPullPush(): Promise<void> {
-    try {
-        console.log('Starting scheduled git pull and push.');
-        const git = new Git();
-        await git.pull();
-        await git.push();
-        console.log('Scheduled git pull and push finished successfully.');
-    }
-    catch(error) {
-        console.error(error);
-        console.error('Scheduled git pull and push finished with an error.');
-    }
+    const git = new Git();
+    await git.cronjob();
 }
 
 export default (): void => {

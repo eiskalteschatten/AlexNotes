@@ -130,6 +130,18 @@ class Git {
             throw new Error(error);
         }
     }
+
+    public async cronjob(): Promise<void> {
+        try {
+            console.log('Starting scheduled git pull and push.');
+            await this.addCommitPullPush('Commit any un-committed changes.');
+            console.log('Scheduled git pull and push finished successfully.');
+        }
+        catch(error) {
+            console.error(error);
+            console.error('Scheduled git pull and push finished with an error.');
+        }
+    }
 }
 
 export default Git;
