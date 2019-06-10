@@ -5,6 +5,7 @@ services:
         build: .
         volumes:
             - "./storage.sqlite3:/app/storage.sqlite3"
+            - "./config.js:/app/config.js:ro"
         ports:
             - "80:3010"
             - "5858:5858"
