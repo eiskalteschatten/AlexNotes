@@ -2,7 +2,7 @@
 
 const path = require('path');
 
-const baseConfig = require('../../../config');
+const baseConfig = process.env.NODE_ENV === 'test' ?  require('../../../config.example') : require('../../../config');
 
 module.exports = {
     ...baseConfig,
