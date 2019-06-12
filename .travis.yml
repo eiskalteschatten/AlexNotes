@@ -9,6 +9,7 @@ env:
 
 install:
     - npm install
+    - npm run bootstrap
 
 jobs:
     include:
@@ -16,7 +17,7 @@ jobs:
           node_js: 12
           name: "Linting"
           script: npm run lint
-        - script: npm run test
+        - script: npm run test:unit
           name: "Unit Tests"
         # - stage: build
         #   name: "Building Production Node 10"
