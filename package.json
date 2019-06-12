@@ -6,7 +6,8 @@
     "private": true,
     "scripts": {
         "build": "npm -C ./packages/frontend run build && npm -C ./packages/server run build",
-        "test": "npm run lint",
+        "test": "npm run lint && npm run test:unit",
+        "test:unit": "NODE_ENV=test NODE_CONFIG_DIR=./packages/server/config ./node_modules/.bin/jest ./packages/server",
         "lint": "./node_modules/.bin/eslint './packages/frontend/src/**/*.{js,vue,ts,json}' './packages/server/src/**/*.{ts,js,json}' './packages/shared/**/*.{ts,js,json}'",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
@@ -23,6 +24,7 @@
     },
     "author": "Alex Seifert",
     "devDependencies": {
+        "@types/jest": "^24.0.13",
         "@types/marked": "^0.6.5",
         "@types/node": "^12.0.0",
         "@typescript-eslint/eslint-plugin": "^1.8.0",
@@ -33,7 +35,9 @@
         "eslint-plugin-disable": "^1.0.4",
         "eslint-plugin-promise": "^4.1.1",
         "eslint-plugin-vue": "^5.2.2",
+        "jest": "^24.8.0",
         "lerna": "^3.13.4",
+        "ts-jest": "^24.0.2",
         "typescript": "^3.4.5"
     },
     "dependencies": {
