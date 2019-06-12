@@ -5,7 +5,9 @@
     "main": "./src/server.js",
     "private": true,
     "scripts": {
-        "build": "npm -C ./packages/frontend run build && npm -C ./packages/server run build",
+        "build": "npm run build:frontend && npm run build:server",
+        "build:frontend": "npm -C ./packages/frontend run build",
+        "build:server": "npm -C ./packages/server run build",
         "test": "npm run lint && npm run test:unit",
         "test:unit": "NODE_ENV=test NODE_CONFIG_DIR=./packages/server/config ./node_modules/.bin/jest ./packages/server",
         "lint": "./node_modules/.bin/eslint './packages/frontend/src/**/*.{js,vue,ts,json}' './packages/server/src/**/*.{ts,js,json}' './packages/shared/**/*.{ts,js,json}'",
