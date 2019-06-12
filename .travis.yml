@@ -1,8 +1,4 @@
 language: node_js
-node_js:
-    - "10"
-    - "11"
-    - "12"
 
 env:
     - NODE_ENV=test
@@ -14,12 +10,15 @@ install:
 
 jobs:
     include:
-        - stage: linting
+        - stage: "Tests"
           name: "Linting"
           script: npm run lint
-        - stage: unittests
+        - script: npm run test
           name: "Unit Tests"
-          script: npm run lint
+          node_js:
+            - "10"
+            - "11"
+            - "12"
         # - stage: build
         #   name: "Building Production Node 10"
         #   script: npm run bootstrap && npm run build
@@ -33,9 +32,5 @@ jobs:
         #     - NODE_ENV=development
         #   node_js: "11"
 
-stages:
-    - linting
-    - unittests
-    # - build
 
 cache: npm
