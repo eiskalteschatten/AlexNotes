@@ -10,25 +10,32 @@ env:
 install:
     - npm install
 
-script: npm run lint
+# script: npm run lint
 
-# jobs:
-#     include:
-#         - stage: build
-#           name: "Building Production Node 10"
-#           script: npm run bootstrap && npm run build
-#           env:
-#             - NODE_ENV=development
-#           node_js: "10"
-#         - stage: build
-#           name: "Building Production Node 11"
-#           script: npm run bootstrap && npm run build
-#           env:
-#             - NODE_ENV=development
-#           node_js: "11"
+jobs:
+    include:
+        - stage: linting
+          name: "Linting"
+          script: npm run lint
+        - stage: unittests
+          name: "Unit Tests"
+          script: npm run lint
+        # - stage: build
+        #   name: "Building Production Node 10"
+        #   script: npm run bootstrap && npm run build
+        #   env:
+        #     - NODE_ENV=development
+        #   node_js: "10"
+        # - stage: build
+        #   name: "Building Production Node 11"
+        #   script: npm run bootstrap && npm run build
+        #   env:
+        #     - NODE_ENV=development
+        #   node_js: "11"
 
 stages:
-    - test
+    - linting
+    - unittests
     # - build
 
 cache: npm
