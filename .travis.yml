@@ -1,4 +1,8 @@
 language: node_js
+node_js:
+    - "10"
+    - "11"
+    - "12"
 
 env:
     - NODE_ENV=test
@@ -15,10 +19,6 @@ jobs:
           script: npm run lint
         - script: npm run test
           name: "Unit Tests"
-          node_js:
-            - "10"
-            - "11"
-            - "12"
         # - stage: build
         #   name: "Building Production Node 10"
         #   script: npm run bootstrap && npm run build
