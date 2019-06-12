@@ -60,6 +60,9 @@ typings/
 # next.js build output
 .next
 
+# Test results
+test-coverage
+
 *.code-workspace
 .DS_Store
 
@@ -70,3 +73,5 @@ storage.sqlite3
 config.js
 packages/server/config/local.js
 repo
+
+
