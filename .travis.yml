@@ -12,14 +12,8 @@ install:
     - npm run bootstrap
     - npm run build:frontend
 
-jobs:
-    include:
-        - stage: "Tests"
-          node_js: 12
-          name: "Linting"
-          script: npm run lint
-        - script: npm run test:unit
-          name: "Unit Tests"
+# jobs:
+#     include:
         # - stage: build
         #   name: "Building Production Node 10"
         #   script: npm run bootstrap && npm run build
@@ -32,6 +26,5 @@ jobs:
         #   env:
         #     - NODE_ENV=development
         #   node_js: "11"
-
 
 cache: npm
