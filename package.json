@@ -7,7 +7,7 @@
     "scripts": {
         "build": "npm -C ./packages/frontend run build && npm -C ./packages/server run build",
         "test": "npm run lint",
-        "lint": "./node_modules/.bin/eslint './packages/frontend/src/**/*.{js,vue,ts,json}' './packages/server/src/**/*.{ts,js,json}'",
+        "lint": "./node_modules/.bin/eslint './packages/frontend/src/**/*.{js,vue,ts,json}' './packages/server/src/**/*.{ts,js,json}' './packages/shared/**/*.{ts,js,json}'",
         "docker": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up\"",
         "docker:rebuild": "bash -c \"trap 'docker-compose down' EXIT; docker-compose up --build\"",
         "prestart": "npm -C ./packages/frontend run build",
