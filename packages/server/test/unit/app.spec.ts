@@ -1,11 +1,8 @@
 import mainApp from '../../src/app';
 
 describe('The main app', () => {
-    test('exists', () => {
-        expect(mainApp).toBe(expect.anything());
-    });
-
-    test('is set up', () => {
-        expect(mainApp.setupApp()).resolves;
+    test('is set up', async () => {
+        const setupApp = await mainApp.setupApp();
+        expect(setupApp).resolves;
     });
 });
