@@ -10,8 +10,6 @@ env:
 install:
     - npm install
 
-# script: npm run lint
-
 jobs:
     include:
         - stage: "Tests"
