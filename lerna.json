@@ -8,7 +8,8 @@
         },
         "bootstrap": {
             "ignore": "component-*",
-            "npmClientArgs": ["--no-package-lock"]
+            "npmClientArgs": ["--no-package-lock"],
+            "ci": false
         }
     },
     "packages": ["packages/*"]
