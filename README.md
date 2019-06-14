@@ -63,7 +63,11 @@ The following options are available in the `config.js` file:
             username: '',  // only required when type is https
             password: ''   // only required when type is https
         },
-        localPath: ''      // required; using Node's 'path' module is recommended (see config.example.js)
+        localPath: '',      // required; using Node's 'path' module is recommended (see config.example.js)
+        pullPushCronjob: {
+            time: '*/15 * * * *', // every 15 minutes
+            timezone: 'Europe/Berlin'
+        }
     }
 }
 ```
@@ -85,7 +89,11 @@ An example for a git repository with SSH:
         auth: {
             type: 'ssh'
         },
-        localPath: path.resolve(__dirname, 'repo')
+        localPath: path.resolve(__dirname, 'repo'),
+        pullPushCronjob: {
+            time: '*/15 * * * *', // every 15 minutes
+            timezone: 'Europe/Berlin'
+        }
     }
 };
 ```
@@ -110,7 +118,11 @@ An example for a git repository with HTTPS:
             username: 'myusername',
             password: 'somepassword'
         },
-        localPath: path.resolve(__dirname, 'repo')
+        localPath: path.resolve(__dirname, 'repo'),
+        pullPushCronjob: {
+            time: '*/15 * * * *', // every 15 minutes
+            timezone: 'Europe/Berlin'
+        }
     }
 };
 ```
