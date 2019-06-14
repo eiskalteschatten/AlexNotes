@@ -1,6 +1,7 @@
 'use strict';
 
 const path = require('path');
+const homedir = require('os').homedir();
 
 const baseConfig = require('../../../config');
 
@@ -9,7 +10,7 @@ module.exports = {
         // '/js/libs/vue.js': path.join(__dirname, '../../node_modules/vue/dist/vue.runtime.min.js')
     },
     database: {
-        storage: path.resolve(__dirname, '..', '..', '..', 'storage.sqlite3'),
+        storage: path.resolve(homedir, '.alexnotes', 'storage.sqlite3'),
         name: 'alexnotes'
     },
     translations: ['en', 'de'],
