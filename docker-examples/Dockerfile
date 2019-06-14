@@ -11,4 +11,7 @@ RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
 
 USER alexnotes
 
+RUN git config --global user.email "your@emailaddress.com" && \
+    git config --global user.name "Your Name"
+
 EXPOSE 3010
