@@ -25,8 +25,8 @@ class Git {
                 this.url = `https://${this.gitAuth.username}:${this.gitAuth.password}@${urlsParts[2]}`;
             }
         }
-        else if (this.gitAuth.type !== 'ssh' && this.gitAuth.type !== 'https') {
-            throw new Error('The git auth type must be "ssh" or "https".');
+        else if (this.gitAuth.type !== 'ssh' && this.gitAuth.type !== 'https' && this.gitAuth.type !== 'local') {
+            throw new Error('The git auth type must be "ssh", "https" or "local".');
         }
     }
 

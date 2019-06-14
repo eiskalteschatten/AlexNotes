@@ -59,7 +59,7 @@ The following options are available in the `config.js` file:
         url: '',           // required
         branch: 'master',  // required
         auth: {
-            type: '',      // required: ssh or https
+            type: '',      // required: ssh or https or local
             username: '',  // only required when type is https
             password: ''   // only required when type is https
         },
