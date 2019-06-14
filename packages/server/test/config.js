@@ -3,7 +3,6 @@
 const path = require('path');
 const tmpdir = require('os').tmpdir();
 
-
 const timestamp = Math.round(new Date().getTime() / 1000).toString();
 const repoPath = path.resolve(tmpdir, 'alexnotes', 'repo', timestamp);
 
@@ -14,6 +13,9 @@ module.exports = {
         username: 'admin',
         password: 'admin',
         emailAddress: ''
+    },
+    database: {
+        storage: path.resolve(tmpdir, 'alexnotes', 'test.sqlite3')
     },
     git: {
         url: repoPath,
