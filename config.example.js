@@ -21,7 +21,7 @@ module.exports = {
         },
         localPath: path.resolve(homedir, '.alexnotes', 'repo'),
         pullPushCronjob: {
-            time: '*/30 * * * *', // every 30 minutes
+            time: '*/15 * * * *', // every 15 minutes
             timezone: 'Europe/Berlin'
         }
     }
