@@ -10,3 +10,5 @@ RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
     chown -R alexnotes:alexnotes ./packages/server/src
 
 USER alexnotes
+
+EXPOSE 3010
