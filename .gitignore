@@ -70,7 +70,7 @@ test-coverage
 
 dist
 storage.sqlite3
-config.js
+/config.js
 packages/server/config/local.js
 repo
 
