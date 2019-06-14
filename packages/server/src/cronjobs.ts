@@ -13,6 +13,10 @@ async function gitPullPush(): Promise<void> {
 }
 
 export default (): void => {
+    if (process.env.NODE_ENV === 'test') {
+        return;
+    }
+
     // Database cronjobs
     // Daily at 4am
     // new CronJob('0 4 * * * *', cleanupDatabase, null, true, 'Europe/Berlin');
