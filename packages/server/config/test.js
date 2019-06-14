@@ -14,9 +14,6 @@ module.exports = {
         password: 'admin',
         emailAddress: ''
     },
-    database: {
-        storage: path.resolve(tmpdir, 'alexnotes', 'test.sqlite3')
-    },
     git: {
         url: repoPath,
         branch: 'master',
