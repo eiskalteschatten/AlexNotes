@@ -5,7 +5,6 @@ const path = require('path');
 const baseConfig = require('../../../config');
 
 module.exports = {
-    ...baseConfig,
     proxies: {
         // '/js/libs/vue.js': path.join(__dirname, '../../node_modules/vue/dist/vue.runtime.min.js')
     },
@@ -22,5 +21,6 @@ module.exports = {
     },
     notes: {
         folder: 'notes'
-    }
+    },
+    ...baseConfig
 };
