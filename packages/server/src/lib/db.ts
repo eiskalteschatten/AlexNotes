@@ -7,7 +7,7 @@ const dbConfig: DatabaseConfigInterface = config.get('database');
 
 export const sequelize = new Sequelize(dbConfig.name, null, null, {
     dialect: 'sqlite',
-    storage: dbConfig.storage
+    storage: process.env.NODE_ENV === 'test' ? undefined : dbConfig.storage
 });
 
 export default sequelize;
