@@ -3,7 +3,7 @@
 const path = require('path');
 const homedir = require('os').homedir();
 
-const baseConfig = require('../../../config');
+const baseConfig = process.env.NODE_ENV === 'test' ?  {} : require('../../../config');
 
 module.exports = {
     proxies: {
