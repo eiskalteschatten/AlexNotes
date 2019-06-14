@@ -23,10 +23,4 @@ RUN npm run build && \
     npm prune --production && \
     apk del .build-deps
 
-RUN adduser -h /home/alexnotes -D -s /bin/sh alexnotes && \
-    chown -R alexnotes:alexnotes ./packages/frontend/src && \
-    chown -R alexnotes:alexnotes ./packages/server/src
-
-USER alexnotes
-
 CMD ["npm", "run", "start:prod"]
