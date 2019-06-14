@@ -1,5 +1,12 @@
 'use strict';
 
+const path = require('path');
+const tmpdir = require('os').tmpdir();
+
+
+const timestamp = Math.round(new Date().getTime() / 1000).toString();
+const repoPath = path.resolve(tmpdir, 'alexnotes', 'repo', timestamp);
+
 module.exports = {
     defaultUser: {
         firstName: 'New',
@@ -9,12 +16,12 @@ module.exports = {
         emailAddress: ''
     },
     git: {
-        url: '',
+        url: repoPath,
         branch: 'master',
         auth: {
-            type: 'ssh'
+            type: 'local'
         },
-        localPath: '',
+        localPath: repoPath,
         pullPushCronjob: {
             time: '*/15 * * * *', // every 15 minutes
             timezone: 'Europe/Berlin'

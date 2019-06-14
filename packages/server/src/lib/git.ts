@@ -1,6 +1,8 @@
 import * as simplegit from 'simple-git/promise';
 import * as config from 'config';
 import * as fs from 'fs';
+import * as path from 'path';
+import { sync as mkdirpSync } from 'mkdirp';
 
 import { GitConfigInterface, GitConfigAuthInterface } from '../interfaces/Config';
 
@@ -13,7 +15,11 @@ class Git {
     private readonly gitAuth: GitConfigAuthInterface = gitConfig.auth;
 
     public constructor() {
-        this.git = fs.existsSync(gitConfig.localPath) ? simplegit(gitConfig.localPath) : simplegit();
+        if (!fs.existsSync(gitConfig.localPath)) {
+            mkdirpSync(gitConfig.localPath);
+        }
+
+        this.git = simplegit(gitConfig.localPath);//fs.existsSync(gitConfig.localPath) ? simplegit(gitConfig.localPath) : simplegit();
 
         if (this.gitAuth.type === 'https') {
             if (this.url.substring(0,7) !== 'https://') {
@@ -32,8 +38,16 @@ class Git {
 
     public async initialize(): Promise<void> {
         try {
-            if (!fs.existsSync(gitConfig.localPath)) {
-                await this.clone();
+            const pathToGit: string = path.resolve(gitConfig.localPath, '.git');
+            const isRepo: Boolean = fs.existsSync(pathToGit);
+
+            if (!isRepo) {
+                if (process.env.NODE_ENV === 'test') {
+                    await this.git.init();
+                }
+                else {
+                    await this.clone();
+                }
             }
             else {
                 await this.pull();
