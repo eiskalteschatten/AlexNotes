@@ -39,7 +39,7 @@ class Git {
     public async initialize(): Promise<void> {
         try {
             const pathToGit: string = path.resolve(gitConfig.localPath, '.git');
-            const isRepo: Boolean = fs.existsSync(pathToGit);
+            const isRepo: boolean = fs.existsSync(pathToGit);
 
             if (!isRepo) {
                 if (process.env.NODE_ENV === 'test') {
