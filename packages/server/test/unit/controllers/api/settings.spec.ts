@@ -3,7 +3,7 @@ import * as request from 'supertest';
 
 import setupContoller, { SettingsController } from '../../../../src/controllers/api/settings';
 
-describe('The api/git controller', () => {
+describe('The api/settings controller', () => {
     let app: express.Application;
     let settingsController: SettingsController;
 

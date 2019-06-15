@@ -3,7 +3,7 @@ import * as request from 'supertest';
 
 import setupContoller, { InitialDataController } from '../../../../src/controllers/api/initial';
 
-describe('The api/git controller', () => {
+describe('The api/initial controller', () => {
     let app: express.Application;
     let initialDataController: InitialDataController;
 

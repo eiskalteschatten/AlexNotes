@@ -3,7 +3,7 @@ import * as request from 'supertest';
 
 import setupContoller, { AuthController } from '../../../../src/controllers/api/auth';
 
-describe('The api/git controller', () => {
+describe('The api/auth controller', () => {
     let app: express.Application;
     let authController: AuthController;
 
