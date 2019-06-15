@@ -1,8 +1,6 @@
-import * as request from 'supertest';
-
 import { markdownToHtml, markdownToHtmlWithCodeHighlighting } from '../../../src/lib/markdown';
 
-describe('The api/git controller', () => {
+describe('Markdown lib', () => {
     test('Convert Markdown to HTML', async () => {
         const markdown = '# Test';
         const html = markdownToHtml(markdown);
