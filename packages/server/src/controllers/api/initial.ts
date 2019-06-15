@@ -3,7 +3,7 @@ import { Router, Request, Response } from 'express';
 import Controller from '../../interfaces/Controller';
 
 
-class InitialDataController implements Controller {
+export class InitialDataController implements Controller {
     public router: Router;
 
     public constructor(router: Router) {
@@ -23,6 +23,6 @@ class InitialDataController implements Controller {
     }
 }
 
-export default (router: Router): void => {
-    new InitialDataController(router);
+export default (router: Router): InitialDataController => {
+    return new InitialDataController(router);
 };
