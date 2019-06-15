@@ -55,4 +55,10 @@ describe('The main app', () => {
         const response: request.Response = await request(app).get('/api/initial');
         expect(response.status).toEqual(401);
     });
+
+    test('Test 404 page', async () => {
+        const response: request.Response = await request(app).get('/thisendpointdoesnotexist');
+        expect(response.text).toMatch(/Cannot GET \/thisendpointdoesnotexist/);
+        expect(response.status).toEqual(404);
+    });
 });

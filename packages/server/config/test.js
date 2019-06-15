@@ -25,5 +25,8 @@ module.exports = {
             time: '*/15 * * * *', // every 15 minutes
             timezone: 'Europe/Berlin'
         }
+    },
+    authentication: {
+        noAuth: /^((?!\/$|thisendpointdoesnotexist).)*$/
     }
 };
