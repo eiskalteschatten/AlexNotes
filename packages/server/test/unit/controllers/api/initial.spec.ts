@@ -18,7 +18,7 @@ describe('The api/git controller', () => {
         expect(initialDataController).toBeDefined();
     });
 
-    test('"/" works via Express', async () => {
+    test('get("/") works via Express', async () => {
         const response: request.Response = await request(app).get('/');
         expect(response.text).toEqual('{"notebooks":[],"folders":[]}');
         expect(response.status).toEqual(200);

@@ -22,7 +22,7 @@ describe('The api/git controller', () => {
         expect(gitController).toBeDefined();
     });
 
-    test('"/pull" works via Express', async () => {
+    test('get("/pull") works via Express', async () => {
         const response: request.Response = await request(app).get('/pull');
         // Expect 404 because there is nothing in the test system to pull
         expect(response.status).toEqual(404);

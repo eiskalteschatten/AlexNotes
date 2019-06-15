@@ -18,10 +18,10 @@ describe('The api/git controller', () => {
         expect(authController).toBeDefined();
     });
 
-    test.todo('"/login" works via Express');
-    test.todo('"/validate" works via Express');
+    test.todo('post("/login") works via Express');
+    test.todo('post("/validate") works via Express');
 
-    test('"/logout" works via Express', async () => {
+    test('post("/logout") works via Express', async () => {
         const response: request.Response = await request(app).post('/logout');
         expect(response.status).toEqual(200);
     });
