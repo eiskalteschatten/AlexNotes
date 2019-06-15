@@ -10,7 +10,7 @@ describe('The main app', () => {
         done();
     });
 
-    test('is set up', async () => {
+    test('Is set up', async () => {
         expect(app).toBeDefined();
     });
 
@@ -18,5 +18,35 @@ describe('The main app', () => {
         const response: request.Response = await request(app).get('/');
         expect(response.text).toMatch(/\<html(.*)\>/);
         expect(response.status).toEqual(200);
+    });
+
+    test('"preferedLanguage" cookie works', async () => {
+        const response: request.Response = await request(app)
+            .get('/')
+            .set('Cookie', ['preferedLanguage=en']);
+
+        expect(response.status).toEqual(200);
+    });
+
+    test('Default language works', async () => {
+        const response: request.Response = await request(app)
+            .get('/')
+            .set('Cookie', ['preferedLanguage=jp']);
+
+        expect(response.status).toEqual(200);
+    });
+
+    test('"accept-language" headers work', async () => {
+        const commaResponse: request.Response = await request(app)
+            .get('/')
+            .set('accept-language', 'en,de');
+
+        expect(commaResponse.status).toEqual(200);
+
+        const dashResponse: request.Response = await request(app)
+            .get('/')
+            .set('accept-language', 'en-GB');
+
+        expect(dashResponse.status).toEqual(200);
     });
 });
