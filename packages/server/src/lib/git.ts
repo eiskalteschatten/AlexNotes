@@ -51,7 +51,7 @@ class Git {
                     await this.clone();
                 }
             }
-            else {
+            else if (this.gitAuth.type !== 'local') {
                 await this.pull();
                 await this.push();
             }
@@ -82,6 +82,10 @@ class Git {
 
     public async pull(): Promise<boolean> {
         try {
+            if (this.gitAuth.type === 'local') {
+                return false;
+            }
+
             console.log('Pulling from the git repository.');
             await this.git.pull(gitConfig.localPath, gitConfig.branch);
             console.log('Finished pulling.');
@@ -116,6 +120,10 @@ class Git {
 
     public async push(): Promise<void> {
         try {
+            if (this.gitAuth.type === 'local') {
+                return;
+            }
+
             console.log('Pushing all local commits.');
             await this.git.push('origin', gitConfig.branch);
             console.log('All local commits pushed.');

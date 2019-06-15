@@ -22,10 +22,9 @@ describe('The api/git controller', () => {
         expect(gitController).toBeDefined();
     });
 
-    // When testing, the pull endpoint will only ever throw a 500 error
-    // because there is no remote to pull from
-    test('"/pull" throws a 500 error', async () => {
+    test('"/pull" works via Express', async () => {
         const response: request.Response = await request(app).get('/pull');
-        expect(response.status).toEqual(500);
+        // Expect 404 because there is nothing in the test system to pull
+        expect(response.status).toEqual(404);
     });
 });
