@@ -5,7 +5,7 @@ import { returnError } from '../../lib/apiErrorHandling';
 import Controller from '../../interfaces/Controller';
 
 
-class SettingsController implements Controller {
+export class SettingsController implements Controller {
     public router: Router;
 
     public constructor(router: Router) {
@@ -32,6 +32,6 @@ class SettingsController implements Controller {
     }
 }
 
-export default (router: Router): void => {
-    new SettingsController(router);
+export default (router: Router): SettingsController => {
+    return new SettingsController(router);
 };
