@@ -6,7 +6,7 @@ import Git from '../../lib/git';
 import Controller from '../../interfaces/Controller';
 
 
-class GitController implements Controller {
+export class GitController implements Controller {
     public router: Router;
 
     public constructor(router: Router) {
@@ -36,6 +36,6 @@ class GitController implements Controller {
     }
 }
 
-export default (router: Router): void => {
-    new GitController(router);
+export default (router: Router): GitController => {
+    return new GitController(router);
 };
