@@ -1,9 +1,10 @@
+import { Application } from 'express';
 import * as request from 'supertest';
 
 import App from '../../src/app';
 
 describe('The main app', () => {
-    let app;
+    let app: Application;
 
     beforeAll(async (done) => {
         app = await App.setupApp();
@@ -48,5 +49,10 @@ describe('The main app', () => {
             .set('accept-language', 'en-GB');
 
         expect(dashResponse.status).toEqual(200);
+    });
+
+    test('Test that a 401 comes if the user isn\'t logged in', async () => {
+        const response: request.Response = await request(app).get('/api/initial');
+        expect(response.status).toEqual(401);
     });
 });
