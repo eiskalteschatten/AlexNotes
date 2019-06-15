@@ -8,11 +8,11 @@ const repoPath = path.resolve(tmpdir, 'alexnotes', 'repo', timestamp);
 
 module.exports = {
     defaultUser: {
-        firstName: 'New',
+        firstName: 'Test',
         lastName: 'User',
-        username: 'admin',
-        password: 'admin',
-        emailAddress: ''
+        username: 'test',
+        password: 'test',
+        emailAddress: 'testing@alexseifert.com'
     },
     git: {
         url: repoPath,
