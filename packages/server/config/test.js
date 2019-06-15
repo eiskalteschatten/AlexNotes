@@ -7,6 +7,9 @@ const timestamp = Math.round(new Date().getTime() / 1000).toString();
 const repoPath = path.resolve(tmpdir, 'alexnotes', 'repo', timestamp);
 
 module.exports = {
+    proxies: {
+        '/js/defaultConfig.js': path.join(__dirname, './default.js')
+    },
     defaultUser: {
         firstName: 'Test',
         lastName: 'User',
