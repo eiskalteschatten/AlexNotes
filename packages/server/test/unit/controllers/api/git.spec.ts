@@ -1,15 +1,20 @@
 import * as express from 'express';
 import * as request from 'supertest';
 
-import setupGitContoller, { GitController } from '../../../../src/controllers/api/git';
+import setupContoller, { GitController } from '../../../../src/controllers/api/git';
+import Git from '../../../../src/lib/git';
 
 describe('The api/git controller', () => {
     let app: express.Application;
     let gitController: GitController;
+    let git: Git;
 
     beforeAll(async (done) => {
         app = express();
-        gitController = setupGitContoller(express.Router());
+        gitController = setupContoller(express.Router());
+        app.use(gitController.router);
+        git = new Git();
+        await git.initialize();
         done();
     });
 
@@ -17,9 +22,10 @@ describe('The api/git controller', () => {
         expect(gitController).toBeDefined();
     });
 
-    test('"/api/pull" works via Express', async () => {
-        const response: request.Response = await request(app).get('/api/pull');
-        // Expect 404 because there is nothing in the test system to pull
-        expect(response.status).toEqual(404);
+    // When testing, the pull endpoint will only ever throw a 500 error
+    // because there is no remote to pull from
+    test('"/pull" throws a 500 error', async () => {
+        const response: request.Response = await request(app).get('/pull');
+        expect(response.status).toEqual(500);
     });
 });
