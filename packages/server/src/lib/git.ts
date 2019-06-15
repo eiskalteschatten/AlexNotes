@@ -19,7 +19,7 @@ class Git {
             mkdirpSync(gitConfig.localPath);
         }
 
-        this.git = simplegit(gitConfig.localPath);//fs.existsSync(gitConfig.localPath) ? simplegit(gitConfig.localPath) : simplegit();
+        this.git = simplegit(gitConfig.localPath);
 
         if (this.gitAuth.type === 'https') {
             if (this.url.substring(0,7) !== 'https://') {
@@ -43,7 +43,9 @@ class Git {
 
             if (!isRepo) {
                 if (process.env.NODE_ENV === 'test') {
+                    console.log('Initializing git repo at', gitConfig.localPath);
                     await this.git.init();
+                    await this.git.checkoutLocalBranch(gitConfig.branch);
                 }
                 else {
                     await this.clone();
@@ -81,7 +83,7 @@ class Git {
     public async pull(): Promise<boolean> {
         try {
             console.log('Pulling from the git repository.');
-            await this.git.pull(gitConfig.localPath);
+            await this.git.pull(gitConfig.localPath, gitConfig.branch);
             console.log('Finished pulling.');
             return true;
         }
