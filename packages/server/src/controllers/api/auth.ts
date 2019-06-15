@@ -12,7 +12,7 @@ import { returnError } from '../../lib/apiErrorHandling';
 import Controller from '../../interfaces/Controller';
 
 
-class AuthController implements Controller {
+export class AuthController implements Controller {
     public router: Router;
 
     public constructor(router: Router) {
@@ -78,6 +78,6 @@ class AuthController implements Controller {
     }
 }
 
-export default (router: Router): void => {
-    new AuthController(router);
+export default (router: Router): AuthController => {
+    return new AuthController(router);
 };
