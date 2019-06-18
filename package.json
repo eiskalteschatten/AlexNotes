@@ -26,7 +26,7 @@
     },
     "author": "Alex Seifert",
     "devDependencies": {
-        "@types/jest": "^24.0.14",
+        "@types/jest": "^24.0.15",
         "@types/marked": "^0.6.5",
         "@types/node": "^12.0.8",
         "@types/superagent": "^4.1.1",

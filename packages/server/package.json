@@ -13,7 +13,7 @@
 		"test": "echo 'Tests should be run here'"
 	},
 	"dependencies": {
-		"@alexnotes/frontend": "^0.4.0",
+        "@alexnotes/frontend": "^0.4.0",
 		"apicache": "^1.4.0",
 		"bcrypt": "^3.0.6",
 		"bcryptjs": "^2.4.3",
@@ -31,7 +31,7 @@
 		"passport-jwt": "^4.0.0",
 		"passport-local": "^1.0.0",
 		"rimraf": "^2.6.3",
-		"sequelize": "^5.7.5",
+		"sequelize": "^5.8.10",
 		"sequelize-migration-wrapper": "^0.1.0",
 		"simple-git": "^1.113.0",
 		"slug": "^1.1.0",
